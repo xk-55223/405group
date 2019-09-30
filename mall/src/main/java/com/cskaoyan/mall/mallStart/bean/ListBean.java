@@ -2,15 +2,17 @@ package com.cskaoyan.mall.mallStart.bean;
 
 import java.util.List;
 
+// 商品分页操作封装
 public class ListBean<T> {
-    int total;
+    long total;
     List<T> items;
 
-    public int getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(long total) {
+
         this.total = total;
     }
 
