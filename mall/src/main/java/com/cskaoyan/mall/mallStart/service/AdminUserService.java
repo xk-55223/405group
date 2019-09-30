@@ -2,9 +2,8 @@ package com.cskaoyan.mall.mallStart.service;
 
 import com.cskaoyan.mall.mallStart.bean.ListBean;
 import com.cskaoyan.mall.mallStart.bean.User;
-
-import java.util.List;
+import com.cskaoyan.mall.mallStart.bean.PageInfo;
 
 public interface AdminUserService {
-    ListBean<User> selectUserAll(int page, int limit, String add_time, String order);
+    ListBean<User> selectUserAll(PageInfo userInfo,String username,String mobile);
 }

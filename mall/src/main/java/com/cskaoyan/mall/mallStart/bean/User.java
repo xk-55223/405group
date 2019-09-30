@@ -11,9 +11,9 @@ public class User {
 
     private Byte gender;
 
-    private Date birthday;
+    private String birthday;
 
-    private Date lastLoginTime;
+    private String lastLoginTime;
 
     private String lastLoginIp;
 
@@ -67,19 +67,19 @@ public class User {
         this.gender = gender;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public Date getLastLoginTime() {
+    public String getLastLoginTime() {
         return lastLoginTime;
     }
 
-    public void setLastLoginTime(Date lastLoginTime) {
+    public void setLastLoginTime(String lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 

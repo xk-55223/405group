@@ -27,7 +27,16 @@
     <select id="selectUserAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from cskaoyan_mall_user order by
+        from cskaoyan_mall_user
+        <where>
+            <if test="username !=null">
+                and username like '%' #{username} '%'
+            </if>
+            <if test="mobile !=null">
+                and mobile = #{mobile}
+            </if>
+        </where>
+        order by
         add_time desc
     </select>
 
