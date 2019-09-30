@@ -13,12 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("admin")
 public class FirstPageController {
     @Autowired
     FirstPageService firstPageService;
 
-    @RequestMapping("dashboard")
+    @RequestMapping("admin/dashboard")
     public BaseRespVo dashboard(){
         BaseRespVo<Object> result = new BaseRespVo<>();
         DashBoard dashBorad = firstPageService.getDashBorad();
@@ -28,7 +27,7 @@ public class FirstPageController {
         return result;
     }
 
-    @RequestMapping("auth/login")
+    @RequestMapping("admin/auth/login")
     public BaseRespVo login(@RequestBody User user) {
         System.out.println(user);
         BaseRespVo<String> baseRespVo = new BaseRespVo<>();
@@ -37,7 +36,7 @@ public class FirstPageController {
         return baseRespVo;
     }
 
-    @RequestMapping("auth/info")
+    @RequestMapping("admin/auth/info")
     public BaseRespVo info(String token) {
         BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         LoginInfo loginInfo = new LoginInfo();
