@@ -22,10 +22,10 @@ public class AdminMallController {
         return result;
     }
 
-    @RequestMapping("admin/brand/list")
+    /*@RequestMapping("admin/brand/list")
     public BaseRespVo beandList(int page, int limit, String sort, String order) {
-        service.
+        List<Region> regions = service.selectRegions();
         BaseRespVo result = BaseRespVo.ok(regions);
         return result;
-    }
+    }*/
 }
