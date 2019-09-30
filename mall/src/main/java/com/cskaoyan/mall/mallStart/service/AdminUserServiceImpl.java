@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mallStart.service;
 
 import com.cskaoyan.mall.mallStart.bean.ListBean;
 import com.cskaoyan.mall.mallStart.bean.User;
+import com.cskaoyan.mall.mallStart.bean.UserInfo;
 import com.cskaoyan.mall.mallStart.mapper.AdminUserMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,10 +17,10 @@ public class AdminUserServiceImpl implements AdminUserService {
     AdminUserMapper adminUserMapper;
 
     @Override
-    public ListBean<User> selectUserAll(int page, int limit, String add_time, String order) {
-        PageHelper.startPage(page, limit);
+    public ListBean<User> selectUserAll(UserInfo userInfo) {
+        PageHelper.startPage(userInfo.getPage(), userInfo.getLimit());
         /*String add_time, String order暂未解决*/
-        List<User> users = adminUserMapper.selectUserAll(add_time,order);
+        List<User> users = adminUserMapper.selectUserAll(userInfo);
         PageInfo<User> userPageInfo = new PageInfo<>(users);
         long total = userPageInfo.getTotal();
         ListBean<User> userListBean = new ListBean<>();
