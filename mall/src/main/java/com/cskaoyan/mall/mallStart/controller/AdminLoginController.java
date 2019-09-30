@@ -13,13 +13,13 @@ import java.util.ArrayList;
 @RestController
 public class AdminLoginController {
 
-    @RequestMapping("auth/login")
+    @RequestMapping("admin/auth/login")
     public BaseRespVo login(@RequestBody User user) {
         BaseRespVo baseRespVo = BaseRespVo.ok("8098d3c8-06a9-4136-985f-844459cda183");
         return baseRespVo;
     }
 
-    @RequestMapping("auth/info")
+    @RequestMapping("admin/auth/info")
     public BaseRespVo info(String token) {
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
