@@ -3,10 +3,10 @@ package com.cskaoyan.mall.mallStart.bean;
 import java.util.List;
 
 public class LoginInfo {
-    String name;
-    List roles;
-    List perms;
-    String avatar;
+    private String name;
+    private List roles;
+    private List perms;
+    private String avatar;
 
     public String getName() {
         return name;

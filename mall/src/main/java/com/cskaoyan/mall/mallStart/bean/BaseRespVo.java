@@ -1,9 +1,9 @@
 package com.cskaoyan.mall.mallStart.bean;
 
 public class BaseRespVo<T> {
-    int errno;
-    T data;
-    String errmsg;
+    private int errno;
+    private T data;
+    private String errmsg;
 
     public int getErrno() {
         return errno;
