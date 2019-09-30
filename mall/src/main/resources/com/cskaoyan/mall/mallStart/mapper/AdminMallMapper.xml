@@ -1,5 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cskaoyan.mall.mallStart.mapper.AdminMallMapper">
+    <resultMap id="BaseResultMap" type="com.cskaoyan.mall.mallStart.bean.Region">
+        <result column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="type" property="type"/>
+        <collection property="children" column="id"
+                    select="com.cskaoyan.mall.mallStart.mapper.AdminMallMapper.selectCitysByPid"/>
+    </resultMap>
+
+    <resultMap id="CityMap" type="com.cskaoyan.mall.mallStart.bean.Region">
+        <result column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="type" property="type"/>
+        <collection property="children" column="code"
+                    select="com.cskaoyan.mall.mallStart.mapper.AdminMallMapper.selectTownsByCode"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id,pid,name,type,code
+    </sql>
+
+    <select id="selectRegions" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from cskaoyan_mall_region
+        where pid = 0
+    </select>
+
+    <select id="selectCitysByPid" resultMap="CityMap">
+        select <include refid="Base_Column_List"/>
+        from cskaoyan_mall_region
+        where pid = #{pid}
+    </select>
+
+    <select id="selectTownsByCode" resultType="com.cskaoyan.mall.mallStart.bean.Region">
+        select <include refid="Base_Column_List"/>
+        from cskaoyan_mall_region
+        where code between #{code} * 100 and (#{code} + 1) * 100
+    </select>
 
 </mapper>

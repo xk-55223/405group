@@ -19,11 +19,8 @@ public class FirstPageController {
 
     @RequestMapping("admin/dashboard")
     public BaseRespVo dashboard(){
-        BaseRespVo<Object> result = new BaseRespVo<>();
         DashBoard dashBorad = firstPageService.getDashBorad();
-        result.setData(dashBorad);
-        result.setErrno(0);
-        result.setErrmsg("成功");
+        BaseRespVo result = BaseRespVo.ok(dashBorad);
         return result;
     }
 
