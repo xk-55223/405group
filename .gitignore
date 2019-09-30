@@ -5,7 +5,7 @@ target/
 .gitignore 
 *.cmd 
 mvnw 
-src\main\resources\application-db.yml
+src/main/resources/application-db.yml
 
 #maven 
 .mvn/ 
