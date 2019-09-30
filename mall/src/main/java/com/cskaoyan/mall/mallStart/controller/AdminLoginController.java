@@ -3,6 +3,7 @@ package com.cskaoyan.mall.mallStart.controller;
 
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.LoginInfo;
+import com.cskaoyan.mall.mallStart.bean.User;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
