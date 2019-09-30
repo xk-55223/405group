@@ -1,7 +1,0 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: mysql://localhost:3306/project2_mall?useSSL=false&amp;serverTimezone=Asia/Shanghai&amp;characterEncoding=utf8
-    password: 123456
-    username: root
-    type: com.alibaba.druid.pool.DruidDataSource
