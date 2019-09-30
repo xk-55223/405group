@@ -11,20 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 
 @RestController
-public class UserController {
+public class AdminLoginController {
 
-    @RequestMapping("admin/auth/login")
+    @RequestMapping("auth/login")
     public BaseRespVo login(@RequestBody User user) {
-        System.out.println(user);
-        BaseRespVo<String> baseRespVo = new BaseRespVo<>();
-        baseRespVo.setData("8098d3c8-06a9-4136-985f-844459cda183");
-        baseRespVo.setErrmsg("成功");
+        BaseRespVo baseRespVo = BaseRespVo.ok("8098d3c8-06a9-4136-985f-844459cda183");
         return baseRespVo;
     }
 
-    @RequestMapping("admin/auth/info")
+    @RequestMapping("auth/info")
     public BaseRespVo info(String token) {
-        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
         LoginInfo loginInfo = new LoginInfo();
         loginInfo.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
         ArrayList perms = new ArrayList();
@@ -34,8 +30,7 @@ public class UserController {
         roles.add("超级管理员");
         loginInfo.setRoles(roles);
         loginInfo.setName("admin123");
-        baseRespVo.setData(loginInfo);
-        baseRespVo.setErrmsg("成功");
+        BaseRespVo baseRespVo = BaseRespVo.ok(loginInfo);
         return baseRespVo;
     }
 }
