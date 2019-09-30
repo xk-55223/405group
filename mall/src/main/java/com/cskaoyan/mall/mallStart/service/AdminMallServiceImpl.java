@@ -8,6 +8,8 @@ import com.cskaoyan.mall.mallStart.mapper.AdminMallMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 @Service
@@ -35,6 +37,24 @@ public class AdminMallServiceImpl implements AdminMallService {
     @Override
     public List<CategoryType> selectCategoryTypes() {
         return mapper.selectCategoryTypes();
+    }
+
+    @Override
+    public void deleteCategory(Category category) {
+        mapper.deleteCategoryById(category.getId());
+        deleteStaticFile(category.getIconUrl());
+        deleteStaticFile(category.getPicUrl());
+        List<Category> childrens = category.getChildren();
+        for (Category children : childrens) {
+            mapper.deleteCategoryById(children.getId());
+            deleteStaticFile(children.getIconUrl());
+            deleteStaticFile(children.getPicUrl());
+        }
+    }
+
+    private void deleteStaticFile(String url) {
+        File file = new File(url);
+        file.delete();
     }
 
 }

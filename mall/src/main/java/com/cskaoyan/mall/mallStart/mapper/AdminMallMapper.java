@@ -22,4 +22,6 @@ public interface AdminMallMapper {
     List<Category> selectCategoryChildren(int pid);
 
     List<CategoryType> selectCategoryTypes();
+
+    void deleteCategoryById(Integer id);
 }
