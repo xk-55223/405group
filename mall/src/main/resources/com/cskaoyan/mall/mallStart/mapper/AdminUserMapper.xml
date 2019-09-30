@@ -29,11 +29,11 @@
         <include refid="Base_Column_List"/>
         from cskaoyan_mall_user
         <where>
-            <if test="userInfo.username !=null">
-                and username like '%' #{userInfo.username} '%'
+            <if test="username !=null">
+                and username like '%' #{username} '%'
             </if>
-            <if test="userInfo.mobile !=null">
-                and mobile = #{userInfo.mobile}
+            <if test="mobile !=null">
+                and mobile = #{mobile}
             </if>
         </where>
         order by

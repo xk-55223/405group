@@ -1,10 +1,8 @@
 package com.cskaoyan.mall.mallStart.bean;
 /*显示查找用户信息*/
-public class UserInfo {
+public class PageInfo {
     int page;
     int limit;
-    String username;
-    String mobile;
     String sort;
     String order;
 
@@ -22,22 +20,6 @@ public class UserInfo {
 
     public void setLimit(int limit) {
         this.limit = limit;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
     }
 
     public String getSort() {
