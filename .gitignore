@@ -5,6 +5,7 @@ target/
 .gitignore 
 *.cmd 
 mvnw 
+application-db.yml
 
 #maven 
 .mvn/ 
