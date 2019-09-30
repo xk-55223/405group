@@ -2,38 +2,26 @@ package com.cskaoyan.mall.mallStart.bean;
 
 import java.util.Date;
 
-public class User {
+public class Admin {
     private Integer id;
 
     private String username;
 
     private String password;
 
-    private Byte gender;
-
-    private Date birthday;
+    private String lastLoginIp;
 
     private Date lastLoginTime;
 
-    private String lastLoginIp;
-
-    private Byte userLevel;
-
-    private String nickname;
-
-    private String mobile;
-
     private String avatar;
-
-    private String weixinOpenid;
-
-    private Byte status;
 
     private Date addTime;
 
     private Date updateTime;
 
     private Boolean deleted;
+
+    private String roleIds;
 
     public Integer getId() {
         return id;
@@ -59,20 +47,12 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
-    public Byte getGender() {
-        return gender;
+    public String getLastLoginIp() {
+        return lastLoginIp;
     }
 
-    public void setGender(Byte gender) {
-        this.gender = gender;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
     }
 
     public Date getLastLoginTime() {
@@ -83,60 +63,12 @@ public class User {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public String getLastLoginIp() {
-        return lastLoginIp;
-    }
-
-    public void setLastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
-    }
-
-    public Byte getUserLevel() {
-        return userLevel;
-    }
-
-    public void setUserLevel(Byte userLevel) {
-        this.userLevel = userLevel;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
-
     public String getAvatar() {
         return avatar;
     }
 
     public void setAvatar(String avatar) {
         this.avatar = avatar == null ? null : avatar.trim();
-    }
-
-    public String getWeixinOpenid() {
-        return weixinOpenid;
-    }
-
-    public void setWeixinOpenid(String weixinOpenid) {
-        this.weixinOpenid = weixinOpenid == null ? null : weixinOpenid.trim();
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
     }
 
     public Date getAddTime() {
@@ -161,5 +93,13 @@ public class User {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public String getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds == null ? null : roleIds.trim();
     }
 }
