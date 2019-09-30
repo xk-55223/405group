@@ -1,7 +1,6 @@
 spring:
   profiles:
     active: db
-
 server:
   port: 80
 
