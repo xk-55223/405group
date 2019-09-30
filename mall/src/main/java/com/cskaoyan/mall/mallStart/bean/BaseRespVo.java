@@ -28,4 +28,12 @@ public class BaseRespVo<T> {
     public void setErrmsg(String errmsg) {
         this.errmsg = errmsg;
     }
+
+    public static BaseRespVo ok(Object data) {
+        BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
+        objectBaseRespVo.setErrmsg("成功");
+        objectBaseRespVo.setData(data);
+        return objectBaseRespVo;
+    }
+
 }
