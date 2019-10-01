@@ -2,8 +2,9 @@ package com.cskaoyan.mall.mallStart.bean;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
-public class order {
+public class Order {
     private Integer id;
 
     private Integer userId;
@@ -11,6 +12,8 @@ public class order {
     private String orderSn;
 
     private Short orderStatus;
+
+    private List<Short> orderStatusArray;
 
     private String consignee;
 
@@ -55,6 +58,15 @@ public class order {
     private Date updateTime;
 
     private Boolean deleted;
+
+
+    public List<Short> getOrderStatusArray() {
+        return orderStatusArray;
+    }
+
+    public void setOrderStatusArray(List<Short> orderStatusArray) {
+        this.orderStatusArray = orderStatusArray;
+    }
 
     public Integer getId() {
         return id;

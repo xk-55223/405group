@@ -48,6 +48,67 @@
         select id,name,`desc`,pic_url as picUrl, sort_order as sortOrder, floor_price as floorPrice, add_time as addTime
       , update_time as updateTime, deleted
         from cskaoyan_mall_brand
+        <where>
+            <if test="brand.id != 0 and brand.id != null">
+                and id = #{brand.id}
+            </if>
+            <if test="brand.name != null and brand.name != ''">
+                and name like '%' #{brand.name} '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="selectOrders" resultType="com.cskaoyan.mall.mallStart.bean.Order">
+        select id,user_id as userId, order_sn as orderSn,order_status as orderStatus
+        ,consignee,mobile,address,message,goods_price as goodsPrice
+        ,freight_price as freightPrice,coupon_price as couponPrice,integral_price as integralPrice
+        ,groupon_price as grouponPrice,order_price as orderPrice,actual_price as actualPrice
+        ,comments,end_time as endTime,add_time as addTime
+        ,update_time as updateTime,deleted
+        from cskaoyan_mall_order
+        <where>
+            <if test="order.userId != 0 and order.userId != null">
+                and user_id = #{order.userId}
+            </if>
+            <if test="order.orderSn != null and order.orderSn != ''">
+                and order_sn = #{order.orderSn}
+            </if>
+
+            <if test="order.orderStatusArray != null">
+                and
+                <trim prefixOverrides="or">
+                    <foreach collection="order.orderStatusArray" item="orderStatus" >
+                        or order_status = #{orderStatus}
+                    </foreach>
+                </trim>
+            </if>
+
+        </where>
+    </select>
+
+    <select id="selectIssues" resultType="com.cskaoyan.mall.mallStart.bean.Issue">
+        select id,question,answer,add_time as addTime, update_time as updateTime ,deleted
+        from cskaoyan_mall_issue
+        <where>
+            <if test="issue.question != null and issue.question != ''">
+                and question like '%' #{issue.question} '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="selectKeywords" resultType="com.cskaoyan.mall.mallStart.bean.Keyword">
+        select id,keyword,url,is_hot as isHot,is_default as isDefault,sort_order as sortOrder
+        ,add_time as addTime,update_time as updateTime, deleted
+        from cskaoyan_mall_keyword
+        <where>
+            <if test="keyword.keyword != null and keyword.keyword != ''">
+                and keyword like '%' #{keyword.keyword} '%'
+            </if>
+
+            <if test="keyword.url != null and keyword.url != ''">
+                and url like '%' #{keyword.url} '%'
+            </if>
+        </where>
     </select>
 
     <resultMap id="CategoryMapper" type="com.cskaoyan.mall.mallStart.bean.Category">
@@ -81,5 +142,15 @@
         from cskaoyan_mall_category
         where pid = 0
     </select>
+
+    <insert id="insertIssue">
+        insert into cskaoyan_mall_issue (question,answer,add_time,update_time,deleted)
+        values (#{issue.question},#{issue.answer},#{issue.addTime},#{issue.updateTime},#{issue.deleted})
+    </insert>
+
+    <insert id="insertKeyword">
+        insert into cskaoyan_mall_keyword (keyword,url,is_hot,is_default,add_time,update_time)
+        values (#{keyword.keyword},#{keyword.url},#{keyword.isHot},#{keyword.isDefault},#{keyword.addTime},#{keyword.updateTime})
+    </insert>
 
 </mapper>
