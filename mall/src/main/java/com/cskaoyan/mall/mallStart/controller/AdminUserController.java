@@ -50,4 +50,11 @@ public class AdminUserController {
         BaseRespVo ok = BaseRespVo.ok(searchHistoryListBean);
         return ok;
     }
+    /*意见反馈*/
+    @RequestMapping("admin/feedback/list")
+    public BaseRespVo<List<Feedback>> feedbackList(FromPageInfo pageInfo, Integer id, String username) {
+        ListBean<Feedback> feedbackListBean = adminUserService.selectFeedbackAll(pageInfo, id, username);
+        BaseRespVo ok = BaseRespVo.ok(feedbackListBean);
+        return ok;
+    }
 }

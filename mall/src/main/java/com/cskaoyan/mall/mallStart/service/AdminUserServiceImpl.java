@@ -78,4 +78,17 @@ public class AdminUserServiceImpl implements AdminUserService {
         searchHistoryListBean.setTotal(total);
         return searchHistoryListBean;
     }
+
+    @Override
+    public ListBean<Feedback> selectFeedbackAll(FromPageInfo pageInfo, Integer id, String username) {
+        /*将page,limit,order,sort四个参数封装在FromPageInfo中*/
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getLimit());
+        List<Feedback> feedbacks = adminUserMapper.selectFeedbackAll(pageInfo, id, username);
+        PageInfo<Feedback> feedbackPageInfo = new PageInfo<>(feedbacks);
+        long total = feedbackPageInfo.getTotal();
+        ListBean<Feedback> feedbackListBean = new ListBean<>();
+        feedbackListBean.setItems(feedbacks);
+        feedbackListBean.setTotal(total);
+        return feedbackListBean;
+    }
 }

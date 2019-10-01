@@ -167,4 +167,34 @@
         #{pageInfo.sort} #{pageInfo.order}
     </select>
 
+    <!--查询意见反馈-->
+    <resultMap id="FeedbackMap" type="com.cskaoyan.mall.mallStart.bean.Feedback">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="mobile" property="mobile"/>
+        <result column="feed_type" property="feedType"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="has_picture" property="hasPicture"/>
+        <result column="pic_urls" property="picUrls"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectFeedbackAll" resultMap="FeedbackMap">
+        select id ,user_id,username,mobile,feed_type,content,status,has_picture,pic_urls,add_time,update_time,deleted
+        from cskaoyan_mall_feedback
+        <where>
+            <if test="id !=null">
+                and id = #{id}
+            </if>
+            <if test="username !=null">
+                and username like '%' #{username} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+
 </mapper>

@@ -12,4 +12,6 @@ public interface AdminUserService {
     ListBean<Footprint> selectFootprintAll(FromPageInfo pageInfo, Integer userId, Integer goodsId);
 
     ListBean<SearchHistory> selectSearchHistoryAll(FromPageInfo pageInfo, Integer userId, String keyword);
+
+    ListBean<Feedback> selectFeedbackAll(FromPageInfo pageInfo, Integer id, String username);
 }

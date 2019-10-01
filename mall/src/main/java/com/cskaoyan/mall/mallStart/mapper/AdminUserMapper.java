@@ -15,4 +15,6 @@ public interface AdminUserMapper {
     List<Footprint> selectFootprintAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("userId") Integer userId, @Param("goodsId") Integer goodsId);
 
     List<SearchHistory> selectSearchHistoryAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("userId") Integer userId, @Param("keyword") String keyword);
+
+    List<Feedback> selectFeedbackAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("id") Integer id, @Param("username") String username);
 }
