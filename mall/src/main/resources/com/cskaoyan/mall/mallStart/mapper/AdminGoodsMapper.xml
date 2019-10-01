@@ -40,13 +40,4 @@
             </if>
         </where>
     </select>
-    <!--<select id="listGoodsByQueryGoodsSn" resultMap="goodsMap">-->
-        <!--select <include refid="goods_column_list"/> from cskaoyan_mall_goods where goods_sn = #{goodsSn}-->
-    <!--</select>-->
-    <!--<select id="listGoodsByQueryName" resultMap="goodsMap">-->
-        <!--select <include refid="goods_column_list"/> from cskaoyan_mall_goods where name = #{name}-->
-    <!--</select>-->
-    <!--<select id="listGoodsByQueryName" resultMap="goodsMap">-->
-        <!--select <include refid="goods_column_list"/> from cskaoyan_mall_goods where name = #{name} and goods_sn = #{goodsSn}-->
-    <!--</select>-->
 </mapper>
