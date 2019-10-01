@@ -2,17 +2,15 @@ package com.cskaoyan.mall.mallStart.controller;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.AdminMallService;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class AdminMallController {
@@ -31,7 +29,7 @@ public class AdminMallController {
 
     // 品牌制造商的查询和显示
     @RequestMapping("admin/brand/list")
-    public BaseRespVo brandList(com.cskaoyan.mall.mallStart.bean.PageInfo page,Brand brand) {
+    public BaseRespVo brandList(FromPageInfo page,Brand brand) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Brand> brands = service.selectBrands(brand);
         PageInfo pageInfo = new PageInfo();
@@ -70,7 +68,7 @@ public class AdminMallController {
 
     // 订单管理的查询和显示接口
     @RequestMapping("admin/order/list")
-    public BaseRespVo ordList(com.cskaoyan.mall.mallStart.bean.PageInfo page, Order order) {
+    public BaseRespVo ordList(FromPageInfo page, Order order) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Order> orders = service.selectOrders(order);
         PageInfo pageInfo = new PageInfo();
@@ -84,7 +82,7 @@ public class AdminMallController {
 
     // 通用问题的查询和显示
     @RequestMapping("admin/issue/list")
-    public BaseRespVo issueList(com.cskaoyan.mall.mallStart.bean.PageInfo page, Issue issue) {
+    public BaseRespVo issueList(FromPageInfo page, Issue issue) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Issue> issues = service.selectIssues(issue);
         PageInfo pageInfo = new PageInfo();
@@ -104,8 +102,9 @@ public class AdminMallController {
         return result;
     }
 
+    // 关键词的查询和显示
     @RequestMapping("admin/keyword/list")
-    public BaseRespVo keywordList(com.cskaoyan.mall.mallStart.bean.PageInfo page, Keyword keyword) {
+    public BaseRespVo keywordList(FromPageInfo page, Keyword keyword) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Keyword> keywords = service.selectKeywords(keyword);
         PageInfo pageInfo = new PageInfo();
@@ -117,10 +116,19 @@ public class AdminMallController {
         return result;
     }
 
+    // 添加一个关键词
     @RequestMapping("admin/keyword/create")
     public BaseRespVo keywordCreate(@RequestBody Keyword keyword) {
         Keyword newKeyword = service.insertKeyword(keyword);
         BaseRespVo result = BaseRespVo.ok(newKeyword);
         return result;
     }
+
+
+    // 需要转换类型，暂时不做
+    /*@RequestMapping("admin/order/detail")
+    public BaseRespVo orderDetail(int id) {
+        Order order = service.selectOrderDetail(id);
+
+    }*/
 }
