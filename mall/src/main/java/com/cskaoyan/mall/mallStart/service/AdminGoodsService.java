@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface AdminGoodsService {
     //商品列表
-    ListBean listGoods(int page, int limit, String add, String order);
+    ListBean listGoods(int page, int limit, Integer goodsSn, String name, String add, String order);
 
     //商品类目
     List<GoodsCategoryBean> carAndBrand();
@@ -19,4 +19,6 @@ public interface AdminGoodsService {
 
     //根据id获取商品信息
     UpdateGoodsInfo goodInfo(int id);
+
+    void goodsDelete(int id);
 }

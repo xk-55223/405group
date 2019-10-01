@@ -16,9 +16,18 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
     AdminGoodsMapper adminGoodsMapper;
 
     @Override
-    public ListBean listGoods(int page, int limit, String add, String order) {
+    public ListBean listGoods(int page, int limit, Integer goodsSn, String name, String add, String order) {
         PageHelper.startPage(page,limit);
-        List<Goods> goods = adminGoodsMapper.listGoods();
+        List<Goods> goods = new ArrayList<>();
+//        if(goodsSn==null&&name==null) {
+            goods = adminGoodsMapper.listGoods(goodsSn,name);
+//        }else if(goodsSn!=null&&name==null){
+//            goods = adminGoodsMapper.listGoodsByQueryGoodsSn(goodsSn);
+//        }else if(goodsSn==null&&name!=null){
+//            goods = adminGoodsMapper.listGoodsByQueryName(name);
+//        }else{
+//            goods = adminGoodsMapper.listGoodsByQueryGoodsSnAndName(goodsSn,name);
+//        }
         PageInfo<Goods> goodsPageInfo = new PageInfo<>(goods);
         long total = goodsPageInfo.getTotal();
 
@@ -72,5 +81,20 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
         updateGoodsInfo.setProducts(goodsProducts);
 
         return updateGoodsInfo;
+    }
+
+    /**
+     *删除商品
+     */
+    @Override
+    public void goodsDelete(int id) {
+        //删除商品信息
+        adminGoodsMapper.goodsDelete(id);
+        //删除attribute
+        adminGoodsMapper.goodsAttributeDelete(id);
+        //删除product
+        adminGoodsMapper.goodsProductDelete(id);
+        //删除specifcation
+        adminGoodsMapper.goodsSpecificationDelete(id);
     }
 }

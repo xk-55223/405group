@@ -3,7 +3,9 @@ package com.cskaoyan.mall.mallStart.controller;
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.service.AdminGoodsService;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +18,9 @@ public class AdminGoodsController {
     AdminGoodsService adminGoodsService;
 
     @RequestMapping("admin/goods/list")
-    public BaseRespVo listGoods(int page, int limit, String add, String order){
+    public BaseRespVo listGoods(int page, int limit, Integer goodsSn, String name, String add, String order){
 
-        ListBean listBean = adminGoodsService.listGoods(page,limit,add,order);
+        ListBean listBean = adminGoodsService.listGoods(page,limit,goodsSn,name,add,order);
         BaseRespVo ok = BaseRespVo.ok(listBean);
         return ok;
     }
@@ -49,6 +51,14 @@ public class AdminGoodsController {
     public BaseRespVo goodInfo(int id){
         UpdateGoodsInfo updateGoodsInfo = adminGoodsService.goodInfo(id);
         BaseRespVo ok = BaseRespVo.ok(updateGoodsInfo);
+        return ok;
+    }
+
+    @RequestMapping("admin/goods/delete")
+    public BaseRespVo goodsDelete(@RequestBody Goods goods){
+        Integer id = goods.getId();
+        adminGoodsService.goodsDelete(id);
+        BaseRespVo ok = BaseRespVo.ok("成功");
         return ok;
     }
 }

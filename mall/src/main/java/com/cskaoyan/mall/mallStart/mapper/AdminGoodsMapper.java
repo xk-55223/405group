@@ -1,6 +1,8 @@
 package com.cskaoyan.mall.mallStart.mapper;
 
 import com.cskaoyan.mall.mallStart.bean.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -10,13 +12,11 @@ public interface AdminGoodsMapper {
     /**
      * 商品列表
      */
-    @Select("select id, goods_sn as goodsSn, name,category_id as categoryId, brand_id as brandId, gallery, keywords, brief, is_on_sale as isOnSale, sort_order as sortOrder, " +
-            "pic_url as picUrl, share_url as shareUrl, is_new as isNew, is_hot as isHot, unit, counter_price as counterPrice, retail_price as retailPrice, detail, add_time as addTime, " +
-            "update_time as updateTime, deleted from cskaoyan_mall_goods")
-    public List<Goods> listGoods();
+    public List<Goods> listGoods(@Param("goodsSn")Integer goodsSn, String name);
 
     /**
      * 获取商品大分类
+     *
      * @return
      */
     @Select("select id as value, name as label from cskaoyan_mall_category where pid = 0")
@@ -49,15 +49,25 @@ public interface AdminGoodsMapper {
     public Category goodCategory(int categoryId);
 
     /**
-     *获取分类id组
+     * 获取分类id组
      */
     @Select("select id from cskaoyan_mall_category where id = #{pid}")
     List<Category> goodCategories(Integer pid);
 
+    /**
+     * 获取属性集合
+     * @param id
+     * @return
+     */
     @Select("select id, goods_id as goodsId, attribute, value, add_time as addTime, update_time as updateTime" +
             "deleted from cskaoyan_mall_goods_attribute where goods_id = #{id}")
     List<GoodsAttribute> goodAttributes(int id);
 
+    /**
+     * 获取特质集合
+     * @param id
+     * @return
+     */
     @Select("select id, goods_id as goodsId, specification, value, pic_url as picUrl, add_time as addTime, update_time as" +
             " updateTime, deleted from cskaoyan_mall_goods_specification where goods_id = #{id}")
     List<GoodsSpecification> goodSpecification(int id);
@@ -65,4 +75,29 @@ public interface AdminGoodsMapper {
     @Select("select id, goods_id as GoodsId, specifications, price, number, url, add_time as addTime, update_time as updateTime, " +
             "deleted from cskaoyan_mall_goods_product where goods_id = #{id}")
     List<GoodsProduct> goodProducts(int id);
+
+    @Delete("delete from cskaoyan_mall_goods where id = #{id}")
+    void goodsDelete(int id);
+
+    @Delete("delete from cskaoyan_mall_goods_attribute where goods_id = #{id}")
+    void goodsAttributeDelete(int id);
+
+    @Delete("delete from cskaoyan_mall_goods_product where goods_id = #{id}")
+    void goodsProductDelete(int id);
+
+    @Delete("delete from cskaoyan_mall_goods_specification where goods_id = #{id}")
+    void goodsSpecificationDelete(int id);
+
+    /**
+     * 通过编号查找商品
+     * @param goodsSn
+     * @return
+     */
+
+    //List<Goods> listGoodsByQueryGoodsSn(int goodsSn);
+
+    //List<Goods> listGoodsByQueryName(String name);
+
+    //List<Goods> listGoodsByQueryGoodsSnAndName(Integer goodsSn, String name);
 }
+
