@@ -13,24 +13,27 @@ public class AdminUserController {
     @Autowired
     AdminUserService adminUserService;
 
+    /*用户管理*/
     @RequestMapping("admin/user/list")
-    public BaseRespVo<List<User>> userList(PageInfo pageInfo, String username, String mobile) {
+    public BaseRespVo<List<User>> userList(FromPageInfo pageInfo, String username, String mobile) {
         ListBean<User> userListBean = adminUserService.selectUserAll(pageInfo, username, mobile);
         BaseRespVo ok = BaseRespVo.ok(userListBean);
         return ok;
     }
 
+    /*收货地址*/
     @RequestMapping("admin/address/list")
-    public BaseRespVo<List<User>> addressList(PageInfo pageInfo, String name, String stringUserId) {
-        int userId;
-        /*userId如果没给是null，不能直接用int接收*/
-        if (stringUserId == null) {
-            userId = 0;
-        } else {
-            userId = Integer.valueOf(stringUserId);
-        }
+    public BaseRespVo<List<User>> addressList(FromPageInfo pageInfo, String name, Integer userId) {
         ListBean<AddressRegion> addressRegionListBean = adminUserService.selectAddressAll(pageInfo, name, userId);
         BaseRespVo ok = BaseRespVo.ok(addressRegionListBean);
+        return ok;
+    }
+
+    /*会员收藏*/
+    @RequestMapping("admin/collect/list")
+    public BaseRespVo<List<Collect>> collectList(FromPageInfo pageInfo, Integer userId, Integer valueId) {
+        ListBean<Collect> collectListBean = adminUserService.selectCollectAll(pageInfo, userId, valueId);
+        BaseRespVo ok = BaseRespVo.ok(collectListBean);
         return ok;
     }
 }
