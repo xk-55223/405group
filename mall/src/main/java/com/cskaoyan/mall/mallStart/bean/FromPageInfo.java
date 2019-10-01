@@ -1,6 +1,6 @@
 package com.cskaoyan.mall.mallStart.bean;
 /*显示查找用户信息*/
-public class PageInfo {
+public class FromPageInfo {
     int page;
     int limit;
     String sort;

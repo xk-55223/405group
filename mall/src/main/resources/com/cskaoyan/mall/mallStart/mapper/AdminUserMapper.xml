@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper">
-    <resultMap id="BaseResultMap" type="com.cskaoyan.mall.mallStart.bean.User">
+    <resultMap id="UserMap" type="com.cskaoyan.mall.mallStart.bean.User">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -24,7 +24,7 @@
     nickname, mobile, avatar, weixin_openid, status, add_time, update_time, deleted
     </sql>
     <!--查询所有用户,根据add_time desc-->
-    <select id="selectUserAll" resultMap="BaseResultMap">
+    <select id="selectUserAll" resultMap="UserMap">
         select
         <include refid="Base_Column_List"/>
         from cskaoyan_mall_user
@@ -37,204 +37,164 @@
             </if>
         </where>
         order by
-        add_time desc
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--查询用户地址-->
+    <resultMap id="AddressRegionMap" type="com.cskaoyan.mall.mallStart.bean.AddressRegion">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="user_id" property="userId"/>
+        <result column="address" property="address"/>
+        <result column="mobile" property="mobile"/>
+        <result column="is_default" property="isDefault"/>
+        <association property="provinceId" column="province_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectProvinceId"/>
+        <association property="province" column="province_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectProvince"/>
+        <association property="cityId" column="city_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectCityId"/>
+        <association property="city" column="city_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectCity"/>
+        <association property="areaId" column="area_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectAreaId"/>
+        <association property="area" column="area_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectArea"/>
+    </resultMap>
+    <select id="selectAddressAll" resultMap="AddressRegionMap">
+        select id ,name,user_id,province_id,city_id,area_id,address,mobile,is_default
+        from cskaoyan_mall_address
+        <where>
+            <if test="name !=null">
+                and name like '%' #{name} '%'
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <select id="selectProvinceId" resultType="int">
+        select id as provinceId from cskaoyan_mall_region where `code` =  #{province_id}
+    </select>
+    <select id="selectProvince" resultType="string">
+        select name as province from cskaoyan_mall_region where `code` =  #{province_id}
+    </select>
+    <select id="selectCityId" resultType="int">
+        select id as cityId from cskaoyan_mall_region where `code` =  #{city_id}
+    </select>
+    <select id="selectCity" resultType="string">
+        select name as city from cskaoyan_mall_region where `code` =  #{city_id}
+    </select>
+    <select id="selectAreaId" resultType="int">
+        select id as areaId from cskaoyan_mall_region where `code` =  #{area_id}
+    </select>
+    <select id="selectArea" resultType="string">
+        select name as area from cskaoyan_mall_region where `code` =  #{area_id}
     </select>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from cskaoyan_mall_user
-        where id = #{id,jdbcType=INTEGER}
+    <!--查询会员收藏-->
+    <resultMap id="CollectMap" type="com.cskaoyan.mall.mallStart.bean.Collect">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="value_id" property="valueId"/>
+        <result column="type" property="type"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectCollectAll" resultMap="CollectMap">
+        select id ,user_id,value_id,`type`,add_time,update_time,deleted
+        from cskaoyan_mall_collect
+        <where>
+            <if test="userId !=null">
+                and user_id = #{userId}
+            </if>
+            <if test="valueId != null">
+                and value_id = #{valueId}
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from cskaoyan_mall_user
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-    <insert id="insert" parameterType="com.cskaoyan.mall.mallStart.bean.User">
-    insert into cskaoyan_mall_user (id, username, password,
-      gender, birthday, last_login_time,
-      last_login_ip, user_level, nickname,
-      mobile, avatar, weixin_openid,
-      status, add_time, update_time,
-      deleted)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-      #{gender,jdbcType=TINYINT}, #{birthday,jdbcType=DATE}, #{lastLoginTime,jdbcType=TIMESTAMP},
-      #{lastLoginIp,jdbcType=VARCHAR}, #{userLevel,jdbcType=TINYINT}, #{nickname,jdbcType=VARCHAR},
-      #{mobile,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{weixinOpenid,jdbcType=VARCHAR},
-      #{status,jdbcType=TINYINT}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
-      #{deleted,jdbcType=BIT})
-  </insert>
-    <insert id="insertSelective" parameterType="com.cskaoyan.mall.mallStart.bean.User">
-        insert into cskaoyan_mall_user
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
+
+    <!--查询会员足迹-->
+    <resultMap id="FootprintMap" type="com.cskaoyan.mall.mallStart.bean.Footprint">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectFootprintAll" resultMap="FootprintMap">
+        select id ,user_id,goods_id,add_time,update_time,deleted
+        from cskaoyan_mall_footprint
+        <where>
+            <if test="userId !=null">
+                and user_id = #{userId}
             </if>
-            <if test="username != null">
-                username,
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
             </if>
-            <if test="password != null">
-                password,
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+
+    <!--查询搜索历史-->
+    <resultMap id="SearchHistoryMap" type="com.cskaoyan.mall.mallStart.bean.SearchHistory">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="keyword" property="keyword"/>
+        <result column="from" property="from"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectSearchHistoryAll" resultMap="SearchHistoryMap">
+        select id ,user_id,keyword,`from`,add_time,update_time,deleted
+        from cskaoyan_mall_search_history
+        <where>
+            <if test="userId !=null">
+                and user_id = #{userId}
             </if>
-            <if test="gender != null">
-                gender,
+            <if test="keyword !=null">
+                and keyword like '%' #{keyword} '%'
             </if>
-            <if test="birthday != null">
-                birthday,
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+
+    <!--查询意见反馈-->
+    <resultMap id="FeedbackMap" type="com.cskaoyan.mall.mallStart.bean.Feedback">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="mobile" property="mobile"/>
+        <result column="feed_type" property="feedType"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="has_picture" property="hasPicture"/>
+        <result column="pic_urls" property="picUrls"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectFeedbackAll" resultMap="FeedbackMap">
+        select id ,user_id,username,mobile,feed_type,content,status,has_picture,pic_urls,add_time,update_time,deleted
+        from cskaoyan_mall_feedback
+        <where>
+            <if test="id !=null">
+                and id = #{id}
             </if>
-            <if test="lastLoginTime != null">
-                last_login_time,
+            <if test="username !=null">
+                and username like '%' #{username} '%'
             </if>
-            <if test="lastLoginIp != null">
-                last_login_ip,
-            </if>
-            <if test="userLevel != null">
-                user_level,
-            </if>
-            <if test="nickname != null">
-                nickname,
-            </if>
-            <if test="mobile != null">
-                mobile,
-            </if>
-            <if test="avatar != null">
-                avatar,
-            </if>
-            <if test="weixinOpenid != null">
-                weixin_openid,
-            </if>
-            <if test="status != null">
-                status,
-            </if>
-            <if test="addTime != null">
-                add_time,
-            </if>
-            <if test="updateTime != null">
-                update_time,
-            </if>
-            <if test="deleted != null">
-                deleted,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="username != null">
-                #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="gender != null">
-                #{gender,jdbcType=TINYINT},
-            </if>
-            <if test="birthday != null">
-                #{birthday,jdbcType=DATE},
-            </if>
-            <if test="lastLoginTime != null">
-                #{lastLoginTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastLoginIp != null">
-                #{lastLoginIp,jdbcType=VARCHAR},
-            </if>
-            <if test="userLevel != null">
-                #{userLevel,jdbcType=TINYINT},
-            </if>
-            <if test="nickname != null">
-                #{nickname,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null">
-                #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="avatar != null">
-                #{avatar,jdbcType=VARCHAR},
-            </if>
-            <if test="weixinOpenid != null">
-                #{weixinOpenid,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                #{status,jdbcType=TINYINT},
-            </if>
-            <if test="addTime != null">
-                #{addTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="deleted != null">
-                #{deleted,jdbcType=BIT},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.cskaoyan.mall.mallStart.bean.User">
-        update cskaoyan_mall_user
-        <set>
-            <if test="username != null">
-                username = #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
-            <if test="gender != null">
-                gender = #{gender,jdbcType=TINYINT},
-            </if>
-            <if test="birthday != null">
-                birthday = #{birthday,jdbcType=DATE},
-            </if>
-            <if test="lastLoginTime != null">
-                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="lastLoginIp != null">
-                last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
-            </if>
-            <if test="userLevel != null">
-                user_level = #{userLevel,jdbcType=TINYINT},
-            </if>
-            <if test="nickname != null">
-                nickname = #{nickname,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null">
-                mobile = #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="avatar != null">
-                avatar = #{avatar,jdbcType=VARCHAR},
-            </if>
-            <if test="weixinOpenid != null">
-                weixin_openid = #{weixinOpenid,jdbcType=VARCHAR},
-            </if>
-            <if test="status != null">
-                status = #{status,jdbcType=TINYINT},
-            </if>
-            <if test="addTime != null">
-                add_time = #{addTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="deleted != null">
-                deleted = #{deleted,jdbcType=BIT},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.cskaoyan.mall.mallStart.bean.User">
-    update cskaoyan_mall_user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      gender = #{gender,jdbcType=TINYINT},
-      birthday = #{birthday,jdbcType=DATE},
-      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
-      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
-      user_level = #{userLevel,jdbcType=TINYINT},
-      nickname = #{nickname,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      avatar = #{avatar,jdbcType=VARCHAR},
-      weixin_openid = #{weixinOpenid,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      add_time = #{addTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      deleted = #{deleted,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+
 </mapper>
