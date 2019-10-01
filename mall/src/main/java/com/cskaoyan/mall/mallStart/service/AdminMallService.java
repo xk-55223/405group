@@ -15,4 +15,6 @@ public interface AdminMallService {
     List<Category> selectCategorys();
 
     List<CategoryType> selectCategoryTypes();
+
+    void deleteCategory(Category category);
 }

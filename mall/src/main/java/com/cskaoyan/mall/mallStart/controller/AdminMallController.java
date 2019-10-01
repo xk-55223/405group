@@ -8,8 +8,10 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class AdminMallController {
@@ -49,5 +51,12 @@ public class AdminMallController {
         List<CategoryType> categorieTypes = service.selectCategoryTypes();
         BaseRespVo result = BaseRespVo.ok(categorieTypes);
         return result;
+    }
+
+    @RequestMapping("admin/category/delete")
+    public BaseRespVo categoryDelete(Category category) {
+        service.deleteCategory(category);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
     }
 }

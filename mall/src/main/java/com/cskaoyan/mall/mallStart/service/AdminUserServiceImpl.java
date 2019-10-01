@@ -1,5 +1,6 @@
 package com.cskaoyan.mall.mallStart.service;
 
+import com.cskaoyan.mall.mallStart.bean.AddressRegion;
 import com.cskaoyan.mall.mallStart.bean.ListBean;
 import com.cskaoyan.mall.mallStart.bean.User;
 import com.cskaoyan.mall.mallStart.bean.PageInfo;
@@ -26,5 +27,18 @@ public class AdminUserServiceImpl implements AdminUserService {
         userListBean.setItems(users);
         userListBean.setTotal((int) total);
         return userListBean;
+    }
+
+    @Override
+    public ListBean<AddressRegion> selectAddressAll(PageInfo userInfo, String name, int userId) {
+        PageHelper.startPage(userInfo.getPage(), userInfo.getLimit());
+        /*String add_time, String order暂未解决*/
+        List<AddressRegion> addressRegions = adminUserMapper.selectAddressAll(name, userId);
+        com.github.pagehelper.PageInfo addressRegionPageInfo = new com.github.pagehelper.PageInfo(addressRegions);
+        long total = addressRegionPageInfo.getTotal();
+        ListBean<AddressRegion> addressRegionListBean = new ListBean<>();
+        addressRegionListBean.setItems(addressRegions);
+        addressRegionListBean.setTotal((int) total);
+        return addressRegionListBean;
     }
 }
