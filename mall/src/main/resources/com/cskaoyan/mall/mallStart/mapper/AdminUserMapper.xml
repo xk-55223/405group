@@ -39,6 +39,53 @@
         order by
         add_time desc
     </select>
+    <!--查询用户地址-->
+    <resultMap id="UserAddressMap" type="com.cskaoyan.mall.mallStart.bean.AddressRegion">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="user_id" property="userId"/>
+        <result column="address" property="address"/>
+        <result column="mobile" property="mobile"/>
+        <result column="is_default" property="isDefault"/>
+        <association property="provinceId" column="province_id" select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectProvinceId"/>
+        <association property="province" column="province_id" select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectProvince"/>
+        <association property="cityId" column="city_id" select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectCityId"/>
+        <association property="city" column="city_id" select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectCity"/>
+        <association property="areaId" column="area_id" select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectAreaId"/>
+        <association property="area" column="area_id" select="com.cskaoyan.mall.mallStart.mapper.AdminUserMapper.selectArea"/>
+    </resultMap>
+    <select id="selectAddressAll" resultMap="UserAddressMap">
+        select id ,name,user_id,province_id,city_id,area_id,address,mobile,is_default
+        from cskaoyan_mall_address
+        <where>
+            <if test="name !=null">
+                and name like '%' #{name} '%'
+            </if>
+            <if test="userId != 0">
+                and user_id = #{userId}
+            </if>
+        </where>
+        order by
+        add_time desc
+    </select>
+    <select id="selectProvinceId" resultType="int" >
+        select id as provinceId from cskaoyan_mall_region where `code` =  #{province_id}
+    </select>
+    <select id="selectProvince" resultType="string">
+        select name as province from cskaoyan_mall_region where `code` =  #{province_id}
+    </select>
+    <select id="selectCityId" resultType="int">
+        select id as cityId from cskaoyan_mall_region where `code` =  #{city_id}
+    </select>
+    <select id="selectCity" resultType="string">
+        select name as city from cskaoyan_mall_region where `code` =  #{city_id}
+    </select>
+    <select id="selectAreaId" resultType="int">
+        select id as areaId from cskaoyan_mall_region where `code` =  #{area_id}
+    </select>
+    <select id="selectArea" resultType="string">
+        select name as area from cskaoyan_mall_region where `code` =  #{area_id}
+    </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         select
