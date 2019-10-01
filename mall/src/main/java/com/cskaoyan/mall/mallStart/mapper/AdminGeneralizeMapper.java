@@ -1,7 +1,8 @@
 package com.cskaoyan.mall.mallStart.mapper;
 
-import com.cskaoyan.mall.mallStart.bean.Ad;
-import com.cskaoyan.mall.mallStart.bean.Storage;
+import com.cskaoyan.mall.mallStart.bean.*;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -17,4 +18,24 @@ public interface AdminGeneralizeMapper {
 
     void updateAd(Ad ad);
 
+    @Delete("delete from cskaoyan_mall_ad where id = #{id}")
+    void deleteAd(Ad ad);
+
+    List<Coupon> getAllCoupons(@Param("type")Integer type,@Param("status") Integer status,@Param("name") String name);
+
+
+    void addCoupon(Coupon coupon);
+    Coupon queryCoupon(Coupon coupon);
+
+    List<CouponUser> getAllCouponUser(int couponId, Integer userId, Integer status);
+
+    Coupon queryCouponById(int id);
+
+    @Delete("delete from cskaoyan_mall_coupon where id = #{id}")
+
+    void deleteCoupon(Coupon coupon);
+
+    void updateCoupon(Coupon coupon);
+
+    List<Topic> getAllTopic(@Param("title")String title,@Param("subtitle") String subtitle);
 }

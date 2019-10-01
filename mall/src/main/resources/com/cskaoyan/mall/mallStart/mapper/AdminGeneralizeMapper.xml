@@ -12,12 +12,14 @@
     <resultMap id="timeMap" type="com.cskaoyan.mall.mallStart.bean.Ad">
         <result column="add_time" property="addTime"/>
         <result column="update_time" property="updateTime"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
     </resultMap>
     <select id="queryAdById" resultMap="timeMap">
         select * from cskaoyan_mall_ad where id = #{id}
     </select>
 
-    <select id="getAllAds" resultType="com.cskaoyan.mall.mallStart.bean.Ad">
+    <select id="getAllAds" resultMap="timeMap">
         select * from cskaoyan_mall_ad
         <where>
             <if test="name != null">
@@ -40,5 +42,106 @@
         update_time = now()
         where id = #{id}
     </update>
+
+    <resultMap id="CouponMap" type="com.cskaoyan.mall.mallStart.bean.Coupon">
+        <result column="goods_type" property="goodsType"/>
+        <result column="goods_value" property="goodsValue"/>
+        <result column="time_type" property="timeType"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="getAllCoupons" resultMap="CouponMap">
+        select * from cskaoyan_mall_coupon
+        <where>
+            <if test="type !=null">
+                and type = #{type}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="name != null">
+                and name like '%' #{name} '%'
+            </if>
+        </where>
+    </select>
+    <insert id="addCoupon" >
+        <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_coupon(name,add_time,days,`desc`,discount,goods_type,goods_value,`limit`,`min`,tag,start_time,end_time,status,time_type,total,update_time)
+        values(#{name},now(),#{days},#{desc},#{discount},#{goodsType},#{goodsValue},#{limit},#{min},#{tag},#{startTime},#{endTime},#{status},#{timeType},#{total},now())
+    </insert>
+    <select id="queryCoupon" resultMap="CouponMap">
+        select * from cakaoyan_mall_coupon where id = #{id}
+    </select>
+    <select id="queryCouponById" resultMap="CouponMap">
+        select * from cakaoyan_mall_coupon where id = #{id}
+    </select>
+
+    <resultMap id="CouponUserMap" type="com.cskaoyan.mall.mallStart.bean.CouponUser">
+        <result column="add_time" property="addTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="used_time" property="usedTime"/>
+        <result column="start_time" property="startTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="order_id" property="orderId"/>
+        <result column="user_id" property="userId"/>
+        <result column="coupon_id" property="couponId"/>
+    </resultMap>
+    <select id="getAllCouponUser" resultMap="CouponUserMap">
+        select * from cskaoyan_mall_couponUser
+        <where>
+            <if test="userId !=null">
+                and user_id = #{param2}
+            </if>
+            <if test="status != null">
+                and status = #{param3}
+            </if>
+            and coupon_id = #{param1}
+        </where>
+    </select>
+
+    <update id="updateCoupon">
+        update cskaoyan_mall_coupon set
+        days = #{days},
+        `desc` = #{desc},
+        discount = #{discount},
+        end_time = #{endTime},
+        goods_type = #{goodsType},
+        goods_value = #{goodsValue},
+        `limit` = #{limit},
+        `min` = #{min},
+        name = #{name},
+        start_time = #{startTime},
+        status = #{status},
+        tag = #{tag},
+        time_type = #{timeType},
+        total = #{total},
+        type = #{type},
+        update_time = now()
+        where id = #{id}
+    </update>
+
+    <resultMap id="TopicMap" type="com.cskaoyan.mall.mallStart.bean.Topic">
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="read_count" property="readCount"/>
+        <result column="sort_order" property="sortOrder"/>
+    </resultMap>
+
+    <select id="getAllTopic" resultMap="TopicMap">
+        select * from cskaoyan_mall_topic
+        <where>
+            <if test="title !=null">
+                and title = #{title}
+            </if>
+            <if test="subtitle != null">
+                and subtitle = #{subtitle}
+            </if>
+        </where>
+    </select>
 
 </mapper>

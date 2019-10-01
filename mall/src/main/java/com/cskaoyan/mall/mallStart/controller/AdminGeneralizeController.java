@@ -1,9 +1,6 @@
 package com.cskaoyan.mall.mallStart.controller;
 
-import com.cskaoyan.mall.mallStart.bean.Ad;
-import com.cskaoyan.mall.mallStart.bean.AdListBean;
-import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
-import com.cskaoyan.mall.mallStart.bean.Storage;
+import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.AdminGeneralizeService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +50,65 @@ public class AdminGeneralizeController {
         BaseRespVo ok = BaseRespVo.ok(ad1);
         return ok;
     }
+//删除广告,基本操作，mapper直接注解
+    @RequestMapping("admin/ad/delete")
+    public BaseRespVo deleteAd(@RequestBody Ad ad) {
+        service.deleteAd(ad);
+        BaseRespVo ok = BaseRespVo.ok("");
+        return ok;
+    }
 
+    //优惠券查找和列表，和广告处理方法一样
+    @RequestMapping("admin/coupon/list")
+    public BaseRespVo listCoupon(int page,int limit,Integer type,Integer status,String name){
+        CouponBeanList list =  service.listCoupon(page,limit,type,status,name);
+        BaseRespVo ok = BaseRespVo.ok(list);
+        return ok;
+    }
 
+    //优惠券添加,goodsValue的接收有问题，先搁置
+    @RequestMapping("admin/coupon/create")
+    public BaseRespVo addCoupon(@RequestBody Coupon coupon){
+       Coupon coupon1= service.addCoupon(coupon);
+        BaseRespVo ok = BaseRespVo.ok(coupon1);
+        return ok;
+    }
+    //点击详情有两个请求，一个是对user的请求对user进行list(查找)，
+    // 另一个是从数据库中返回coupon的数据。
+    @RequestMapping("admin/coupon/listuser")
+    public BaseRespVo listCouponUser(int page,int limit,int couponId,Integer userId,Integer status){
+        CouponUserBeanList list =  service.listCouponUser(page,limit,couponId,userId,status);
+        BaseRespVo ok = BaseRespVo.ok(list);
+        return ok;
+    }
+
+    @RequestMapping("admin/coupon/read")
+    public BaseRespVo readCoupon(int id){
+        Coupon coupon = service.queryCouponById(id);
+        BaseRespVo ok = BaseRespVo.ok(coupon);
+        return ok;
+    }
+    //删除操作需要接收json格式的coupon,先搁置
+    @RequestMapping("admin/coupon/delete")
+    public BaseRespVo deleteCoupon(@RequestBody Coupon coupon){
+        service.deleteCoupon(coupon);
+        BaseRespVo ok = BaseRespVo.ok("");
+        return ok;
+    }
+
+    //修改coupon也需要json封装，搁置
+    @RequestMapping("admin/coupon/update")
+    public BaseRespVo updateCoupon(@RequestBody Coupon coupon){
+        Coupon coupon1 = service.updateCoupon(coupon);
+        BaseRespVo ok = BaseRespVo.ok(coupon1);
+        return ok;
+    }
+
+    // 列出所有专题
+    @RequestMapping("admin/topic/list")
+    public BaseRespVo listTopic(int page,int limit,String title,String subtitle){
+       GeneralizeTopicBeanList list = service.getAllTopic(page,limit,title,subtitle);
+        BaseRespVo ok = BaseRespVo.ok(list);
+        return ok;
+    }
 }
