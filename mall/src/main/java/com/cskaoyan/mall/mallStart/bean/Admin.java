@@ -15,13 +15,13 @@ public class Admin {
 
     private String avatar;
 
-    private Date addTime;
+    private String addTime;
 
-    private Date updateTime;
+    private String updateTime;
 
     private Boolean deleted;
 
-    private String roleIds;
+    private int[] roleIds;
 
     public Integer getId() {
         return id;
@@ -36,7 +36,7 @@ public class Admin {
     }
 
     public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+        this.username = username;
     }
 
     public String getPassword() {
@@ -44,7 +44,7 @@ public class Admin {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public String getLastLoginIp() {
@@ -52,7 +52,7 @@ public class Admin {
     }
 
     public void setLastLoginIp(String lastLoginIp) {
-        this.lastLoginIp = lastLoginIp == null ? null : lastLoginIp.trim();
+        this.lastLoginIp = lastLoginIp;
     }
 
     public Date getLastLoginTime() {
@@ -68,22 +68,22 @@ public class Admin {
     }
 
     public void setAvatar(String avatar) {
-        this.avatar = avatar == null ? null : avatar.trim();
+        this.avatar = avatar;
     }
 
-    public Date getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Date addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -95,11 +95,11 @@ public class Admin {
         this.deleted = deleted;
     }
 
-    public String getRoleIds() {
+    public int[] getRoleIds() {
         return roleIds;
     }
 
-    public void setRoleIds(String roleIds) {
-        this.roleIds = roleIds == null ? null : roleIds.trim();
+    public void setRoleIds(int[] roleIds) {
+        this.roleIds = roleIds;
     }
 }

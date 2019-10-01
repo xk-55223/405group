@@ -22,5 +22,4 @@ public class MallApplicationTests {
         List<Region> regions = mapper.selectRegions();
         System.out.println(regions);
     }
-
 }
