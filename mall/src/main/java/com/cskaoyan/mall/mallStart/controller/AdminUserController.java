@@ -36,4 +36,25 @@ public class AdminUserController {
         BaseRespVo ok = BaseRespVo.ok(collectListBean);
         return ok;
     }
+    /*会员足迹*/
+    @RequestMapping("admin/footprint/list")
+    public BaseRespVo<List<Footprint>> footprintList(FromPageInfo pageInfo, Integer userId, Integer goodsId) {
+        ListBean<Footprint> footprintListBean = adminUserService.selectFootprintAll(pageInfo, userId, goodsId);
+        BaseRespVo ok = BaseRespVo.ok(footprintListBean);
+        return ok;
+    }
+    /*搜索历史*/
+    @RequestMapping("admin/history/list")
+    public BaseRespVo<List<SearchHistory>> historyList(FromPageInfo pageInfo, Integer userId, String keyword) {
+        ListBean<SearchHistory> searchHistoryListBean = adminUserService.selectSearchHistoryAll(pageInfo, userId, keyword);
+        BaseRespVo ok = BaseRespVo.ok(searchHistoryListBean);
+        return ok;
+    }
+    /*意见反馈*/
+    @RequestMapping("admin/feedback/list")
+    public BaseRespVo<List<Feedback>> feedbackList(FromPageInfo pageInfo, Integer id, String username) {
+        ListBean<Feedback> feedbackListBean = adminUserService.selectFeedbackAll(pageInfo, id, username);
+        BaseRespVo ok = BaseRespVo.ok(feedbackListBean);
+        return ok;
+    }
 }

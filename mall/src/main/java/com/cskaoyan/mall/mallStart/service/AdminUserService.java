@@ -8,4 +8,10 @@ public interface AdminUserService {
     ListBean<AddressRegion> selectAddressAll(FromPageInfo pageInfo, String name, Integer userId);
 
     ListBean<Collect> selectCollectAll(FromPageInfo pageInfo, Integer userId, Integer valueId);
+
+    ListBean<Footprint> selectFootprintAll(FromPageInfo pageInfo, Integer userId, Integer goodsId);
+
+    ListBean<SearchHistory> selectSearchHistoryAll(FromPageInfo pageInfo, Integer userId, String keyword);
+
+    ListBean<Feedback> selectFeedbackAll(FromPageInfo pageInfo, Integer id, String username);
 }

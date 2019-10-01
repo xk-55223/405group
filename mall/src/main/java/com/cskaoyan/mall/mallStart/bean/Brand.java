@@ -22,6 +22,21 @@ public class Brand {
 
     private Boolean deleted;
 
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                ", picUrl='" + picUrl + '\'' +
+                ", sortOrder=" + sortOrder +
+                ", floorPrice=" + floorPrice +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
