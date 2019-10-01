@@ -4,7 +4,7 @@ import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.DashBoard;
 import com.cskaoyan.mall.mallStart.bean.LoginInfo;
 import com.cskaoyan.mall.mallStart.bean.User;
-import com.cskaoyan.mall.mallStart.service.FirstPageService;
+import com.cskaoyan.mall.mallStart.service.AdminFirstPageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 
 @RestController
-public class FirstPageController {
-    @Autowired
-    FirstPageService firstPageService;
+public class AdminFirstPageController {
 
+    @Autowired
+    AdminFirstPageServiceImpl firstPageService;
+
+    //首页接口，service主要是从四个表中count(id)获取数量，
+    //包装类为DashBoard，四个表为 cskaoyan_mall_user、goods、order、goods_product
     @RequestMapping("admin/dashboard")
     public BaseRespVo dashboard(){
         DashBoard dashBorad = firstPageService.getDashBorad();

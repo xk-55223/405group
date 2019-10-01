@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mall.mallStart.mapper.AdminGeneralizeMapper">
+
+    <insert id="insertAd">
+<selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
+    select last_insert_id() as id
+</selectKey>
+    insert into cskaoyan_mall_ad (content,enabled,link,name,position,url,add_time,update_time)
+    values(#{content},#{enabled},#{link},#{name},#{position},#{url},now(),now())
+</insert>
+    <resultMap id="timeMap" type="com.cskaoyan.mall.mallStart.bean.Ad">
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="queryAdById" resultMap="timeMap">
+        select * from cskaoyan_mall_ad where id = #{id}
+    </select>
+
+    <select id="getAllAds" resultType="com.cskaoyan.mall.mallStart.bean.Ad">
+        select * from cskaoyan_mall_ad
+        <where>
+            <if test="name != null">
+                and name like '%' #{name} '%'
+            </if>
+            <if test="content != null">
+                and content like '%' #{content} '%'
+            </if>
+        </where>
+    </select>
+
+    <update id="updateAd">
+        update cskaoyan_mall_ad set
+        name = #{name},
+        content = #{content},
+        url = #{url},
+        position = #{position},
+        link = #{link},
+        enabled = #{enabled},
+        update_time = now()
+        where id = #{id}
+    </update>
+
+</mapper>
