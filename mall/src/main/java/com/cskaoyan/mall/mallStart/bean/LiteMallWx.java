@@ -9,7 +9,7 @@ public class LiteMallWx {
     private String cskaoyan_mall_wx_index_topic;
     private Boolean cskaoyan_mall_wx_share;
 
-    public boolean isCskaoyan_mall_wx_share() {
+    public Boolean getCskaoyan_mall_wx_share() {
         return cskaoyan_mall_wx_share;
     }
 
