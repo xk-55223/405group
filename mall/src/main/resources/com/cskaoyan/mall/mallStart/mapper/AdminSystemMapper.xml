@@ -130,4 +130,8 @@
         values
         (#{storage.key},#{storage.name},#{storage.type},#{storage.size},#{storage.url},#{storage.addTime},#{storage.updateTime})
     </insert>
+    <!--更新上传对象-->
+    <update id="updateStorage">
+        update cskaoyan_mall_storage set `name` = #{storage.name}, update_time = #{storage.updateTime} where id = #{storage.id}
+    </update>
 </mapper>

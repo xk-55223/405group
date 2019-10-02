@@ -23,4 +23,6 @@ public interface AdminSystemMapper {
     List<Storage> selectStorageAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("key") String key, @Param("name") String name);
 
     int insertStorage(@Param("storage") Storage storage);
+
+    int updateStorage(@Param("storage") Storage storage);
 }
