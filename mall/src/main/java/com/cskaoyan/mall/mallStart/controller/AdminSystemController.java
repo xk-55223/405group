@@ -66,4 +66,10 @@ public class AdminSystemController {
         responseMap.put("errmsg", "成功");
         return responseMap;
     }
+
+    @RequestMapping("admin/storage/list")
+    public BaseRespVo<List<Storage>> storageList(FromPageInfo pageInfo, String key, String name) {
+        ListBean<Storage> storageListBean = adminSystemService.selectStorageAll(pageInfo, key, name);
+        return BaseRespVo.ok(storageListBean);
+    }
 }

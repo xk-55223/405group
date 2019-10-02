@@ -19,4 +19,6 @@ public interface AdminSystemMapper {
     int deleteRole(@Param("role")Role role);
 
     int updateRole(@Param("role")Role role);
+
+    List<Storage> selectStorageAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("key") String key, @Param("name") String name);
 }

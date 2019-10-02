@@ -93,4 +93,30 @@
     <update id="updateRole">
         update cskaoyan_mall_role set `name` = #{role.name},`desc` = #{role.desc},update_time = now() where id = #{role.id}
     </update>
+    <!--查询对象存储-->
+    <resultMap id="StorageMap" type="com.cskaoyan.mall.mallStart.bean.Storage">
+        <result column="id" property="id"/>
+        <result column="key" property="key"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="size" property="size"/>
+        <result column="url" property="url"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectStorageAll" resultMap="StorageMap">
+        select id ,`key`,`name`,`type`,`size`,`url`,add_time,update_time,deleted
+        from cskaoyan_mall_storage
+        <where>
+            <if test="key != null">
+                and `key` = #{key}
+            </if>
+            <if test="name != null">
+                and `name` like '%' #{name} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
 </mapper>
