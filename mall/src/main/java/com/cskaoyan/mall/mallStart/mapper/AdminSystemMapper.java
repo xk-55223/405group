@@ -13,4 +13,8 @@ public interface AdminSystemMapper {
     List<Log> selectLogAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("name") String name);
 
     List<Role> selectRoleAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("name") String name);
+
+    int insertRole(@Param("role")Role role);
+
+    int deleteRole(@Param("role")Role role);
 }

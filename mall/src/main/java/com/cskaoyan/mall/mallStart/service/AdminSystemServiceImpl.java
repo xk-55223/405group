@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -43,5 +44,18 @@ public class AdminSystemServiceImpl implements AdminSystemService {
         PageHelper.startPage(pageInfo.getPage(), pageInfo.getLimit());
         List<Role> roles = adminSystemMapper.selectRoleAll(pageInfo, name);
         return new BeansManager<Role>().toListBean(roles);
+    }
+
+    @Override
+    public Role insertRole(Role role) {
+        role.setAddTime(new Date());
+        role.setUpdateTime(new Date());
+        adminSystemMapper.insertRole(role);
+        return role;
+    }
+
+    @Override
+    public int deleteRole(Role role) {
+        return adminSystemMapper.deleteRole(role);
     }
 }
