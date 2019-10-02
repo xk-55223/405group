@@ -11,4 +11,14 @@ public interface AdminSystemService {
     List<RoleOptions> selectRoleOptionsAll();
 
     ListBean<Log> selectLogAll(FromPageInfo pageInfo, String name);
+
+    ListBean<Role> selectRoleAll(FromPageInfo pageInfo, String name);
+
+    Role insertRole(Role role);
+
+    int deleteRole(Role role);
+
+    int updateRole(Role role);
+
+    ListBean<Storage> selectStorageAll(FromPageInfo pageInfo, String key, String name);
 }

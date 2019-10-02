@@ -6,7 +6,7 @@
         <result column="id" property="id"/>
         <result column="username" property="username"/>
         <result column="avatar" property="avatar"/>
-        <result column="role_ids" property="roleIds" />
+        <result column="role_ids" property="roleIds"/>
     </resultMap>
     <select id="selectAdminAll" resultMap="AdminMap">
         select id ,username,avatar,`role_ids`
@@ -43,11 +43,77 @@
         <result column="deleted" property="deleted"/>
     </resultMap>
     <select id="selectLogAll" resultMap="LogMap">
-        select id ,admin,`ip`,`type`,`action`,`status`,`result`,comment,add_time,update_time,deleted
+        select `id`,`admin`,`ip`,`type`,`action`,`status`,`result`,comment,add_time,update_time,deleted
         from cskaoyan_mall_log
         <where>
             <if test="name !=null">
-                and admin like '%' #{name} '%'
+                and `admin` like '%' #{name} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--查询角色管理-->
+    <resultMap id="RoleMap" type="com.cskaoyan.mall.mallStart.bean.Role">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="enabled" property="enabled"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectRoleAll" resultMap="RoleMap">
+        select `id`,`name`,`desc`,`enabled`,add_time,update_time,`deleted`
+        from cskaoyan_mall_role
+        <where>
+            <if test="name !=null">
+                and `name` like '%' #{name} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--添加角色管理-->
+    <insert id="insertRole">
+        <selectKey resultType="int" keyProperty="role.id" keyColumn="last_insert_id()" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into
+        cskaoyan_mall_role
+        (`name`,`desc`,add_time,update_time)
+        values
+        (#{role.name},#{role.desc},#{role.addTime},#{role.updateTime})
+    </insert>
+    <!--删除角色管理-->
+    <delete id="deleteRole">
+        delete from cskaoyan_mall_role where id = #{role.id}
+    </delete>
+    <!--更新角色管理-->
+    <update id="updateRole">
+        update cskaoyan_mall_role set `name` = #{role.name},`desc` = #{role.desc},update_time = now() where id = #{role.id}
+    </update>
+    <!--查询对象存储-->
+    <resultMap id="StorageMap" type="com.cskaoyan.mall.mallStart.bean.Storage">
+        <result column="id" property="id"/>
+        <result column="key" property="key"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="size" property="size"/>
+        <result column="url" property="url"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectStorageAll" resultMap="StorageMap">
+        select id ,`key`,`name`,`type`,`size`,`url`,add_time,update_time,deleted
+        from cskaoyan_mall_storage
+        <where>
+            <if test="key != null">
+                and `key` = #{key}
+            </if>
+            <if test="name != null">
+                and `name` like '%' #{name} '%'
             </if>
         </where>
         order by
