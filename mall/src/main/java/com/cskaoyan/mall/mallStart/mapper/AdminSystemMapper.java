@@ -17,4 +17,6 @@ public interface AdminSystemMapper {
     int insertRole(@Param("role")Role role);
 
     int deleteRole(@Param("role")Role role);
+
+    int updateRole(@Param("role")Role role);
 }

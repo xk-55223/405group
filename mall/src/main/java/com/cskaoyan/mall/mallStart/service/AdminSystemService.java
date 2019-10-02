@@ -18,4 +18,5 @@ public interface AdminSystemService {
 
     int deleteRole(Role role);
 
+    int updateRole(Role role);
 }

@@ -58,4 +58,9 @@ public class AdminSystemServiceImpl implements AdminSystemService {
     public int deleteRole(Role role) {
         return adminSystemMapper.deleteRole(role);
     }
+
+    @Override
+    public int updateRole(Role role) {
+        return adminSystemMapper.updateRole(role);
+    }
 }

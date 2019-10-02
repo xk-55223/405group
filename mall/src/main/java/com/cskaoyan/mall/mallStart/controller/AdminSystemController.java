@@ -57,4 +57,13 @@ public class AdminSystemController {
         responseMap.put("errmsg", "成功");
         return responseMap;
     }
+
+    @RequestMapping(value = "admin/role/update", method = RequestMethod.POST)
+    public Map roleUpdate(@RequestBody Role paramRole) {
+        adminSystemService.updateRole(paramRole);
+        Map<String, Object> responseMap = new LinkedHashMap<>();
+        responseMap.put("errno", 0);
+        responseMap.put("errmsg", "成功");
+        return responseMap;
+    }
 }
