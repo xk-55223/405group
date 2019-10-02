@@ -13,9 +13,11 @@ public class User {
 
     private Byte gender;
 
-    private String birthday;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date birthday;
 
-    private String lastLoginTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date lastLoginTime;
 
     private String lastLoginIp;
 
@@ -31,6 +33,7 @@ public class User {
 
     private Byte status;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -70,19 +73,19 @@ public class User {
         this.gender = gender;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
-    public String getLastLoginTime() {
+    public Date getLastLoginTime() {
         return lastLoginTime;
     }
 
-    public void setLastLoginTime(String lastLoginTime) {
+    public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 

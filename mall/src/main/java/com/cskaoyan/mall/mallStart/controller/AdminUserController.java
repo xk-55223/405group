@@ -17,44 +17,41 @@ public class AdminUserController {
     @RequestMapping("admin/user/list")
     public BaseRespVo<List<User>> userList(FromPageInfo pageInfo, String username, String mobile) {
         ListBean<User> userListBean = adminUserService.selectUserAll(pageInfo, username, mobile);
-        BaseRespVo ok = BaseRespVo.ok(userListBean);
-        return ok;
+        return BaseRespVo.ok(userListBean);
     }
 
     /*收货地址*/
     @RequestMapping("admin/address/list")
     public BaseRespVo<List<User>> addressList(FromPageInfo pageInfo, String name, Integer userId) {
         ListBean<AddressRegion> addressRegionListBean = adminUserService.selectAddressAll(pageInfo, name, userId);
-        BaseRespVo ok = BaseRespVo.ok(addressRegionListBean);
-        return ok;
+        return BaseRespVo.ok(addressRegionListBean);
     }
 
     /*会员收藏*/
     @RequestMapping("admin/collect/list")
     public BaseRespVo<List<Collect>> collectList(FromPageInfo pageInfo, Integer userId, Integer valueId) {
         ListBean<Collect> collectListBean = adminUserService.selectCollectAll(pageInfo, userId, valueId);
-        BaseRespVo ok = BaseRespVo.ok(collectListBean);
-        return ok;
+        return BaseRespVo.ok(collectListBean);
     }
+
     /*会员足迹*/
     @RequestMapping("admin/footprint/list")
     public BaseRespVo<List<Footprint>> footprintList(FromPageInfo pageInfo, Integer userId, Integer goodsId) {
         ListBean<Footprint> footprintListBean = adminUserService.selectFootprintAll(pageInfo, userId, goodsId);
-        BaseRespVo ok = BaseRespVo.ok(footprintListBean);
-        return ok;
+        return BaseRespVo.ok(footprintListBean);
     }
+
     /*搜索历史*/
     @RequestMapping("admin/history/list")
     public BaseRespVo<List<SearchHistory>> historyList(FromPageInfo pageInfo, Integer userId, String keyword) {
         ListBean<SearchHistory> searchHistoryListBean = adminUserService.selectSearchHistoryAll(pageInfo, userId, keyword);
-        BaseRespVo ok = BaseRespVo.ok(searchHistoryListBean);
-        return ok;
+        return BaseRespVo.ok(searchHistoryListBean);
     }
+
     /*意见反馈*/
     @RequestMapping("admin/feedback/list")
     public BaseRespVo<List<Feedback>> feedbackList(FromPageInfo pageInfo, Integer id, String username) {
         ListBean<Feedback> feedbackListBean = adminUserService.selectFeedbackAll(pageInfo, id, username);
-        BaseRespVo ok = BaseRespVo.ok(feedbackListBean);
-        return ok;
+        return BaseRespVo.ok(feedbackListBean);
     }
 }
