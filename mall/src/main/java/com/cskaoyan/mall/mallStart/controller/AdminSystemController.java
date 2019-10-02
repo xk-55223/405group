@@ -1,17 +1,19 @@
 package com.cskaoyan.mall.mallStart.controller;
 
 import com.cskaoyan.mall.mallStart.bean.*;
+import com.cskaoyan.mall.mallStart.mapper.AdminSystemMapper;
 import com.cskaoyan.mall.mallStart.service.AdminSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @RestController
 public class AdminSystemController {
@@ -71,5 +73,11 @@ public class AdminSystemController {
     public BaseRespVo<List<Storage>> storageList(FromPageInfo pageInfo, String key, String name) {
         ListBean<Storage> storageListBean = adminSystemService.selectStorageAll(pageInfo, key, name);
         return BaseRespVo.ok(storageListBean);
+    }
+
+    @RequestMapping("admin/storage/create")
+    public BaseRespVo<Storage> storageCreate(MultipartFile file) throws IOException {
+        Storage storage = adminSystemService.insertStorage(file);
+        return BaseRespVo.ok(storage);
     }
 }

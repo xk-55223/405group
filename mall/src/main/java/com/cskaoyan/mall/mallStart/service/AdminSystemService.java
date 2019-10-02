@@ -1,7 +1,9 @@
 package com.cskaoyan.mall.mallStart.service;
 
 import com.cskaoyan.mall.mallStart.bean.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -21,4 +23,6 @@ public interface AdminSystemService {
     int updateRole(Role role);
 
     ListBean<Storage> selectStorageAll(FromPageInfo pageInfo, String key, String name);
+
+    Storage insertStorage(MultipartFile file) throws IOException;
 }
