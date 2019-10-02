@@ -164,4 +164,13 @@ public class AdminGeneralizeController {
         BaseRespVo ok = BaseRespVo.ok("");
         return ok;
     }
+
+    //团购活动添加，新建GrouponBean类，封装goods、groupon、grouponRules和一个string数组
+    //对GrouponBean进行分页和查询。
+    @RequestMapping("admin/groupon/listRecord")
+    public BaseRespVo listGroupon(int page,int limit,Integer goodsId){
+       ListBean listBean = service.listGroupon(page,limit,goodsId);
+        BaseRespVo ok = BaseRespVo.ok(listBean);
+        return ok;
+    }
 }
