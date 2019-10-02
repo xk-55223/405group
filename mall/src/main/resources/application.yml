@@ -1,8 +1,21 @@
 spring:
   profiles:
     active: db
+
 server:
   port: 80
 
 pagehelper:
   helper-dialect: mysql
+
+logging:
+  file: spring.Log
+  level:
+    com:
+      cskaoyan:
+        mall:
+          mallStart:
+            mapper: debug
+mybatis:
+  type-handlers-package: com.cskaoyan.mall.mallStart.typehandler
+

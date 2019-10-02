@@ -78,4 +78,16 @@ public class AdminGoodsController {
         BaseRespVo ok = BaseRespVo.ok(listBean);
         return ok;
     }
+
+    /**
+     * 删除评论
+     * @return
+     */
+    @RequestMapping("admin/comment/delete")
+    public BaseRespVo deleteComment(@RequestBody Comment comment){
+
+        adminGoodsService.deleteComment(comment.getId());
+        BaseRespVo ok = BaseRespVo.ok("成功");
+        return ok;
+    }
 }

@@ -2,7 +2,7 @@ package com.cskaoyan.mall.mallStart.bean;
 
 import java.util.Date;
 
-public class log {
+public class Log {
     private Integer id;
 
     private String admin;
@@ -19,9 +19,9 @@ public class log {
 
     private String comment;
 
-    private Date addTime;
+    private String addTime;
 
-    private Date updateTime;
+    private String updateTime;
 
     private Boolean deleted;
 
@@ -89,19 +89,19 @@ public class log {
         this.comment = comment == null ? null : comment.trim();
     }
 
-    public Date getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Date addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 

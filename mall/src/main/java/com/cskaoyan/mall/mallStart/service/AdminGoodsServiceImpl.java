@@ -101,4 +101,9 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
         commentListBean.setTotal(total);
         return commentListBean;
     }
+
+    @Override
+    public void deleteComment(Integer id) {
+        adminGoodsMapper.deleteComment(id);
+    }
 }

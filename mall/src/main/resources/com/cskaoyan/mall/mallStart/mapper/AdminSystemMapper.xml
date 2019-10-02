@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mall.mallStart.mapper.AdminSystemMapper">
+    <!--查询管理员-->
+    <resultMap id="AdminMap" type="com.cskaoyan.mall.mallStart.bean.Admin">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="avatar" property="avatar"/>
+        <result column="role_ids" property="roleIds" />
+    </resultMap>
+    <select id="selectAdminAll" resultMap="AdminMap">
+        select id ,username,avatar,`role_ids`
+        from cskaoyan_mall_admin
+        <where>
+            <if test="username !=null">
+                and username like '%' #{username} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--查询管理员 role/options-->
+    <resultMap id="RoleOptionsMap" type="com.cskaoyan.mall.mallStart.bean.RoleOptions">
+        <result column="id" property="value"/>
+        <result column="name" property="label"/>
+    </resultMap>
+    <select id="selectRoleOptionsAll" resultMap="RoleOptionsMap">
+        select id ,`name`
+        from cskaoyan_mall_role
+    </select>
+    <!--查询操作日志-->
+    <resultMap id="LogMap" type="com.cskaoyan.mall.mallStart.bean.Log">
+        <result column="id" property="id"/>
+        <result column="admin" property="admin"/>
+        <result column="ip" property="ip"/>
+        <result column="type" property="type"/>
+        <result column="action" property="action"/>
+        <result column="status" property="status"/>
+        <result column="result" property="result"/>
+        <result column="comment" property="comment"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectLogAll" resultMap="LogMap">
+        select `id`,`admin`,`ip`,`type`,`action`,`status`,`result`,comment,add_time,update_time,deleted
+        from cskaoyan_mall_log
+        <where>
+            <if test="name !=null">
+                and `admin` like '%' #{name} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+</mapper>

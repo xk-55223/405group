@@ -1,7 +1,6 @@
 package com.cskaoyan.mall.mallStart.service;
 
-import com.cskaoyan.mall.mallStart.bean.Ad;
-import com.cskaoyan.mall.mallStart.bean.AdListBean;
+import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.AdminGeneralizeMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -40,6 +39,72 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
         mapper.updateAd(ad);
         Ad ad1 = mapper.queryAdById(id);
         return ad1;
+    }
+
+    @Override
+    public void deleteAd(Ad ad) {
+        mapper.deleteAd(ad);
+    }
+
+    @Override
+    public CouponBeanList listCoupon(int page, int limit, Integer type, Integer status, String name) {
+        PageHelper.startPage(page,limit);
+        List<Coupon> coupons = mapper.getAllCoupons(type,status,name);
+        PageInfo<Coupon> couponPageInfo = new PageInfo<>(coupons);
+        long total = couponPageInfo.getTotal();
+        CouponBeanList list = new CouponBeanList();
+        list.setItems(coupons);
+        list.setTotal(total);
+        return list;
+    }
+
+    @Override
+    public Coupon addCoupon(Coupon coupon) {
+        mapper.addCoupon(coupon);
+        Coupon coupon1 = mapper.queryCoupon(coupon);
+        return coupon1;
+    }
+
+    @Override
+    public CouponUserBeanList listCouponUser(int page, int limit, int couponId, Integer userId, Integer status) {
+        PageHelper.startPage(page,limit);
+        List<CouponUser> users = mapper.getAllCouponUser(couponId,userId,status);
+        PageInfo<CouponUser> couponUserPageInfo = new PageInfo<>(users);
+        long total = couponUserPageInfo.getTotal();
+        CouponUserBeanList list = new CouponUserBeanList();
+        list.setItems(users);
+        list.setTotal(total);
+        return list;
+    }
+
+    @Override
+    public Coupon queryCouponById(int id) {
+       Coupon coupon = mapper.queryCouponById(id);
+       return coupon;
+    }
+
+    @Override
+    public void deleteCoupon(Coupon coupon) {
+        mapper.deleteCoupon(coupon);
+    }
+
+    @Override
+    public Coupon updateCoupon(Coupon coupon) {
+        mapper.updateCoupon(coupon);
+        Coupon coupon1 = mapper.queryCoupon(coupon);
+        return coupon1;
+    }
+
+    @Override
+    public GeneralizeTopicBeanList getAllTopic(int page, int limit, String title, String subtitle) {
+        PageHelper.startPage(page,limit);
+        List<Topic> topics = mapper.getAllTopic(title,subtitle);
+        PageInfo<Topic> topicPageInfo = new PageInfo<>(topics);
+        long total = topicPageInfo.getTotal();
+        GeneralizeTopicBeanList list = new GeneralizeTopicBeanList();
+        list.setItems(topics);
+        list.setTotal(total);
+        return list;
     }
 
 

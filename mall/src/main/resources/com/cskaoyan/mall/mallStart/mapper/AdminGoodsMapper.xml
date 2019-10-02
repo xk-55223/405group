@@ -74,4 +74,7 @@
             </if>
         </where>
     </select>
+    <delete id="deleteComment">
+        delete from cskaoyan_mall_comment where id = #{id}
+    </delete>
 </mapper>

@@ -92,5 +92,11 @@ public interface AdminGoodsMapper {
      * @return
      */
     List<Comment> commentsList(@Param("userId") Integer userId,@Param("valueId")  Integer valueId);
+
+    /**
+     * 删除评论
+     * @param id
+     */
+    void deleteComment(@Param("id") Integer id);
 }
 
