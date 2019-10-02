@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 /**
  * Created by little Stone
@@ -30,9 +28,4 @@ public class CorsConfig {
         return new CorsFilter(source);
     }
 
-    @Bean
-    public MultipartResolver multipartResolver() {
-        MultipartResolver multipartResolver = new CommonsMultipartResolver();
-        return multipartResolver;
-    }
 }

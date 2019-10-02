@@ -15,6 +15,7 @@ mall/src/main/resources/application-db.yml
    
 # Log file 
 *.log 
+mall/spring.log.*
    
 # BlueJ files 
 *.ctxt 
