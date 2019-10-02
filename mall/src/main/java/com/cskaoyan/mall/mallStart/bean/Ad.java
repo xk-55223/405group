@@ -24,6 +24,25 @@ public class Ad {
     private Boolean enabled;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
+
+    @Override
+    public String toString() {
+        return "Ad{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", url='" + url + '\'' +
+                ", position=" + position +
+                ", content='" + content + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", enabled=" + enabled +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
+                '}';
+    }
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 

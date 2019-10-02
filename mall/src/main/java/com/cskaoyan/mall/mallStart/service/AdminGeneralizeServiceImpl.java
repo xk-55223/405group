@@ -32,8 +32,8 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
 
     @Override
     public Ad insertAd(Ad ad) {
-        int i = mapper.insertAd(ad);
-        Ad ad1 = mapper.queryAdById(i);
+         mapper.insertAd(ad);
+        Ad ad1 = mapper.queryAdById(ad.getId());
         return ad1;
     }
 

@@ -16,7 +16,7 @@
         <result column="end_time" property="endTime"/>
     </resultMap>
     <select id="queryAdById" resultMap="timeMap">
-        select id,name,link,url,position,content,start_time,end_time,enable,add_time,update_time,deleted from cskaoyan_mall_ad where id = #{id}
+        select id,name,link,url,position,content,start_time,end_time,enabled,add_time,update_time,deleted from cskaoyan_mall_ad where id = #{id}
     </select>
 
     <select id="getAllAds" resultMap="timeMap">
