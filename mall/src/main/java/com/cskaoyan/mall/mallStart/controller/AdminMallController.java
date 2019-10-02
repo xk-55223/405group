@@ -2,17 +2,15 @@ package com.cskaoyan.mall.mallStart.controller;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.AdminMallService;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class AdminMallController {
@@ -104,6 +102,7 @@ public class AdminMallController {
         return result;
     }
 
+    // 关键词的查询和显示
     @RequestMapping("admin/keyword/list")
     public BaseRespVo keywordList(FromPageInfo page, Keyword keyword) {
         PageHelper.startPage(page.getPage(), page.getLimit());
@@ -117,10 +116,19 @@ public class AdminMallController {
         return result;
     }
 
+    // 添加一个关键词
     @RequestMapping("admin/keyword/create")
     public BaseRespVo keywordCreate(@RequestBody Keyword keyword) {
         Keyword newKeyword = service.insertKeyword(keyword);
         BaseRespVo result = BaseRespVo.ok(newKeyword);
         return result;
     }
+
+
+    // 需要转换类型，暂时不做
+    /*@RequestMapping("admin/order/detail")
+    public BaseRespVo orderDetail(int id) {
+        Order order = service.selectOrderDetail(id);
+
+    }*/
 }
