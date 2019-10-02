@@ -227,7 +227,14 @@
         update_time = now()
         where id = #{id}
     </update>
+
     <delete id="deleteGrouponRules">
         delete from cskaoyan_mall_groupon_rules where id = #{id}
     </delete>
+
+    <select id="queryAllGroupons" resultType="com.cskaoyan.mall.mallStart.bean.Groupon">
+        select id,order_id as orderId,groupon_id as grouponId,rules_id as rulesId,
+        user_id as userId,creator_user_id as creatorUserId,add_time as addTime,share_url as shareUrl,
+        update_time as updateTime,payed,deleted from cskaoyan_mall_groupon
+    </select>
 </mapper>

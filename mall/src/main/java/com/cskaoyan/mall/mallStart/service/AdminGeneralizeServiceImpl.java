@@ -2,17 +2,21 @@ package com.cskaoyan.mall.mallStart.service;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.AdminGeneralizeMapper;
+import com.cskaoyan.mall.mallStart.mapper.AdminGoodsMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
     @Autowired
     AdminGeneralizeMapper mapper;
+    @Autowired
+    AdminGoodsMapper goodsMapper;
 
     @Override
     public AdListBean getAllAds(int page, int limit,String name,String content) {
@@ -159,6 +163,34 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
     @Override
     public void deleteGrouponRules(Integer id) {
         mapper.deleteGrouponRules(id);
+    }
+
+    @Override
+    public ListBean listGroupon(int page, int limit, Integer goodsId) {
+        PageHelper.startPage(page,limit);
+        List<GrouponBean> rules = new ArrayList<>();
+
+        List<Groupon> groupons = mapper.queryAllGroupons();
+        for(Groupon groupon:groupons){
+            GrouponBean grouponBean = new GrouponBean();
+            Integer rulesId = groupon.getRulesId();
+            GrouponRules grouponRule = mapper.getGrouponRulesById(rulesId);
+            if(goodsId != null & !grouponRule.getGoodsId().equals(goodsId)) {
+                grouponBean =null;
+            }else {
+                Goods goods = goodsMapper.listGoodsById(grouponRule.getGoodsId());
+                grouponBean.setGoods(goods);
+                grouponBean.setGroupon(groupon);
+                grouponBean.setRules(grouponRule);
+                rules.add(grouponBean);
+            }
+        }
+        PageInfo<GrouponBean> info = new PageInfo<>(rules);
+        long total = info.getTotal();
+        ListBean<GrouponBean> bean = new ListBean<>();
+        bean.setItems(rules);
+        bean.setTotal(total);
+        return bean;
     }
 
 
