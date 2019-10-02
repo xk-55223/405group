@@ -11,6 +11,7 @@ public class StatOrder {
     @JsonFormat(pattern = "yyyy-MM-dd")
     Date day;
     double pcr;
+    int users;
 
     public double getAmount() {
         return amount;
@@ -50,5 +51,13 @@ public class StatOrder {
 
     public void setPcr(double pcr) {
         this.pcr = pcr;
+    }
+
+    public int getUsers() {
+        return users;
+    }
+
+    public void setUsers(int users) {
+        this.users = users;
     }
 }
