@@ -97,6 +97,11 @@ public class AdminMallController {
     // 添加通用问题
     @RequestMapping("admin/issue/create")
     public BaseRespVo issueCreate(@RequestBody Issue issue) {
+        if (issue.getQuestion() == null || issue.getQuestion().trim().equals("")) {
+            return BaseRespVo.fail("问题不能为空");
+        } else if (issue.getAnswer() == null || issue.getAnswer().trim().equals("")) {
+            return BaseRespVo.fail("回答不能为空");
+        }
         Issue newIssue = service.insertIssue(issue);
         BaseRespVo result = BaseRespVo.ok(newIssue);
         return result;
@@ -146,6 +151,11 @@ public class AdminMallController {
     //通用问题的编辑
     @RequestMapping("admin/issue/update")
     public BaseRespVo issueUpate(@RequestBody Issue issue) {
+        if (issue.getQuestion() == null || issue.getQuestion().trim().equals("")) {
+            return BaseRespVo.fail("问题不能为空");
+        } else if (issue.getAnswer() == null || issue.getAnswer().trim().equals("")) {
+            return BaseRespVo.fail("回答不能为空");
+        }
         service.updateIssue(issue);
         BaseRespVo result = BaseRespVo.ok(issue);
         return result;

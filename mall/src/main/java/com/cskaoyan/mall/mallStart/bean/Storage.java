@@ -1,9 +1,11 @@
 package com.cskaoyan.mall.mallStart.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
 public class Storage {
     private Integer id;
 
@@ -24,6 +26,19 @@ public class Storage {
     private Date updateTime;
 
     private Boolean deleted;
+
+    public Storage() {
+    }
+
+    public Storage(String key, String name, String type, Integer size, String url, Date addTime, Date updateTime) {
+        this.key = key;
+        this.name = name;
+        this.type = type;
+        this.size = size;
+        this.url = url;
+        this.addTime = addTime;
+        this.updateTime = updateTime;
+    }
 
     public Integer getId() {
         return id;

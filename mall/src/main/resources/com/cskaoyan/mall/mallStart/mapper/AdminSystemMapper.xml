@@ -119,4 +119,19 @@
         order by
         #{pageInfo.sort} #{pageInfo.order}
     </select>
+    <!--添加上传对象-->
+    <insert id="insertStorage">
+        <selectKey resultType="int" keyProperty="storage.id" keyColumn="last_insert_id()" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into
+        cskaoyan_mall_storage
+        (`key`,`name`,`type`,`size`,`url`,add_time,update_time)
+        values
+        (#{storage.key},#{storage.name},#{storage.type},#{storage.size},#{storage.url},#{storage.addTime},#{storage.updateTime})
+    </insert>
+    <!--更新上传对象-->
+    <update id="updateStorage">
+        update cskaoyan_mall_storage set `name` = #{storage.name}, update_time = #{storage.updateTime} where id = #{storage.id}
+    </update>
 </mapper>
