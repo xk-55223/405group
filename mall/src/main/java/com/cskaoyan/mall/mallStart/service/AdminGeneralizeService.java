@@ -25,4 +25,8 @@ public interface AdminGeneralizeService {
     Coupon updateCoupon(Coupon coupon);
 
     GeneralizeTopicBeanList getAllTopic(int page, int limit, String title, String subtitle);
+
+    void deleteTopic(Topic topic);
+
+    Topic insertTopic(Topic topic);
 }

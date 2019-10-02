@@ -144,4 +144,16 @@
         </where>
     </select>
 
+    <insert id="insertTopic">
+    <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
+        select last_insert_id() as id
+    </selectKey>
+    insert into
+    cskaoyan_mall_topic(content,goods,pic_url,price,read_count,subtitle,title,add_time,update_time)
+    values(#{content},#{goods},#{picUrl},#{price},#{read},#{count},#{subtitle},#{title},now(),now())
+    </insert>
+    <select id="getTopicById" resultMap="TopicMap">
+        select * from cskaoyan_mall_topic where id = #{id}
+    </select>
+
 </mapper>

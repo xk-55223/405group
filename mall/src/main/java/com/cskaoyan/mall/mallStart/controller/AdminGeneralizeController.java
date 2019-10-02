@@ -111,4 +111,20 @@ public class AdminGeneralizeController {
         BaseRespVo ok = BaseRespVo.ok(list);
         return ok;
     }
+
+    //删除专题
+    @RequestMapping("admin/topic/delete")
+    public BaseRespVo deleteTopic(@RequestBody Topic topic){
+        service.deleteTopic(topic);
+        BaseRespVo ok = BaseRespVo.ok("");
+        return ok;
+    }
+    //新建专题
+    @RequestMapping("admin/topic/create")
+    public BaseRespVo insertTopic(@RequestBody Topic topic){
+        Topic topic1 =  service.insertTopic(topic);
+        BaseRespVo ok = BaseRespVo.ok(topic1);
+        return ok;
+    }
+
 }

@@ -107,6 +107,17 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
         return list;
     }
 
+    @Override
+    public void deleteTopic(Topic topic) {
+        mapper.deleteTopic();
+    }
+
+    @Override
+    public Topic insertTopic(Topic topic) {
+        mapper.addTopic(topic);
+        Topic topic1 =  mapper.queryTopicById(topic.getId());
+    }
+
 
 }
 
