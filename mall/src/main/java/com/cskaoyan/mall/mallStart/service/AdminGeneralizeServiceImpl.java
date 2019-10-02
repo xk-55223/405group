@@ -116,6 +116,49 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
     public Topic insertTopic(Topic topic) {
         mapper.addTopic(topic);
         Topic topic1 =  mapper.queryTopicById(topic.getId());
+        return topic1;
+    }
+
+    @Override
+    public Topic updateTopic(Topic topic) {
+        mapper.updateTopic(topic);
+        Topic topic1 = mapper.queryTopicById(topic.getId());
+        return topic1;
+    }
+
+    @Override
+    public ListBean getAllGrouponRules(int page, int limit, Integer goodsId) {
+        PageHelper.startPage(page,limit);
+        List<GrouponRules> rules = mapper.getAllGrouponRules(goodsId);
+        PageInfo<GrouponRules> info = new PageInfo<>(rules);
+        long total = info.getTotal();
+        ListBean<GrouponRules> objectListBean = new ListBean<>();
+        objectListBean.setItems(rules);
+        objectListBean.setTotal(total);
+        return objectListBean;
+    }
+
+    @Override
+    public GrouponRules insertGrouponRules(GrouponRules grouponRules) {
+        Goods goods =  mapper.queryGoodsById(grouponRules.getGoodsId());
+        grouponRules.setGoodsName(goods.getName());
+        grouponRules.setPicUrl(goods.getPicUrl());
+        mapper.insertGrouponRules(grouponRules);
+        GrouponRules rules = mapper.getGrouponRulesById(grouponRules.getId());
+        return rules;
+    }
+
+    @Override
+    public void updateGrouponRules(GrouponRules grouponRules) {
+        Goods goods = mapper.queryGoodsById(grouponRules.getGoodsId());
+        grouponRules.setPicUrl(goods.getPicUrl());
+        grouponRules.setGoodsName(goods.getName());
+        mapper.updateGrouponRules(grouponRules);
+    }
+
+    @Override
+    public void deleteGrouponRules(Integer id) {
+        mapper.deleteGrouponRules(id);
     }
 
 

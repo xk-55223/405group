@@ -29,4 +29,14 @@ public interface AdminGeneralizeService {
     void deleteTopic(Topic topic);
 
     Topic insertTopic(Topic topic);
+
+    Topic updateTopic(Topic topic);
+
+    ListBean getAllGrouponRules(int page, int limit, Integer goodsId);
+
+    GrouponRules insertGrouponRules(GrouponRules grouponRules);
+
+    void updateGrouponRules(GrouponRules grouponRules);
+
+    void deleteGrouponRules(Integer id);
 }
