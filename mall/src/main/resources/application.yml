@@ -9,10 +9,13 @@ pagehelper:
   helper-dialect: mysql
 
 logging:
-  file: spring.log
+  file: spring.Log
   level:
     com:
       cskaoyan:
         mall:
           mallStart:
             mapper: debug
+mybatis:
+  type-handlers-package: com.cskaoyan.mall.mallStart.typehandler
+
