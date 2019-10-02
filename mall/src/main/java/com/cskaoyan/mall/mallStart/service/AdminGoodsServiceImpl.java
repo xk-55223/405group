@@ -18,16 +18,7 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
     @Override
     public ListBean listGoods(int page, int limit, Integer goodsSn, String name, String add, String order) {
         PageHelper.startPage(page,limit);
-        List<Goods> goods = new ArrayList<>();
-//        if(goodsSn==null&&name==null) {
-            goods = adminGoodsMapper.listGoods(goodsSn,name);
-//        }else if(goodsSn!=null&&name==null){
-//            goods = adminGoodsMapper.listGoodsByQueryGoodsSn(goodsSn);
-//        }else if(goodsSn==null&&name!=null){
-//            goods = adminGoodsMapper.listGoodsByQueryName(name);
-//        }else{
-//            goods = adminGoodsMapper.listGoodsByQueryGoodsSnAndName(goodsSn,name);
-//        }
+        List<Goods> goods = adminGoodsMapper.listGoods(goodsSn, name);
         PageInfo<Goods> goodsPageInfo = new PageInfo<>(goods);
         long total = goodsPageInfo.getTotal();
 
@@ -96,5 +87,18 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
         adminGoodsMapper.goodsProductDelete(id);
         //删除specifcation
         adminGoodsMapper.goodsSpecificationDelete(id);
+    }
+
+    @Override
+    public ListBean commentList(int page,Integer userId, Integer valueId,int limit,String sort,String order) {
+        PageHelper.startPage(page,limit);
+        List<Comment> comments = adminGoodsMapper.commentsList(userId, valueId);
+        PageInfo<Comment> commentsPageInfo = new PageInfo<>(comments);
+        long total = commentsPageInfo.getTotal();
+
+        ListBean<Comment> commentListBean = new ListBean<>();
+        commentListBean.setItems(comments);
+        commentListBean.setTotal(total);
+        return commentListBean;
     }
 }

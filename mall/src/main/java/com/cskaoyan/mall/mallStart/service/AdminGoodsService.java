@@ -21,4 +21,6 @@ public interface AdminGoodsService {
     UpdateGoodsInfo goodInfo(int id);
 
     void goodsDelete(int id);
+
+    ListBean commentList(int page,Integer userId,Integer valueId,int limit,String sort,String order);
 }

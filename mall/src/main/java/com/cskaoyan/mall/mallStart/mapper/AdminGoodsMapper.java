@@ -37,10 +37,7 @@ public interface AdminGoodsMapper {
     /**
      * 根据id获取某个商品
      */
-    @Select("select id, goods_sn as goodsSn, name,category_id as categoryId, brand_id as brandId, gallery, keywords, brief, is_on_sale as isOnSale, sort_order as sortOrder, " +
-            "pic_url as picUrl, share_url as shareUrl, is_new as isNew, is_hot as isHot, unit, counter_price as counterPrice, retail_price as retailPrice, detail, add_time as addTime, " +
-            "update_time as updateTime, deleted from cskaoyan_mall_goods where id = #{id}")
-    public Goods listGoodsById(int id);
+    public Goods listGoodsById(@Param("id") int id);
 
     /**
      * 根据规格id获取分类
@@ -89,15 +86,11 @@ public interface AdminGoodsMapper {
     void goodsSpecificationDelete(int id);
 
     /**
-     * 通过编号查找商品
-     * @param goodsSn
+     * 显示评论
+     * @param userId
+     * @param valueId
      * @return
      */
-
-    //List<Goods> listGoodsByQueryGoodsSn(int goodsSn);
-
-    //List<Goods> listGoodsByQueryName(String name);
-
-    //List<Goods> listGoodsByQueryGoodsSnAndName(Integer goodsSn, String name);
+    List<Comment> commentsList(@Param("userId") Integer userId,@Param("valueId")  Integer valueId);
 }
 

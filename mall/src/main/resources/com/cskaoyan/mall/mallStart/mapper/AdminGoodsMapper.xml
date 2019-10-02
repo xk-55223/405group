@@ -40,4 +40,38 @@
             </if>
         </where>
     </select>
+    <select id="listGoodsById" resultMap="goodsMap">
+        select <include refid="goods_column_list"/> from cskaoyan_mall_goods
+        <where>
+          id = #{id}
+        </where>
+    </select>
+
+    <sql id="comment_columu_list">
+        id, value_id, `type`, content, user_id, has_picture, pic_urls, star, add_time, update_time, deleted
+    </sql>
+    <resultMap id="commentsMap" type="com.cskaoyan.mall.mallStart.bean.Comment">
+        <result column="id" property="id"/>
+        <result column="value_id" property="valueId"/>
+        <result column="type" property="type"/>
+        <result column="content" property="content"/>
+        <result column="user_id" property="userId"/>
+        <result column="has_picture" property="hasPicture"/>
+        <result column="pic_urls" property="picUrls"/>
+        <result column="star" property="star"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="commentsList" resultMap="commentsMap">
+        select <include refid="comment_columu_list"/> from cskaoyan_mall_comment
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="valueId != null">
+                and value_id = #{valueId}
+            </if>
+        </where>
+    </select>
 </mapper>

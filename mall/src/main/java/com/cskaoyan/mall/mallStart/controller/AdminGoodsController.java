@@ -54,11 +54,28 @@ public class AdminGoodsController {
         return ok;
     }
 
+    /**
+     * 删除商品
+     * @param goods
+     * @return
+     */
     @RequestMapping("admin/goods/delete")
     public BaseRespVo goodsDelete(@RequestBody Goods goods){
         Integer id = goods.getId();
         adminGoodsService.goodsDelete(id);
         BaseRespVo ok = BaseRespVo.ok("成功");
+        return ok;
+    }
+
+    /**
+     * 显示评论
+     * @param
+     * @return
+     */
+    @RequestMapping("admin/comment/list")
+    public BaseRespVo commentList(int page, int limit, Integer userId, Integer valueId, String sort, String order){
+        ListBean listBean = adminGoodsService.commentList(page, userId, valueId, limit, sort, order);
+        BaseRespVo ok = BaseRespVo.ok(listBean);
         return ok;
     }
 }
