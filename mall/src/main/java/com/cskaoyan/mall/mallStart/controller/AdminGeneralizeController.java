@@ -66,7 +66,8 @@ public class AdminGeneralizeController {
         return ok;
     }
 
-    //优惠券添加,goodsValue的接收有问题，先搁置
+    //优惠券添加,goodsValue的接收有问题，先搁置,
+    // 有效期无法进行解析（无法将字符串解析为date类型）
     @RequestMapping("admin/coupon/create")
     public BaseRespVo addCoupon(@RequestBody Coupon coupon){
        Coupon coupon1= service.addCoupon(coupon);
@@ -109,6 +110,58 @@ public class AdminGeneralizeController {
     public BaseRespVo listTopic(int page,int limit,String title,String subtitle){
        GeneralizeTopicBeanList list = service.getAllTopic(page,limit,title,subtitle);
         BaseRespVo ok = BaseRespVo.ok(list);
+        return ok;
+    }
+
+    //删除专题
+    @RequestMapping("admin/topic/delete")
+    public BaseRespVo deleteTopic(@RequestBody Topic topic){
+        service.deleteTopic(topic);
+        BaseRespVo ok = BaseRespVo.ok("");
+        return ok;
+    }
+    //新建专题
+    @RequestMapping("admin/topic/create")
+    public BaseRespVo insertTopic(@RequestBody Topic topic){
+        Topic topic1 =  service.insertTopic(topic);
+        BaseRespVo ok = BaseRespVo.ok(topic1);
+        return ok;
+    }
+
+    //修改topic
+    @RequestMapping("admin/topic/update")
+    public BaseRespVo updateTopic(@RequestBody Topic topic){
+        Topic topic1 =  service.updateTopic(topic);
+        BaseRespVo ok = BaseRespVo.ok(topic1);
+        return ok;
+    }
+
+    //团购的查询 数据库表为groupon_rules
+    @RequestMapping("admin/groupon/list")
+    public BaseRespVo getAllGrouponRules(int page,int limit,Integer goodsId){
+        ListBean list = service.getAllGrouponRules(page,limit,goodsId);
+        BaseRespVo ok = BaseRespVo.ok(list);
+        return ok;
+    }
+    //团购规则增加，需要通过商品id去查询商品的部分参数并填入groupRules表中
+    @RequestMapping("admin/groupon/create")
+    public BaseRespVo insertGrouponRules(@RequestBody GrouponRules grouponRules){
+        GrouponRules grouponRules1 =service.insertGrouponRules(grouponRules);
+        BaseRespVo ok = BaseRespVo.ok(grouponRules1);
+        return ok;
+    }
+    //团购规则更改，若是尼玛更改商品id就他妈的要重新查询goods并重新赋值
+    @RequestMapping("admin/groupon/update")
+    public BaseRespVo updateGrouponRules(@RequestBody GrouponRules grouponRules){
+        service.updateGrouponRules(grouponRules);
+        BaseRespVo ok = BaseRespVo.ok("");
+        return ok;
+    }
+    //删除团购规则
+    @RequestMapping("admin/groupon/delete")
+    public BaseRespVo deleteGrouponRules(@RequestBody GrouponRules grouponRules){
+        service.deleteGrouponRules(grouponRules.getId());
+        BaseRespVo ok = BaseRespVo.ok("");
         return ok;
     }
 }

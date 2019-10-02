@@ -63,4 +63,11 @@ public class AdminSystemServiceImpl implements AdminSystemService {
     public int updateRole(Role role) {
         return adminSystemMapper.updateRole(role);
     }
+
+    @Override
+    public ListBean<Storage> selectStorageAll(FromPageInfo pageInfo, String key, String name) {
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getLimit());
+        List<Storage> storages = adminSystemMapper.selectStorageAll(pageInfo, key, name);
+        return new BeansManager<Storage>().toListBean(storages);
+    }
 }

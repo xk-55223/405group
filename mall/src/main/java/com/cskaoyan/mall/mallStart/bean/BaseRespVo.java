@@ -36,4 +36,11 @@ public class BaseRespVo<T> {
         return objectBaseRespVo;
     }
 
+    public static BaseRespVo fail(String message) {
+        BaseRespVo<Object> objectBaseRespVo = new BaseRespVo<>();
+        objectBaseRespVo.setErrmsg(message);
+        objectBaseRespVo.setErrno(1);
+        return objectBaseRespVo;
+    }
+
 }

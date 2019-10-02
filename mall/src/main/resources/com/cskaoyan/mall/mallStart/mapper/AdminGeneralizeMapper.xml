@@ -16,11 +16,11 @@
         <result column="end_time" property="endTime"/>
     </resultMap>
     <select id="queryAdById" resultMap="timeMap">
-        select * from cskaoyan_mall_ad where id = #{id}
+        select id,name,link,url,position,content,start_time,end_time,enable,add_time,update_time,deleted from cskaoyan_mall_ad where id = #{id}
     </select>
 
     <select id="getAllAds" resultMap="timeMap">
-        select * from cskaoyan_mall_ad
+        select id,name,link,url,position,content,start_time,end_time,enabled,add_time,update_time,deleted from cskaoyan_mall_ad
         <where>
             <if test="name != null">
                 and name like '%' #{name} '%'
@@ -29,6 +29,7 @@
                 and content like '%' #{content} '%'
             </if>
         </where>
+        order by add_time desc
     </select>
 
     <update id="updateAd">
@@ -53,7 +54,8 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
     <select id="getAllCoupons" resultMap="CouponMap">
-        select * from cskaoyan_mall_coupon
+        select id,name,`desc`,tag,total,discount,`min`,`limit`,type,status,goods_type,
+         goods_value,code,time_type,days,start_time,end_time,add_time,update_time,deleted from cskaoyan_mall_coupon
         <where>
             <if test="type !=null">
                 and type = #{type}
@@ -65,6 +67,7 @@
                 and name like '%' #{name} '%'
             </if>
         </where>
+        order by add_time desc
     </select>
     <insert id="addCoupon" >
         <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
@@ -74,10 +77,12 @@
         values(#{name},now(),#{days},#{desc},#{discount},#{goodsType},#{goodsValue},#{limit},#{min},#{tag},#{startTime},#{endTime},#{status},#{timeType},#{total},now())
     </insert>
     <select id="queryCoupon" resultMap="CouponMap">
-        select * from cakaoyan_mall_coupon where id = #{id}
+        select id,name,`desc`,tag,total,discount,`min`,`limit`,type,status,goods_type,
+         goods_value,code,time_type,days,start_time,end_time,add_time,update_time,deleted from cskaoyan_mall_coupon where id = #{id}
     </select>
     <select id="queryCouponById" resultMap="CouponMap">
-        select * from cakaoyan_mall_coupon where id = #{id}
+        select id,name,`desc`,tag,total,discount,`min`,`limit`,type,status,goods_type,
+         goods_value,code,time_type,days,start_time,end_time,add_time,update_time,deleted from cskaoyan_mall_coupon where id = #{id}
     </select>
 
     <resultMap id="CouponUserMap" type="com.cskaoyan.mall.mallStart.bean.CouponUser">
@@ -91,7 +96,8 @@
         <result column="coupon_id" property="couponId"/>
     </resultMap>
     <select id="getAllCouponUser" resultMap="CouponUserMap">
-        select * from cskaoyan_mall_couponUser
+        select id,user_id,coupon_id,status,used_time,start_time,end_time,
+         order_id,add_time,update_time,deleted from cskaoyan_mall_coupon_user
         <where>
             <if test="userId !=null">
                 and user_id = #{param2}
@@ -101,6 +107,7 @@
             </if>
             and coupon_id = #{param1}
         </where>
+        order by add_time desc
     </select>
 
     <update id="updateCoupon">
@@ -133,7 +140,8 @@
     </resultMap>
 
     <select id="getAllTopic" resultMap="TopicMap">
-        select * from cskaoyan_mall_topic
+        select id,title,subtitle,content,price,read_count,pic_url,
+         sort_order,goods,add_time,update_time,deleted from cskaoyan_mall_topic
         <where>
             <if test="title !=null">
                 and title = #{title}
@@ -142,6 +150,84 @@
                 and subtitle = #{subtitle}
             </if>
         </where>
+        order by add_time desc
     </select>
 
+    <insert id="addTopic">
+    <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
+        select last_insert_id() as id
+    </selectKey>
+    insert into
+    cskaoyan_mall_topic(content,goods,pic_url,price,read_count,subtitle,title,add_time,update_time)
+    values(#{content},#{goods},#{picUrl},#{price},#{readCount},#{subtitle},#{title},now(),now())
+    </insert>
+    <select id="queryTopicById" resultMap="TopicMap">
+        select id,title,subtitle,content,price,read_count,pic_url,
+         sort_order,goods,add_time,update_time,deleted  from cskaoyan_mall_topic where id = #{id}
+    </select>
+
+    <update id="updateTopic">
+        update cskaoyan_mall_topic set
+        add_time = #{addTime},
+        content = #{content},
+        deleted = #{deleted},
+        goods = #{goods},
+        pic_url = #{picUrl},
+        price = #{price},
+        read_count = #{readCount},
+        sort_order = #{sortOrder},
+        subtitle = #{subtitle},
+        title = #{title},
+        update_time = now()
+        where id = #{id}
+
+    </update>
+
+    <select id="getAllGrouponRules" resultType="com.cskaoyan.mall.mallStart.bean.GrouponRules">
+        select id,goods_id as goodsId,goods_name as goodsName,pic_url as picUrl,
+        discount,discount_member as discountMember,add_time as addTime,update_time as updateTime,
+         expire_time as expireTime,deleted from cskaoyan_mall_groupon_rules
+        <where>
+            <if test="goodsId != null">
+                goods_id = #{goodsId}
+            </if>
+        </where>
+        order by add_time desc
+    </select>
+
+    <select id="queryGoodsById" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
+        select id, name,pic_url as picUrl from cskaoyan_mall_goods where id = #{id}
+    </select>
+
+    <insert id="insertGrouponRules">
+        <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_groupon_rules(add_time,discount,discount_member,
+        expire_time,goods_id,goods_name,pic_url,update_time)values(
+        now(),#{discount},#{discountMember},#{expireTime},#{goodsId},#{goodsName},#{picUrl},now()
+        )
+    </insert>
+
+    <select id="getGrouponRulesById" resultType="com.cskaoyan.mall.mallStart.bean.GrouponRules">
+        select id,goods_id as goodsId,goods_name as goodsName,pic_url as picUrl,
+        discount,discount_member as discountMember,add_time as addTime,update_time as updateTime,
+         expire_time as expireTime,deleted from cskaoyan_mall_groupon_rules where id = #{id}
+    </select>
+
+    <update id="updateGrouponRules">
+      update cskaoyan_mall_groupon_rules set
+         deleted =#{deleted},
+        discount = #{discount},
+        discount_member = #{discountMember},
+        expire_time = #{expireTime},
+        pic_url = #{picUrl},
+        goods_id = #{goodsId},
+        goods_name = #{goodsName},
+        update_time = now()
+        where id = #{id}
+    </update>
+    <delete id="deleteGrouponRules">
+        delete from cskaoyan_mall_groupon_rules where id = #{id}
+    </delete>
 </mapper>

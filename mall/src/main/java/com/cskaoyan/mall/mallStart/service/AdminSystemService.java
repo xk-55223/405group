@@ -19,4 +19,6 @@ public interface AdminSystemService {
     int deleteRole(Role role);
 
     int updateRole(Role role);
+
+    ListBean<Storage> selectStorageAll(FromPageInfo pageInfo, String key, String name);
 }

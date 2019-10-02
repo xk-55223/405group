@@ -24,4 +24,10 @@ public interface AdminMallService {
     List<Keyword> selectKeywords(Keyword keyword);
 
     Keyword insertKeyword(Keyword keyword);
+
+    OrderDetail selectOrderDetail(int id);
+
+    void updateIssue(Issue issue);
+
+    void deleteIssueById(Integer id);
 }
