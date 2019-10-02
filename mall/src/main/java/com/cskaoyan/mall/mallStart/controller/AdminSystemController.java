@@ -17,21 +17,18 @@ public class AdminSystemController {
     @RequestMapping("admin/admin/list")
     public BaseRespVo<List<Admin>> adminList(FromPageInfo pageInfo, String username) {
         ListBean<Admin> adminListBean = adminSystemService.selectAdminAll(pageInfo, username);
-        BaseRespVo ok = BaseRespVo.ok(adminListBean);
-        return ok;
+        return BaseRespVo.ok(adminListBean);
     }
 
     @RequestMapping("admin/role/options")
     public BaseRespVo<List<RoleOptions>> adminList() {
         List<RoleOptions> roleOptions = adminSystemService.selectRoleOptionsAll();
-        BaseRespVo ok = BaseRespVo.ok(roleOptions);
-        return ok;
+        return BaseRespVo.ok(roleOptions);
     }
 
     @RequestMapping("admin/log/list")
     public BaseRespVo<List<Log>> logList(FromPageInfo pageInfo, String name) {
         ListBean<Log> logListBean = adminSystemService.selectLogAll(pageInfo, name);
-        BaseRespVo ok = BaseRespVo.ok(logListBean);
-        return ok;
+        return BaseRespVo.ok(logListBean);
     }
 }

@@ -43,11 +43,11 @@
         <result column="deleted" property="deleted"/>
     </resultMap>
     <select id="selectLogAll" resultMap="LogMap">
-        select id ,admin,`ip`,`type`,`action`,`status`,`result`,comment,add_time,update_time,deleted
+        select `id`,`admin`,`ip`,`type`,`action`,`status`,`result`,comment,add_time,update_time,deleted
         from cskaoyan_mall_log
         <where>
             <if test="name !=null">
-                and admin like '%' #{name} '%'
+                and `admin` like '%' #{name} '%'
             </if>
         </where>
         order by
