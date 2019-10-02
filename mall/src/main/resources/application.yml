@@ -1,8 +1,13 @@
 spring:
   profiles:
     active: db
+  resources:
+    static-locations: file:D:\spring
 
-
+myfile:
+  config:
+    localhost: http://192.168.3.97:80
+    filepath: /wx/storage/fetch/
 
 server:
   port: 80
