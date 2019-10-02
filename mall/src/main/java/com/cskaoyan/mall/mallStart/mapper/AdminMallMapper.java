@@ -32,4 +32,16 @@ public interface AdminMallMapper {
     List<Keyword> selectKeywords(@Param("keyword") Keyword keyword);
 
     void insertKeyword(@Param("keyword") Keyword keyword);
+
+    /*OrderDetail selectOrderDetail(int id);*/
+
+    Order selectOrderById(int id);
+
+    User selectUserById(Integer userId);
+
+    List<OrderGoods> selectOrderGoods(int id);
+
+    void updateIssue(@Param("issue") Issue issue);
+
+    void deleteIssueById(Integer id);
 }

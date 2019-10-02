@@ -1,6 +1,9 @@
 spring:
   profiles:
     active: db
+  resources:
+    static-locations: file:F:\spring
+
 
 server:
   port: 80

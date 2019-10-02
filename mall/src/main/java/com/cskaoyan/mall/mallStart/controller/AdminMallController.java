@@ -32,7 +32,7 @@ public class AdminMallController {
     public BaseRespVo brandList(FromPageInfo page,Brand brand) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Brand> brands = service.selectBrands(brand);
-        PageInfo pageInfo = new PageInfo();
+        PageInfo pageInfo = new PageInfo(brands);
         long total = pageInfo.getTotal();
         ListBean brandList = new ListBean<>();
         brandList.setTotal((int)total);
@@ -71,7 +71,7 @@ public class AdminMallController {
     public BaseRespVo ordList(FromPageInfo page, Order order) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Order> orders = service.selectOrders(order);
-        PageInfo pageInfo = new PageInfo();
+        PageInfo pageInfo = new PageInfo(orders);
         long total = pageInfo.getTotal();
         ListBean orderList = new ListBean<>();
         orderList.setTotal((int)total);
@@ -85,7 +85,7 @@ public class AdminMallController {
     public BaseRespVo issueList(FromPageInfo page, Issue issue) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Issue> issues = service.selectIssues(issue);
-        PageInfo pageInfo = new PageInfo();
+        PageInfo pageInfo = new PageInfo(issues);
         long total = pageInfo.getTotal();
         ListBean issueList = new ListBean<>();
         issueList.setTotal((int)total);
@@ -97,6 +97,11 @@ public class AdminMallController {
     // 添加通用问题
     @RequestMapping("admin/issue/create")
     public BaseRespVo issueCreate(@RequestBody Issue issue) {
+        if (issue.getQuestion() == null || issue.getQuestion().trim().equals("")) {
+            return BaseRespVo.fail("问题不能为空");
+        } else if (issue.getAnswer() == null || issue.getAnswer().trim().equals("")) {
+            return BaseRespVo.fail("回答不能为空");
+        }
         Issue newIssue = service.insertIssue(issue);
         BaseRespVo result = BaseRespVo.ok(newIssue);
         return result;
@@ -107,7 +112,7 @@ public class AdminMallController {
     public BaseRespVo keywordList(FromPageInfo page, Keyword keyword) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Keyword> keywords = service.selectKeywords(keyword);
-        PageInfo pageInfo = new PageInfo();
+        PageInfo pageInfo = new PageInfo(keywords);
         long total = pageInfo.getTotal();
         ListBean keywordList = new ListBean<>();
         keywordList.setTotal((int)total);
@@ -119,16 +124,48 @@ public class AdminMallController {
     // 添加一个关键词
     @RequestMapping("admin/keyword/create")
     public BaseRespVo keywordCreate(@RequestBody Keyword keyword) {
+        if (keyword.getKeyword() == null || keyword.getKeyword().trim().equals("")){
+            return BaseRespVo.fail("关键词不能为空");
+        } else if (keyword.getUrl() == null || keyword.getUrl().trim().equals("")){
+            return BaseRespVo.fail("跳转链接不能为空");
+        } else if(keyword.getIsHot() == null) {
+            return BaseRespVo.fail("是否推荐不能为空");
+        } else if (keyword.getIsDefault() == null) {
+            return BaseRespVo.fail("是否默认不能为空");
+        }
         Keyword newKeyword = service.insertKeyword(keyword);
         BaseRespVo result = BaseRespVo.ok(newKeyword);
         return result;
     }
 
 
-    // 需要转换类型，暂时不做
-    /*@RequestMapping("admin/order/detail")
+    // 订单详情
+    @RequestMapping("admin/order/detail")
     public BaseRespVo orderDetail(int id) {
-        Order order = service.selectOrderDetail(id);
+        OrderDetail orderDetail = service.selectOrderDetail(id);
+        BaseRespVo result = BaseRespVo.ok(orderDetail);
+        return result;
+    }
 
-    }*/
+
+    //通用问题的编辑
+    @RequestMapping("admin/issue/update")
+    public BaseRespVo issueUpate(@RequestBody Issue issue) {
+        if (issue.getQuestion() == null || issue.getQuestion().trim().equals("")) {
+            return BaseRespVo.fail("问题不能为空");
+        } else if (issue.getAnswer() == null || issue.getAnswer().trim().equals("")) {
+            return BaseRespVo.fail("回答不能为空");
+        }
+        service.updateIssue(issue);
+        BaseRespVo result = BaseRespVo.ok(issue);
+        return result;
+    }
+
+    // 通用问题的删除
+    @RequestMapping("admin/issue/delete")
+    public BaseRespVo issueDelete(@RequestBody Issue issue) {
+        service.deleteIssueById(issue.getId());
+        BaseRespVo result = BaseRespVo.ok(null);
+        return result;
+    }
 }
