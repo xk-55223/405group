@@ -80,4 +80,10 @@ public class AdminSystemController {
         Storage storage = adminSystemService.insertStorage(file);
         return BaseRespVo.ok(storage);
     }
+
+    @RequestMapping(value = "admin/storage/update", method = RequestMethod.POST)
+    public BaseRespVo<Storage> storageUpdate(@RequestBody Storage paramStorage) {
+        Storage storage = adminSystemService.updateStorage(paramStorage);
+        return BaseRespVo.ok(storage);
+    }
 }

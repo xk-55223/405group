@@ -25,4 +25,6 @@ public interface AdminSystemService {
     ListBean<Storage> selectStorageAll(FromPageInfo pageInfo, String key, String name);
 
     Storage insertStorage(MultipartFile file) throws IOException;
+
+    Storage updateStorage(Storage storage);
 }

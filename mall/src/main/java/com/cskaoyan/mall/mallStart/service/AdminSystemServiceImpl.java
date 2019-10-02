@@ -90,7 +90,7 @@ public class AdminSystemServiceImpl implements AdminSystemService {
         String originalFilename = file.getOriginalFilename();
         String[] split = originalFilename.split("\\.");
         String key = UUID.randomUUID().toString().replaceAll("-", "") + "." + split[split.length - 1];
-        String path = resourceProperties.getStaticLocations()[0].replace("file:","") + fileUpConfig.getFilepath();
+        String path = resourceProperties.getStaticLocations()[0].replace("file:", "") + fileUpConfig.getFilepath();
         File directory = new File(path);
         if (!directory.exists()) {
             directory.mkdirs();
@@ -101,6 +101,13 @@ public class AdminSystemServiceImpl implements AdminSystemService {
         Storage storage = new Storage(key, originalFilename, file.getContentType(), (int) file.getSize(), url, new Date(), new Date());
         adminSystemMapper.insertStorage(storage);
         storage.setUrl(fileUpConfig.getLocalhost() + url);
+        return storage;
+    }
+
+    @Override
+    public Storage updateStorage(Storage storage) {
+        storage.setUpdateTime(new Date());
+        adminSystemMapper.updateStorage(storage);
         return storage;
     }
 }
