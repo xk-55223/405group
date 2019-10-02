@@ -59,11 +59,29 @@
     </select>
 
     <select id="selectOrders" resultType="com.cskaoyan.mall.mallStart.bean.Order">
-        select id,user_id as userId, order_sn as orderSn,order_status as orderStatus
-        ,consignee,mobile,address,message,goods_price as goodsPrice
-        ,freight_price as freightPrice,coupon_price as couponPrice,integral_price as integralPrice
-        ,groupon_price as grouponPrice,order_price as orderPrice,actual_price as actualPrice
-        ,comments,end_time as endTime,add_time as addTime
+        select id,
+        user_id as userId
+        , order_sn as orderSn
+        ,order_status as orderStatus
+        ,consignee
+        ,mobile,address
+        ,message
+        ,goods_price as goodsPrice
+        ,freight_price as freightPrice
+        ,coupon_price as couponPrice
+        ,integral_price as integralPrice
+        ,groupon_price as grouponPrice
+        ,order_price as orderPrice
+        ,actual_price as actualPrice
+        ,pay_id as payId
+        ,pay_time as payTime
+        , ship_sn as shipSn
+        ,ship_channel as shipChannel
+        ,ship_time as shipTime
+        ,confirm_time as confirmTime
+        ,comments
+        ,end_time as endTime
+        ,add_time as addTime
         ,update_time as updateTime,deleted
         from cskaoyan_mall_order
         <where>
@@ -152,5 +170,63 @@
         insert into cskaoyan_mall_keyword (keyword,url,is_hot,is_default,add_time,update_time)
         values (#{keyword.keyword},#{keyword.url},#{keyword.isHot},#{keyword.isDefault},#{keyword.addTime},#{keyword.updateTime})
     </insert>
+
+    <select id="selectOrderById" resultType="com.cskaoyan.mall.mallStart.bean.Order">
+        select id
+, user_id   as userId
+, order_sn     as orderSn
+, order_status  as orderStatus
+, consignee
+, mobile
+, address
+, message
+, goods_price   as goodsPrince
+, freight_price  as freightPrice
+, coupon_price   as couponPrice
+, integral_price  as integralPrice
+, groupon_price   as grouponPrice
+, order_price   as orderPrice
+, actual_price  as actualPrice
+, comments
+, end_time      as endTime
+, add_time      as addTime
+, update_time   as updateTime
+, deleted
+from cskaoyan_mall_order
+    </select>
+
+    <select id="selectUserById" resultType="com.cskaoyan.mall.mallStart.bean.User">
+        select nickname , avatar from cskaoyan_mall_user where id = #{id}
+    </select>
+
+    <select id="selectOrderGoods" resultType="com.cskaoyan.mall.mallStart.bean.OrderGoods">
+        select id
+, order_id  as orderId
+, goods_id  as goodsId
+, goods_name  as goodsName
+, goods_sn    as goodsSn
+, product_id   as productId
+, `number`
+, price
+, specifications
+, pic_url    as picUrl
+, `comment`
+, add_time       as addTime
+, update_time    as updateTime
+, deleted
+from cskaoyan_mall_order_goods
+where order_id = #{id}
+    </select>
+
+    <update id="updateIssue">
+        update cskaoyan_mall_issue set question = #{issue.question}
+        , answer = #{issue.answer}, add_time = #{issue.addTime}, update_time = #{issue.updateTime}
+        , deleted = #{issue.deleted}
+        where id = #{issue.id}
+    </update>
+
+    <delete id="deleteIssueById">
+        delete from cskaoyan_mall_issue where id = #{id}
+    </delete>
 
 </mapper>

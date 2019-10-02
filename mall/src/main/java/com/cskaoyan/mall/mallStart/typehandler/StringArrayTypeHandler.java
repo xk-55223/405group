@@ -1,5 +1,6 @@
 package com.cskaoyan.mall.mallStart.typehandler;
 
+import com.cskaoyan.mall.mallStart.bean.Order;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.ibatis.type.JdbcType;
@@ -11,6 +12,9 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.TreeSet;
 
 @MappedTypes(String[].class)
 public class StringArrayTypeHandler implements TypeHandler<String[]> {

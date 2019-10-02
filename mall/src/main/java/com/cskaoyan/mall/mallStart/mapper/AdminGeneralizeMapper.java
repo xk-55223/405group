@@ -38,4 +38,26 @@ public interface AdminGeneralizeMapper {
     void updateCoupon(Coupon coupon);
 
     List<Topic> getAllTopic(@Param("title")String title,@Param("subtitle") String subtitle);
+
+    @Delete("delete from cskaoyan_mall_topic where id = #{id}")
+    void deleteTopic();
+
+
+    void addTopic(Topic topic);
+
+    Topic queryTopicById(Integer id);
+
+    void updateTopic(Topic topic);
+
+    List<GrouponRules> getAllGrouponRules(Integer goodsId);
+
+    Goods queryGoodsById(Integer goodsId);
+
+    void insertGrouponRules( GrouponRules grouponRules);
+
+    GrouponRules getGrouponRulesById(Integer id);
+
+    void updateGrouponRules(GrouponRules grouponRules);
+
+    void deleteGrouponRules(Integer id);
 }
