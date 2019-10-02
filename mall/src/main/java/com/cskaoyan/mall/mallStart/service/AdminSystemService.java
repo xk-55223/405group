@@ -9,4 +9,6 @@ public interface AdminSystemService {
     ListBean<Admin> selectAdminAll(FromPageInfo pageInfo, String username);
 
     List<RoleOptions> selectRoleOptionsAll();
+
+    ListBean<Log> selectLogAll(FromPageInfo pageInfo, String name);
 }

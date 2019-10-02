@@ -2,7 +2,7 @@ package com.cskaoyan.mall.mallStart.bean;
 
 import java.util.Date;
 
-public class log {
+public class Log {
     private Integer id;
 
     private String admin;

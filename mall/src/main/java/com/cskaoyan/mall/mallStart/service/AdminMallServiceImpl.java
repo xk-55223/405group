@@ -85,6 +85,28 @@ public class AdminMallServiceImpl implements AdminMallService {
         return keyword;
     }
 
+    @Override
+    public OrderDetail selectOrderDetail(int id) {
+        OrderDetail orderDetail = new OrderDetail();
+        Order order = mapper.selectOrderById(id);
+        User user = mapper.selectUserById(order.getUserId());
+        List<OrderGoods> orderGoods = mapper.selectOrderGoods(id);
+        orderDetail.setOrder(order);
+        orderDetail.setOrderGoods(orderGoods);
+        orderDetail.setUser(user);
+        return orderDetail;
+    }
+
+    @Override
+    public void updateIssue(Issue issue) {
+        mapper.updateIssue(issue);
+    }
+
+    @Override
+    public void deleteIssueById(Integer id) {
+        mapper.deleteIssueById(id);
+    }
+
     private void deleteStaticFile(String url) {
         File file = new File(url);
         file.delete();

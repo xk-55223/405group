@@ -59,12 +59,30 @@
     </select>
 
     <select id="selectOrders" resultType="com.cskaoyan.mall.mallStart.bean.Order">
-        select id,user_id as userId, order_sn as orderSn,order_status as orderStatus
-        ,consignee,mobile,address,message,goods_price as goodsPrice
-        ,freight_price as freightPrice,coupon_price as couponPrice,integral_price as integralPrice
-        ,groupon_price as grouponPrice,order_price as orderPrice,actual_price as actualPrice
-        ,comments,end_time as endTime,add_time as addTime
-        ,update_time as updateTime,deleted
+        select id,
+        user_id as userId
+        , order_sn as orderSn
+        ,order_status as orderStatus
+        ,consignee
+        ,mobile,address
+        ,message
+        ,goods_price as goodsPrice
+        ,freight_price as freightPrice
+        ,coupon_price as couponPrice
+        ,integral_price as integralPrice
+        ,groupon_price as grouponPrice
+        ,order_price as orderPrice
+        ,actual_price as actualPrice
+        ,pay_id as payId
+        ,pay_time as payTime
+        , ship_sn as shipSn
+        ,ship_channel as shipChannel
+        ,ship_time as shipTime
+        ,confirm_time as confirmTime
+        ,comments
+        ,end_time as endTime
+        ,add_time as addTime
+        ,update_time as updateTime,deleted,
         from cskaoyan_mall_order
         <where>
             <if test="order.userId != 0 and order.userId != null">
@@ -152,5 +170,150 @@
         insert into cskaoyan_mall_keyword (keyword,url,is_hot,is_default,add_time,update_time)
         values (#{keyword.keyword},#{keyword.url},#{keyword.isHot},#{keyword.isDefault},#{keyword.addTime},#{keyword.updateTime})
     </insert>
+
+    <!--<resultMap id="orderDetailMap" type="com.cskaoyan.mall.mallStart.bean.OrderDetail">
+        <collection property="orderGoods" ofType="com.cskaoyan.mall.mallStart.bean.OrderGoods">
+            <result column="ogid" property="id"/>
+            <result column="ogorderId" property="orderId"/>
+            <result column="oggoodsId" property="goodsId"/>
+            <result column="oggoodsName" property="goodsName"/>
+            <result column="ogproductId" property="productId"/>
+            <result column="ognumber" property="number"/>
+            <result column="ogprice" property="price"/>
+            <result column="ogspecifications" property="specifications"/>
+            <result column="ogpicUrl" property="picUrl"/>
+            <result column="ogcomment" property="comment"/>
+            <result column="ogaddTime" property="addTime"/>
+            <result column="ogupdateTime" property="updateTime"/>
+            <result column="ogdeleted" property="deleted"/>
+        </collection>
+        <collection property="order" javaType="com.cskaoyan.mall.mallStart.bean.Order">
+            <result column="oid" property="id"/>
+            <result column="ouserId" property="userId"/>
+            <result column="oorderSn" property="orderSn"/>
+            <result column="oorderStatus" property="orderStatus"/>
+            <result column="oconsignee" property="consignee"/>
+            <result column="omobile" property="mobile"/>
+            <result column="oaddress" property="address"/>
+            <result column="omessage" property="message"/>
+            <result column="ogoodsPrice" property="goodsPrice"/>
+            <result column="ofreightPrice" property="freightPrice"/>
+            <result column="ocouponPrice" property="couponPrice"/>
+            <result column="ointegralPrice" property="integralPrice"/>
+            <result column="ogrouponPrice" property="grouponPrice"/>
+            <result column="oorderPrice" property="orderPrice"/>
+            <result column="oactualPrie" property="actualPrie"/>
+            <result column="ocomments" property="comments"/>
+            <result column="oendTime" property="endTime"/>
+            <result column="oaddTime" property="addTime"/>
+            <result column="oupdate" property="update"/>
+            <result column="odeleted" property="deleted"/>
+         </collection>
+        <collection property="user" javaType="com.cskaoyan.mall.mallStart.bean.User">
+            <result column="unickname" property="nickname"/>
+            <result column="uavatar" property="avatar"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectOrderGoods" resultMap="orderDetailMap">
+select /*u.nickname  as unickname
+, u.avatar as uavatar
+,*/ o.id            as  oid
+, o.user_id             as  ouserId
+, o.order_sn            as  oorderSn
+, o.order_status        as  oorderStatus
+, o.consignee          as  oconsignee
+, o.mobile             as  omobile
+, o.address            as  oaddress
+, o.message            as  omessage
+, o.goods_price         as  ogoodsPrice
+, o.freight_price       as  ofreightPrice
+, o.coupon_price        as  ocouponPrice
+, o.integral_price      as  ointegralPrice
+, o.groupon_price       as  ogrouponPrice
+, o.order_price         as  oorderPrice
+, o.actual_price        as  oactualPrice
+, o.comments           as  ocomments
+, o.end_time            as  oendTime
+, o.add_time            as  oaddTime
+, o.update_time         as  oupdateTime
+, o.deleted            as  odeleted
+, og.id                    as ogid
+, og.order_id              as ogorderId
+, og.goods_id              as oggoodsId
+, og.goods_name            as oggoodsName
+, og.goods_sn              as oggoodsSn
+, og.product_id            as ogproductId
+, og.number                as ognumber
+, og.price                 as ogprice
+, og.specifications        as ogspecifications
+, og.pic_url               as ogpicUrl
+, og.`comment`             as ogcomment
+, og.add_time              as ogaddTime
+, og.update_time           as ogupdateTime
+, og.deleted               as ogdeleted
+from cskaoyan_mall_order_goods og LEFT JOIN cskaoyan_mall_order o
+on og.order_id = o.id
+/*LEFT JOIN cskaoyan_mall_user u on o.user_id = u.id*/
+where og.order_id = #{id}
+    </select>-->
+
+    <select id="selectOrderById" resultType="com.cskaoyan.mall.mallStart.bean.Order">
+        select id
+, user_id   as userId
+, order_sn     as orderSn
+, order_status  as orderStatus
+, consignee
+, mobile
+, address
+, message
+, goods_price   as goodsPrince
+, freight_price  as freightPrice
+, coupon_price   as couponPrice
+, integral_price  as integralPrice
+, groupon_price   as grouponPrice
+, order_price   as orderPrice
+, actual_price  as actualPrice
+, comments
+, end_time      as endTime
+, add_time      as addTime
+, update_time   as updateTime
+, deleted
+from cskaoyan_mall_order
+    </select>
+
+    <select id="selectUserById" resultType="com.cskaoyan.mall.mallStart.bean.User">
+        select nickname , avatar from cskaoyan_mall_user where id = #{id}
+    </select>
+
+    <select id="selectOrderGoods" resultType="com.cskaoyan.mall.mallStart.bean.OrderGoods">
+        select id
+, order_id  as orderId
+, goods_id  as goodsId
+, goods_name  as goodsName
+, goods_sn    as goodsSn
+, product_id   as productId
+, `number`
+, price
+, specifications
+, pic_url    as picUrl
+, `comment`
+, add_time       as addTime
+, update_time    as updateTime
+, deleted
+from cskaoyan_mall_order_goods
+where order_id = #{id}
+    </select>
+
+    <update id="updateIssue">
+        update cskaoyan_mall_issue set question = #{issue.question}
+        , answer = #{issue.answer}, add_time = #{issue.addTime}, update_time = #{issue.updateTime}
+        , deleted = #{issue.deleted}
+        where id = #{issue.id}
+    </update>
+
+    <delete id="deleteIssueById">
+        delete from cskaoyan_mall_issue where id = #{id}
+    </delete>
 
 </mapper>
