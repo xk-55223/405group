@@ -60,4 +60,6 @@ public interface AdminGeneralizeMapper {
     void updateGrouponRules(GrouponRules grouponRules);
 
     void deleteGrouponRules(Integer id);
+
+    List<Groupon> queryAllGroupons();
 }
