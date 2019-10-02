@@ -53,4 +53,25 @@
         order by
         #{pageInfo.sort} #{pageInfo.order}
     </select>
+    <!--查询角色管理-->
+    <resultMap id="RoleMap" type="com.cskaoyan.mall.mallStart.bean.Role">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="enabled" property="enabled"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectRoleAll" resultMap="RoleMap">
+        select `id`,`name`,`desc`,`enabled`,add_time,update_time,`deleted`
+        from cskaoyan_mall_role
+        <where>
+            <if test="name !=null">
+                and `name` like '%' #{name} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
 </mapper>

@@ -11,4 +11,6 @@ public interface AdminSystemMapper {
     List<RoleOptions> selectRoleOptionsAll();
 
     List<Log> selectLogAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("name") String name);
+
+    List<Role> selectRoleAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("name") String name);
 }

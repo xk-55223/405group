@@ -31,4 +31,10 @@ public class AdminSystemController {
         ListBean<Log> logListBean = adminSystemService.selectLogAll(pageInfo, name);
         return BaseRespVo.ok(logListBean);
     }
+
+    @RequestMapping("admin/role/list")
+    public BaseRespVo<List<Role>> roleList(FromPageInfo pageInfo, String name) {
+        ListBean<Role> roleListBean = adminSystemService.selectRoleAll(pageInfo, name);
+        return BaseRespVo.ok(roleListBean);
+    }
 }

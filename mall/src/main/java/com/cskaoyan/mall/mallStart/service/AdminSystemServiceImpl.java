@@ -37,4 +37,11 @@ public class AdminSystemServiceImpl implements AdminSystemService {
         List<Log> logs = adminSystemMapper.selectLogAll(pageInfo, name);
         return new BeansManager<Log>().toListBean(logs);
     }
+
+    @Override
+    public ListBean<Role> selectRoleAll(FromPageInfo pageInfo, String name) {
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getLimit());
+        List<Role> roles = adminSystemMapper.selectRoleAll(pageInfo, name);
+        return new BeansManager<Role>().toListBean(roles);
+    }
 }
