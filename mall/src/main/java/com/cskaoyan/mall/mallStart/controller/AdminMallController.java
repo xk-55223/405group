@@ -122,6 +122,13 @@ public class AdminMallController {
         return ok;
     }
 
+    // 商品类目的编辑
+    @RequestMapping("admin/category/update")
+    public BaseRespVo categoryUpdate(@RequestBody Category category) {
+        service.updateCategory(category);
+        return BaseRespVo.ok(null);
+    }
+
 
     // 订单管理的查询和显示接口
     @RequestMapping("admin/order/list")
@@ -195,6 +202,28 @@ public class AdminMallController {
         return result;
     }
 
+    // 删除相应的关键词
+    @RequestMapping("admin/keyword/delete")
+    public BaseRespVo keywordDelete(@RequestBody Keyword keyword) {
+        service.deleteKeywordById(keyword.getId());
+        return BaseRespVo.ok(null);
+    }
+
+    // 关键词信息的更新
+    @RequestMapping("admin/keyword/update")
+    public BaseRespVo keywordUpdate(@RequestBody Keyword keyword) {
+        if (keyword.getKeyword() == null || keyword.getKeyword().trim().equals("")){
+            return BaseRespVo.fail("关键词不能为空");
+        } else if (keyword.getUrl() == null || keyword.getUrl().trim().equals("")){
+            return BaseRespVo.fail("跳转链接不能为空");
+        } else if(keyword.getIsHot() == null) {
+            return BaseRespVo.fail("是否推荐不能为空");
+        } else if (keyword.getIsDefault() == null) {
+            return BaseRespVo.fail("是否默认不能为空");
+        }
+        Keyword newKeyword = service.updateKeyword(keyword);
+        return BaseRespVo.ok(newKeyword);
+    }
 
     // 订单详情
     @RequestMapping("admin/order/detail")

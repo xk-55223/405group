@@ -134,6 +134,23 @@ public class AdminMallServiceImpl implements AdminMallService {
         return category;
     }
 
+    @Override
+    public void updateCategory(Category category) {
+        mapper.updateCategory(category);
+    }
+
+    @Override
+    public void deleteKeywordById(Integer id) {
+        mapper.deleteKeywordById(id);
+    }
+
+    @Override
+    public Keyword updateKeyword(Keyword keyword) {
+        keyword.setUpdateTime(new Date());
+        mapper.updateKeyword(keyword);
+        return keyword;
+    }
+
    /* private void deleteStaticFile(String url) {
         File file = new File(url);
         file.delete();
