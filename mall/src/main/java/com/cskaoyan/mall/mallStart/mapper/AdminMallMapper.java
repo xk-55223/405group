@@ -33,8 +33,6 @@ public interface AdminMallMapper {
 
     void insertKeyword(@Param("keyword") Keyword keyword);
 
-    /*OrderDetail selectOrderDetail(int id);*/
-
     Order selectOrderById(int id);
 
     User selectUserById(Integer userId);
@@ -44,4 +42,14 @@ public interface AdminMallMapper {
     void updateIssue(@Param("issue") Issue issue);
 
     void deleteIssueById(Integer id);
+
+    void insertBrand(@Param("brand") Brand brand);
+
+    Brand selectBrandById(Integer id);
+
+    void updateBrand(@Param("brand") Brand brand);
+
+    void deleteBrandById(Integer id);
+
+    void insertCategory(@Param("category") Category category);
 }

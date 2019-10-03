@@ -58,6 +58,31 @@
         </where>
     </select>
 
+    <insert id="insertBrand">
+        <selectKey resultType="int" keyProperty="brand.id" keyColumn="id" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_brand (name, `desc`, floor_price, pic_url)
+        values (#{brand.name},#{brand.desc},#{brand.floorPrice},#{brand.picUrl})
+    </insert>
+
+    <select id="selectBrandById" resultType="com.cskaoyan.mall.mallStart.bean.Brand">
+        select id,name,`desc`,pic_url as picUrl,floor_price as floorPrice,add_time addTime
+        ,update_time as updateTime
+        from cskaoyan_mall_brand
+        where id = #{id}
+    </select>
+
+    <update id="updateBrand">
+        update cskaoyan_mall_brand set `desc` = #{brand.desc}, floor_price = #{brand.floorPrice}
+        , name = #{brand.name} , pic_url = #{brand.picUrl}, update_time = #{brand.updateTime}
+        where id = #{brand.id}
+    </update>
+
+    <delete id="deleteBrandById">
+        delete from cskaoyan_mall_brand where id = #{id};
+    </delete>
+
     <select id="selectOrders" resultType="com.cskaoyan.mall.mallStart.bean.Order">
         select id,
         user_id as userId
@@ -160,6 +185,20 @@
         from cskaoyan_mall_category
         where pid = 0
     </select>
+
+    <insert id="insertCategory">
+        <selectKey keyProperty="id" keyColumn="id" resultType="int">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_category (`desc`, icon_url, keywords,level,name,pic_url,pid
+        , add_time ,update_time)
+        values (#{category.desc},#{category.iconUrl},#{category.keywords},#{category.level}
+        ,#{category.name},#{category.picUrl},#{category.pid},#{category.addTime},#{category.updateTime})
+    </insert>
+
+    <delete id="deleteCategoryById">
+        delete from cskaoyan_mall_category where id = #{id}
+    </delete>
 
     <insert id="insertIssue">
         insert into cskaoyan_mall_issue (question,answer,add_time,update_time,deleted)
