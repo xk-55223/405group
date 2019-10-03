@@ -11,7 +11,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class MyExceptionHandler {
 
     @ExceptionHandler({MethodArgumentTypeMismatchException.class,
-            HttpMessageNotReadableException.class})
+            HttpMessageNotReadableException.class
+            })
     @ResponseBody
    public BaseRespVo authorizationExceptionHandler(){
         return BaseRespVo.fail("兄弟，请输入正确数字");
