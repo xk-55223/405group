@@ -90,4 +90,11 @@ public class AdminGoodsController {
         BaseRespVo ok = BaseRespVo.ok("成功");
         return ok;
     }
+
+    @RequestMapping("admin/goods/create")
+    public BaseRespVo deleteComment(@RequestBody GoodCreatBean goods){
+        adminGoodsService.createGoods(goods);
+        BaseRespVo ok = BaseRespVo.ok("成功");
+        return ok;
+    }
 }

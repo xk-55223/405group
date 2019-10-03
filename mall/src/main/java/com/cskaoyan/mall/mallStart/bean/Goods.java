@@ -243,4 +243,6 @@ public class Goods {
     public String getPicUrl() {
         return picUrl;
     }
+
+
 }

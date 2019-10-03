@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -106,4 +107,41 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
     public void deleteComment(Integer id) {
         adminGoodsMapper.deleteComment(id);
     }
+
+    @Override
+    public void createGoods(GoodCreatBean goods) {
+        Goods goods1 = goods.getGoods();
+        List<GoodsAttribute> attributes = goods.getAttributes();
+        List<GoodsProduct> products = goods.getProducts();
+        List<GoodsSpecification> specifications = goods.getSpecifications();
+        Date date = new Date();
+        //sortOrder未知
+        goods1.setSortOrder(Short.valueOf("12"));
+        goods1.setAddTime(date);
+        goods1.setUpdateTime(date);
+        adminGoodsMapper.insertGoods(goods1);
+
+        for (GoodsAttribute attribute : attributes) {
+            attribute.setAddTime(date);
+            attribute.setUpdateTime(date);
+            attribute.setGoodsId(goods1.getId());
+            adminGoodsMapper.insertAttribute(attribute);
+        }
+        for (GoodsProduct product : products) {
+            product.setAddTime(date);
+            product.setUpdateTime(date);
+            goods1.getId();
+            product.setGoodsId(goods1.getId());
+            adminGoodsMapper.insertProducts(product);
+        }
+
+        for (GoodsSpecification specification : specifications) {
+            specification.setGoodsId(goods1.getId());
+            specification.setAddTime(date);
+            specification.setUpdateTime(date);
+            adminGoodsMapper.insertSpecification(specification);
+        }
+    }
+
+
 }

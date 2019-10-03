@@ -28,4 +28,12 @@ public class AdminStatisticsController {
         ok.setData(statOrderBean);
         return ok;
     }
+
+    @RequestMapping("admin/stat/goods")
+    public BaseRespVo statGoods(){
+        StatOrderBean statOrderBean = adminStatisticsSevice.staOrder();
+        BaseRespVo ok = BaseRespVo.ok("成功");
+        ok.setData(statOrderBean);
+        return ok;
+    }
 }
