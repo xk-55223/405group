@@ -41,4 +41,6 @@ public interface AdminGeneralizeService {
     void deleteGrouponRules(Integer id);
 
     ListBean listGroupon(int page, int limit, Integer goodsId);
+
+    Boolean isGoodsExist(Integer goodsId);
 }

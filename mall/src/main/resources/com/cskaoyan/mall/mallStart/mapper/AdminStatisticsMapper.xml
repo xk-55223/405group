@@ -40,4 +40,10 @@ select
     <select id="selectSumUserByAddTime" resultType="int">
         select count(id) from cskaoyan_mall_user where add_time like '%' #{date} '%'
     </select>
+    <select id="selectOrderIdByPayTime" resultType="int">
+        select id from cskaoyan_mall_order where pay_time like '%' #{date} '%'
+    </select>
+    <select id="selectSumOrderById" resultType="int">
+        select id from cskaoyan_mall_order_goods where order_id = #{id}
+    </select>
 </mapper>

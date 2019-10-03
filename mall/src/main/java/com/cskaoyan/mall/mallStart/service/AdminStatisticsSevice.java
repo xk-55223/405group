@@ -6,4 +6,6 @@ public interface AdminStatisticsSevice {
     StatOrderBean statOrder();
 
     StatOrderBean statUser();
+
+    StatOrderBean staOrder();
 }

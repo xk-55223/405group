@@ -1,5 +1,6 @@
 package com.cskaoyan.mall.mallStart.mapper;
 
+import com.cskaoyan.mall.mallStart.bean.Order;
 import com.cskaoyan.mall.mallStart.bean.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +17,10 @@ public interface AdminStatisticsMapper {
     List<User> selectUserAllGroupByAddTime();
 
     int selectSumUserByAddTime(@Param("date") Date addTime);
+
+    int selectSumGoodsByPaytime(@Param("date")Date date);
+
+    List<Integer> selectOrderIdByPayTime(Date date);
+
+    int selectSumOrderById(@Param("id") Integer integer);
 }

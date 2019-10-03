@@ -193,6 +193,20 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
         return bean;
     }
 
+    @Override
+    public Boolean isGoodsExist(Integer goodsId) {
+        Goods goods = null;
+        try{
+            goods= goodsMapper.listGoodsById(goodsId);
+        }catch (java.lang.NullPointerException e){
+            return false;
+        }
+        if(goods==null){
+            return false;
+        }
+        return true;
+    }
+
 
 }
 
