@@ -58,6 +58,31 @@
         </where>
     </select>
 
+    <insert id="insertBrand">
+        <selectKey resultType="int" keyProperty="brand.id" keyColumn="id" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_brand (name, `desc`, floor_price, pic_url)
+        values (#{brand.name},#{brand.desc},#{brand.floorPrice},#{brand.picUrl})
+    </insert>
+
+    <select id="selectBrandById" resultType="com.cskaoyan.mall.mallStart.bean.Brand">
+        select id,name,`desc`,pic_url as picUrl,floor_price as floorPrice,add_time addTime
+        ,update_time as updateTime
+        from cskaoyan_mall_brand
+        where id = #{id}
+    </select>
+
+    <update id="updateBrand">
+        update cskaoyan_mall_brand set `desc` = #{brand.desc}, floor_price = #{brand.floorPrice}
+        , name = #{brand.name} , pic_url = #{brand.picUrl}, update_time = #{brand.updateTime}
+        where id = #{brand.id}
+    </update>
+
+    <delete id="deleteBrandById">
+        delete from cskaoyan_mall_brand where id = #{id};
+    </delete>
+
     <select id="selectOrders" resultType="com.cskaoyan.mall.mallStart.bean.Order">
         select id,
         user_id as userId
@@ -104,15 +129,7 @@
         </where>
     </select>
 
-    <select id="selectIssues" resultType="com.cskaoyan.mall.mallStart.bean.Issue">
-        select id,question,answer,add_time as addTime, update_time as updateTime ,deleted
-        from cskaoyan_mall_issue
-        <where>
-            <if test="issue.question != null and issue.question != ''">
-                and question like '%' #{issue.question} '%'
-            </if>
-        </where>
-    </select>
+
 
     <select id="selectKeywords" resultType="com.cskaoyan.mall.mallStart.bean.Keyword">
         select id,keyword,url,is_hot as isHot,is_default as isDefault,sort_order as sortOrder
@@ -128,6 +145,21 @@
             </if>
         </where>
     </select>
+
+    <insert id="insertKeyword">
+        <selectKey resultType="int" keyColumn="id" keyProperty="keyword.id" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_keyword (keyword,url,is_hot,is_default,add_time,update_time)
+        values (#{keyword.keyword},#{keyword.url},#{keyword.isHot},#{keyword.isDefault},#{keyword.addTime},#{keyword.updateTime})
+    </insert>
+
+    <update id="updateKeyword">
+        update cskaoyan_mall_keyword set  is_default = #{keyword.isDefault}
+        , is_hot = #{keyword.isHot} ,keyword = #{keyword.keyword},update_time = #{keyword.updateTime}
+        , url = #{keyword.url}
+        where id = #{keyword.id}
+    </update>
 
     <resultMap id="CategoryMapper" type="com.cskaoyan.mall.mallStart.bean.Category">
         <result column="id" property="id"/>
@@ -161,15 +193,27 @@
         where pid = 0
     </select>
 
-    <insert id="insertIssue">
-        insert into cskaoyan_mall_issue (question,answer,add_time,update_time,deleted)
-        values (#{issue.question},#{issue.answer},#{issue.addTime},#{issue.updateTime},#{issue.deleted})
+    <insert id="insertCategory">
+        <selectKey keyProperty="category.id" keyColumn="id" resultType="int" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_category (`desc`, icon_url, keywords,level,name,pic_url,pid
+        , add_time ,update_time)
+        values (#{category.desc},#{category.iconUrl},#{category.keywords},#{category.level}
+        ,#{category.name},#{category.picUrl},#{category.pid},#{category.addTime},#{category.updateTime})
     </insert>
 
-    <insert id="insertKeyword">
-        insert into cskaoyan_mall_keyword (keyword,url,is_hot,is_default,add_time,update_time)
-        values (#{keyword.keyword},#{keyword.url},#{keyword.isHot},#{keyword.isDefault},#{keyword.addTime},#{keyword.updateTime})
-    </insert>
+    <update id="updateCategory" >
+        update cskaoyan_mall_category set `desc` = #{category.desc}, icon_url = #{category.iconUrl}
+        , keywords = #{category.keywords} ,level = #{category.level}
+        , name = #{category.name}, pic_url = #{category.picUrl}
+        where id = #{category.id}
+    </update>
+
+    <delete id="deleteCategoryById">
+        delete from cskaoyan_mall_category where id = #{id}
+    </delete>
+
 
     <select id="selectOrderById" resultType="com.cskaoyan.mall.mallStart.bean.Order">
         select id
@@ -224,6 +268,21 @@ where order_id = #{id}
         , deleted = #{issue.deleted}
         where id = #{issue.id}
     </update>
+
+    <insert id="insertIssue">
+        insert into cskaoyan_mall_issue (question,answer,add_time,update_time,deleted)
+        values (#{issue.question},#{issue.answer},#{issue.addTime},#{issue.updateTime},#{issue.deleted})
+    </insert>
+
+    <select id="selectIssues" resultType="com.cskaoyan.mall.mallStart.bean.Issue">
+        select id,question,answer,add_time as addTime, update_time as updateTime ,deleted
+        from cskaoyan_mall_issue
+        <where>
+            <if test="issue.question != null and issue.question != ''">
+                and question like '%' #{issue.question} '%'
+            </if>
+        </where>
+    </select>
 
     <delete id="deleteIssueById">
         delete from cskaoyan_mall_issue where id = #{id}
