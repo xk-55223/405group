@@ -2,13 +2,9 @@ package com.cskaoyan.mall.mallStart.service.adminService;
 
 import com.cskaoyan.mall.mallStart.bean.Admin;
 import com.cskaoyan.mall.mallStart.bean.DashBoard;
-<<<<<<< HEAD:mall/src/main/java/com/cskaoyan/mall/mallStart/service/adminService/AdminFirstPageServiceImpl.java
-import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminFirstPageMapper;
-=======
 import com.cskaoyan.mall.mallStart.bean.LoginInfo;
-import com.cskaoyan.mall.mallStart.mapper.AdminFirstPageMapper;
-import com.cskaoyan.mall.mallStart.mapper.AdminSystemMapper;
->>>>>>> 67beb030f74fdadbeca5f3ef180d4d7e11e57555:mall/src/main/java/com/cskaoyan/mall/mallStart/service/AdminFirstPageServiceImpl.java
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminFirstPageMapper;
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminSystemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

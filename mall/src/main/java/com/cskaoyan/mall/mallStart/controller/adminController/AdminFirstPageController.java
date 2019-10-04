@@ -4,12 +4,7 @@ import com.cskaoyan.mall.mallStart.bean.Admin;
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.DashBoard;
 import com.cskaoyan.mall.mallStart.bean.LoginInfo;
-<<<<<<< HEAD:mall/src/main/java/com/cskaoyan/mall/mallStart/controller/adminController/AdminFirstPageController.java
-import com.cskaoyan.mall.mallStart.bean.User;
 import com.cskaoyan.mall.mallStart.service.adminService.AdminFirstPageServiceImpl;
-=======
-import com.cskaoyan.mall.mallStart.service.AdminFirstPageServiceImpl;
->>>>>>> 67beb030f74fdadbeca5f3ef180d4d7e11e57555:mall/src/main/java/com/cskaoyan/mall/mallStart/controller/AdminFirstPageController.java
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
