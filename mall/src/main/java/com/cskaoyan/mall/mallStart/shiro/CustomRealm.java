@@ -1,7 +1,8 @@
 package com.cskaoyan.mall.mallStart.shiro;
 
+import com.cskaoyan.mall.mallStart.bean.Admin;
 import com.cskaoyan.mall.mallStart.mapper.AdminFirstPageMapper;
-import com.cskaoyan.mall.mallStart.mapper.AdminUserMapper;
+import com.cskaoyan.mall.mallStart.mapper.AdminSystemMapper;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -14,16 +15,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
 public class CustomRealm extends AuthorizingRealm {
     @Autowired
-    AdminFirstPageMapper mapper;
+    AdminSystemMapper adminSystemMapper;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String primaryPrincipal = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        List<String> permissions =  mapper.selectPermissionByUserName(primaryPrincipal);
+        Admin admin = adminSystemMapper.selectAdminByUsername(primaryPrincipal);
+        List<String> permissions = adminSystemMapper.selectPermsByRolesId(admin.getRoleIds());
         simpleAuthorizationInfo.addStringPermissions(permissions);
         return simpleAuthorizationInfo;
     }
@@ -31,7 +34,7 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         String primaryPrincipal = (String) authenticationToken.getPrincipal();
-        String password = mapper.selectPasswordByUserName(primaryPrincipal);
+        String password = adminSystemMapper.selectPasswordByUserName(primaryPrincipal);
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(primaryPrincipal, password, this.getName());
         return simpleAuthenticationInfo;
     }

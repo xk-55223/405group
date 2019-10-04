@@ -33,4 +33,12 @@ public interface AdminSystemMapper {
     int updateAdmin(@Param("admin") Admin admin);
 
     int deleteAdmin(@Param("admin") Admin admin);
+
+    List<String> selectRoleNamesByRolesId(@Param("roleIds") int[] roleIds);
+
+    Admin selectAdminByUsername(@Param("username") String username);
+
+    List<String> selectPermsByRolesId(@Param("roleIds") int[] roleIds);
+
+    String selectPasswordByUserName(@Param("username") String username);
 }
