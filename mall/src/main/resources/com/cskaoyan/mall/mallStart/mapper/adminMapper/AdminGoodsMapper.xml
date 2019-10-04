@@ -29,6 +29,14 @@
           pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, detail, add_time,
           update_time, deleted
     </sql>
+
+    <sql id="goods_column_list_select">
+        id, goods_sn as goodsSn, name, category_id as categoryId, brand_id as BrandId
+        , gallery, keywords, brief, is_on_sale as IsOnSale, sort_order sortOrder,
+          pic_url as picUrl, share_url as shareUrl, is_new as isNew, is_hot as isHot, unit
+          , counter_price as counterPrice, retail_price as retailPrice, detail, add_time as addTime
+          , update_time as updateTime, deleted
+    </sql>
     <select id="listGoods" resultMap="goodsMap">
         select <include refid="goods_column_list"/> from cskaoyan_mall_goods
         <where>
@@ -98,4 +106,16 @@
         insert into cskaoyan_mall_goods_specification (goods_id,specification,value,pic_url,add_time,update_time) values
         (#{specification.goodsId},#{specification.specification},#{specification.value},#{specification.picUrl},#{specification.addTime},#{specification.updateTime})
     </insert>
+
+    <select id="selectHotGoods" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
+        select <include refid="goods_column_list_select"/>
+        from cskaoyan_mall_goods
+        where is_hot = #{hot}
+    </select>
+
+    <select id="selectNewGoods" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
+        select <include refid="goods_column_list_select"/>
+        from cskaoyan_mall_goods
+        where is_new = #{isNew}
+    </select>
 </mapper>

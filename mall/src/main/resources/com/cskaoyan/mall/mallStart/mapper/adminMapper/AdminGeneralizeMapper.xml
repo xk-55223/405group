@@ -237,4 +237,26 @@
         user_id as userId,creator_user_id as creatorUserId,add_time as addTime,share_url as shareUrl,
         update_time as updateTime,payed,deleted from cskaoyan_mall_groupon
     </select>
+
+    <select id="getGrouponInfo" resultMap="GrouponInfoMap">
+        select
+g.brief, g.counter_price as counterPrice , g.id, name, g.pic_url as picUrl, g.retail_price as retailPrice
+,r.discount_member as groupon_member, r.discount as groupon_price
+from cskaoyan_mall_groupon_rules r
+LEFT JOIN cskaoyan_mall_goods g
+on r.goods_id = g.id
+    </select>
+
+    <resultMap id="GrouponInfoMap" type="com.cskaoyan.mall.mallStart.bean.GrouponInfo">
+        <result column="groupon_member" property="groupon_member"/>
+        <result column="groupon_price" property="groupon_price"/>
+        <association property="goods" javaType="com.cskaoyan.mall.mallStart.bean.Goods">
+            <result column="brief" property="brief"/>
+            <result column="counterPrice" property="counterPrice"/>
+            <result column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="picUrl" property="picUrl"/>
+            <result column="retailPrice" property="retailPrice"/>
+        </association>
+    </resultMap>
 </mapper>

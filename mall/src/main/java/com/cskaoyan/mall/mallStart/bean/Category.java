@@ -32,6 +32,8 @@ public class Category {
 
     private List<Category> children;
 
+    private List<Goods> goodsList;
+
     public List<Category> getChildren() {
         return children;
     }

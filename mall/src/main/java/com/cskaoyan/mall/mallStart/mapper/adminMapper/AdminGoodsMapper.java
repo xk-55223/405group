@@ -112,5 +112,12 @@ public interface AdminGoodsMapper {
     void insertSpecification(@Param("specification") GoodsSpecification specification);
 
     Goods listGoodsById(@Param("id") Integer id);
+
+    List<Goods> selectHotGoods(boolean hot);
+
+    List<Goods> selectNewGoods(boolean isNew);
+
+    @Select("select count(id) as goodsCount from cskaoyan_mall_goods")
+    GoodsCount selectGoodsCount();
 }
 

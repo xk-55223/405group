@@ -62,4 +62,6 @@ public interface AdminGeneralizeMapper {
     void deleteGrouponRules(Integer id);
 
     List<Groupon> queryAllGroupons();
+
+    List<GrouponInfo> getGrouponInfo();
 }
