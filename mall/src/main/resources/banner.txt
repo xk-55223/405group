@@ -1,4 +1,4 @@
-                                                       ${AnsiColor.BRIGHT_GREEN}
+                                                                        ${AnsiColor.BRIGHT_GREEN}
                                                                           ${AnsiColor.BRIGHT_BLACK}_ooOoo_${AnsiColor.BRIGHT_GREEN}
                                                                          ${AnsiColor.BRIGHT_BLACK}o8888888o${AnsiColor.BRIGHT_GREEN}
                                                                          ${AnsiColor.BRIGHT_BLACK}88${AnsiColor.BRIGHT_GREEN}" . "${AnsiColor.BRIGHT_BLACK}88${AnsiColor.BRIGHT_GREEN}
