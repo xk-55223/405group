@@ -183,4 +183,35 @@
     <select id="selectPasswordByUserName" resultType="string">
         select password from cskaoyan_mall_admin where username = #{username}
     </select>
+    <!--查询所有权限-->
+    <resultMap id="SystemPermissionsMap" type="com.cskaoyan.mall.mallStart.bean.SystemPermissions">
+        <result column="1st_name" property="id"/>
+        <result column="1st_name" property="label"/>
+        <collection property="children" ofType="com.cskaoyan.mall.mallStart.bean.SystemPermissions">
+            <result column="2st_name" property="id"/>
+            <result column="2st_name" property="label"/>
+            <collection property="children" ofType="com.cskaoyan.mall.mallStart.bean.SystemPermission">
+                <result column="label" property="label"/>
+                <result column="id" property="id"/>
+                <result column="api" property="api"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="selectSystemPermissionsAll" resultMap="SystemPermissionsMap">
+        select cskaoyan_mall_permission1.name as 1st_name,cskaoyan_mall_permission2.name as 2st_name, cskaoyan_mall_permission3.api as api ,cskaoyan_mall_permission3.`name` as label ,cskaoyan_mall_permission3.permission as id from cskaoyan_mall_permission1 LEFT JOIN cskaoyan_mall_permission2 on cskaoyan_mall_permission1.id = cskaoyan_mall_permission2.permission1_id LEFT JOIN cskaoyan_mall_permission3 on cskaoyan_mall_permission2.id = cskaoyan_mall_permission3.permission2_id
+    </select>
+    <!--查询所有权限-->
+    <select id="selectPermsAll" resultType="string">
+        select permission from cskaoyan_mall_permission3
+    </select>
+    <!--更新角色权限-->
+    <delete id="deletePermsByRoleId" parameterType="int">
+        delete from cskaoyan_mall_permission where role_id = #{roleId}
+    </delete>
+    <insert id="insertPerms" parameterType="int">
+        insert into cskaoyan_mall_permission (role_id,permission,add_time,update_time) values
+        <foreach collection="roleIdAndPermissions.permissions" item="permissions" separator=",">
+            (#{roleIdAndPermissions.roleId},#{permissions},now(),now())
+        </foreach>
+    </insert>
 </mapper>

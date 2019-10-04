@@ -35,4 +35,10 @@ public interface AdminSystemService {
     Admin updateAdmin(Admin admin);
 
     int deleteAdmin(Admin admin);
+
+    List<String> selectPermsByRolesIds(int[] roleIds);
+
+    List<SystemPermissions> selectSystemPermissionsAll();
+
+    int updatePermissions(RoleIdAndPermissions roleIdAndPermissions);
 }

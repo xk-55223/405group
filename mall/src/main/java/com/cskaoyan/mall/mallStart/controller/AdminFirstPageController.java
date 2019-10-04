@@ -48,21 +48,13 @@ public class AdminFirstPageController {
 
 
     @RequestMapping("admin/auth/info")
-    public BaseRespVo info(String token) {
+    public BaseRespVo info() {
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getPrincipal();
         LoginInfo loginInfo = firstPageService.selectLoginInfoByUsername(username);
         return BaseRespVo.ok(loginInfo);
     }
 
-    // 退出登录，失败
-    /*@RequestMapping("admin/auth/logout")
-    public BaseRespVo logout() {
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        session.setAttribute("X-cskaoyanmall-Admin-Token",null);
-        return BaseRespVo.ok(null);
-    }*/
 
     // 认证失败
     @RequestMapping("fail")
