@@ -19,6 +19,12 @@
         order by
         #{pageInfo.sort} #{pageInfo.order}
     </select>
+    <!--查询管理员根据用户名-->
+    <select id="selectAdminByUsername" resultMap="AdminMap">
+        select id ,username,avatar,`role_ids`
+        from cskaoyan_mall_admin
+        where username = #{username}
+    </select>
     <!--查询管理员 role/options-->
     <resultMap id="RoleOptionsMap" type="com.cskaoyan.mall.mallStart.bean.RoleOptions">
         <result column="id" property="value"/>
@@ -134,4 +140,47 @@
     <update id="updateStorage">
         update cskaoyan_mall_storage set `name` = #{storage.name}, update_time = #{storage.updateTime} where id = #{storage.id}
     </update>
+    <!--删除上传对象-->
+    <delete id="deleteStorage">
+        delete from cskaoyan_mall_storage where id = #{storage.id}
+    </delete>
+    <!--新增管理员-->
+    <insert id="insertAdmin">
+        <selectKey resultType="int" keyProperty="admin.id" keyColumn="last_insert_id()" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into
+        cskaoyan_mall_admin
+        (`username`,`password`,`avatar`,`add_time`,`update_time`,role_ids)
+        values
+        (#{admin.username},#{admin.password},#{admin.avatar},#{admin.addTime},#{admin.updateTime},#{admin.roleIds})
+    </insert>
+    <!--更新管理员-->
+    <update id="updateAdmin">
+        update cskaoyan_mall_admin set username = #{admin.username}, password = #{admin.password}, avatar = #{admin.avatar}, update_time = #{admin.updateTime},role_ids = #{admin.roleIds} where id = #{admin.id}
+    </update>
+    <!--删除管理员-->
+    <delete id="deleteAdmin">
+        delete from cskaoyan_mall_admin where id = #{admin.id}
+    </delete>
+    <!--查询角色名称-->
+    <select id="selectRoleNamesByRolesId" resultType="string">
+        select name from cskaoyan_mall_role
+        where id in
+        <foreach collection="roleIds" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+    <!--查询权限名称-->
+    <select id="selectPermsByRolesId" resultType="string">
+        select permission from cskaoyan_mall_permission
+        where role_id in
+        <foreach collection="roleIds" item="roleId" separator="," open="(" close=")">
+            #{roleId}
+        </foreach>
+    </select>
+    <!--根据管理员用户名查询密码-->
+    <select id="selectPasswordByUserName" resultType="string">
+        select password from cskaoyan_mall_admin where username = #{username}
+    </select>
 </mapper>

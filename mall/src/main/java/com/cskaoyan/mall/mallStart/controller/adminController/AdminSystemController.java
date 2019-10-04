@@ -83,4 +83,33 @@ public class AdminSystemController {
         Storage storage = adminSystemService.updateStorage(paramStorage);
         return BaseRespVo.ok(storage);
     }
+
+    @RequestMapping(value = "admin/storage/delete", method = RequestMethod.POST)
+    public Map storageDelete(@RequestBody Storage paramStorage) {
+        adminSystemService.deleteStorage(paramStorage);
+        Map<String, Object> responseMap = new LinkedHashMap<>();
+        responseMap.put("errno", 0);
+        responseMap.put("errmsg", "成功");
+        return responseMap;
+    }
+
+    @RequestMapping(value = "admin/admin/create", method = RequestMethod.POST)
+    public BaseRespVo<Admin> adminCreate(@RequestBody Admin paramAdmin) {
+        Admin admin = adminSystemService.insertAdmin(paramAdmin);
+        return BaseRespVo.ok(admin);
+    }
+
+    @RequestMapping(value = "admin/admin/update", method = RequestMethod.POST)
+    public BaseRespVo<Admin> adminUpdate(@RequestBody Admin paramAdmin) {
+        Admin admin = adminSystemService.updateAdmin(paramAdmin);
+        return BaseRespVo.ok(admin);
+    }
+    @RequestMapping(value = "admin/admin/delete", method = RequestMethod.POST)
+    public Map adminDelete(@RequestBody Admin paramAdmin) {
+        adminSystemService.deleteAdmin(paramAdmin);
+        Map<String, Object> responseMap = new LinkedHashMap<>();
+        responseMap.put("errno", 0);
+        responseMap.put("errmsg", "成功");
+        return responseMap;
+    }
 }

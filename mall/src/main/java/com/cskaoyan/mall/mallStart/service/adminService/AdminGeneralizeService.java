@@ -6,8 +6,10 @@ import java.util.List;
 
 public interface AdminGeneralizeService {
 
-    AdListBean getAllAds(int page, int limit,String name,String content);
+    AdListBean getAllAds(int page, int limit, String name, String content);
+
     Ad insertAd(Ad ad);
+
     Ad updateAd(Ad ad);
 
     void deleteAd(Ad ad);

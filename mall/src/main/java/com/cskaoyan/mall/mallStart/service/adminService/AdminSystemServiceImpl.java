@@ -108,4 +108,30 @@ public class AdminSystemServiceImpl implements AdminSystemService {
         adminSystemMapper.updateStorage(storage);
         return storage;
     }
+
+    @Override
+    public int deleteStorage(Storage storage) {
+        return adminSystemMapper.deleteStorage(storage);
+    }
+
+    @Override
+    public Admin insertAdmin(Admin admin) {
+        admin.setAddTime(new Date());
+        admin.setUpdateTime(new Date());
+        adminSystemMapper.insertAdmin(admin);
+        return admin;
+    }
+
+    @Override
+    public Admin updateAdmin(Admin admin) {
+        admin.setUpdateTime(new Date());
+        adminSystemMapper.updateAdmin(admin);
+        return admin;
+    }
+
+    @Override
+    public int deleteAdmin(Admin admin) {
+        return adminSystemMapper.deleteAdmin(admin);
+    }
+
 }

@@ -19,9 +19,9 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
     AdminGoodsMapper goodsMapper;
 
     @Override
-    public AdListBean getAllAds(int page, int limit,String name,String content) {
-        PageHelper.startPage(page,limit);
-        List<Ad> allAds = mapper.getAllAds(name,content);
+    public AdListBean getAllAds(int page, int limit, String name, String content) {
+        PageHelper.startPage(page, limit);
+        List<Ad> allAds = mapper.getAllAds(name, content);
         PageInfo<Ad> adPageInfo = new PageInfo<>(allAds);
         long total = adPageInfo.getTotal();
         AdListBean adListBean = new AdListBean();
@@ -52,8 +52,8 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
 
     @Override
     public CouponBeanList listCoupon(int page, int limit, Integer type, Integer status, String name) {
-        PageHelper.startPage(page,limit);
-        List<Coupon> coupons = mapper.getAllCoupons(type,status,name);
+        PageHelper.startPage(page, limit);
+        List<Coupon> coupons = mapper.getAllCoupons(type, status, name);
         PageInfo<Coupon> couponPageInfo = new PageInfo<>(coupons);
         long total = couponPageInfo.getTotal();
         CouponBeanList list = new CouponBeanList();
@@ -71,8 +71,8 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
 
     @Override
     public CouponUserBeanList listCouponUser(int page, int limit, int couponId, Integer userId, Integer status) {
-        PageHelper.startPage(page,limit);
-        List<CouponUser> users = mapper.getAllCouponUser(couponId,userId,status);
+        PageHelper.startPage(page, limit);
+        List<CouponUser> users = mapper.getAllCouponUser(couponId, userId, status);
         PageInfo<CouponUser> couponUserPageInfo = new PageInfo<>(users);
         long total = couponUserPageInfo.getTotal();
         CouponUserBeanList list = new CouponUserBeanList();
@@ -83,8 +83,8 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
 
     @Override
     public Coupon queryCouponById(int id) {
-       Coupon coupon = mapper.queryCouponById(id);
-       return coupon;
+        Coupon coupon = mapper.queryCouponById(id);
+        return coupon;
     }
 
     @Override
@@ -101,8 +101,8 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
 
     @Override
     public GeneralizeTopicBeanList getAllTopic(int page, int limit, String title, String subtitle) {
-        PageHelper.startPage(page,limit);
-        List<Topic> topics = mapper.getAllTopic(title,subtitle);
+        PageHelper.startPage(page, limit);
+        List<Topic> topics = mapper.getAllTopic(title, subtitle);
         PageInfo<Topic> topicPageInfo = new PageInfo<>(topics);
         long total = topicPageInfo.getTotal();
         GeneralizeTopicBeanList list = new GeneralizeTopicBeanList();
@@ -119,7 +119,7 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
     @Override
     public Topic insertTopic(Topic topic) {
         mapper.addTopic(topic);
-        Topic topic1 =  mapper.queryTopicById(topic.getId());
+        Topic topic1 = mapper.queryTopicById(topic.getId());
         return topic1;
     }
 
@@ -132,7 +132,7 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
 
     @Override
     public ListBean getAllGrouponRules(int page, int limit, Integer goodsId) {
-        PageHelper.startPage(page,limit);
+        PageHelper.startPage(page, limit);
         List<GrouponRules> rules = mapper.getAllGrouponRules(goodsId);
         PageInfo<GrouponRules> info = new PageInfo<>(rules);
         long total = info.getTotal();
@@ -144,7 +144,7 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
 
     @Override
     public GrouponRules insertGrouponRules(GrouponRules grouponRules) {
-        Goods goods =  mapper.queryGoodsById(grouponRules.getGoodsId());
+        Goods goods = mapper.queryGoodsById(grouponRules.getGoodsId());
         grouponRules.setGoodsName(goods.getName());
         grouponRules.setPicUrl(goods.getPicUrl());
         mapper.insertGrouponRules(grouponRules);
