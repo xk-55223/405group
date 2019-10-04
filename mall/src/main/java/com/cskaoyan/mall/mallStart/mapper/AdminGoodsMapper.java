@@ -98,5 +98,19 @@ public interface AdminGoodsMapper {
      * @param id
      */
     void deleteComment(@Param("id") Integer id);
+
+    /**
+     * 添加商品
+     * @param goods
+     */
+    void insertGoods(@Param("goods") Goods goods);
+
+    void insertAttribute(@Param("attribute") GoodsAttribute attribute);
+
+    void insertProducts(@Param("product") GoodsProduct product);
+
+    void insertSpecification(@Param("specification") GoodsSpecification specification);
+
+    Goods listGoodsById(@Param("id") Integer id);
 }
 

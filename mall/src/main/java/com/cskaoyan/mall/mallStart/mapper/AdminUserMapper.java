@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mallStart.mapper;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface AdminUserMapper {
     List<SearchHistory> selectSearchHistoryAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("userId") Integer userId, @Param("keyword") String keyword);
 
     List<Feedback> selectFeedbackAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("id") Integer id, @Param("username") String username);
+
 }

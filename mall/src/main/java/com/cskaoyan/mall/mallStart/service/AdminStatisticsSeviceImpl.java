@@ -90,4 +90,53 @@ public class AdminStatisticsSeviceImpl implements AdminStatisticsSevice{
         statOrderBean.setRows(statOrderList);
         return statOrderBean;
     }
+
+    @Override
+    public StatOrderBean staOrder() {
+        TreeSet<Date> ordersSet = new TreeSet<>(new Comparator<Date>() {
+            @Override
+            public int compare(Date o1, Date o2) {
+                return o1.compareTo(o2);
+            }
+        });
+
+        List<Order> orders = adminMallMapper.selectOrders(new Order());
+        Date payTime = orders.get(0).getPayTime();
+        ordersSet.add(payTime);
+
+        for (Order order : orders) {
+            Date payTime1 = order.getPayTime();
+            if(!ordersSet.contains(payTime1)){
+                ordersSet.add(payTime1);
+            }
+        }
+
+        List<StatOrder> statOrderList = new ArrayList<>();
+        for (Date date : ordersSet) {
+            StatOrder statOrder = new StatOrder();
+            int count =adminStatisticsMapper.selectSumOrderByPaytime(date);
+            //商品总数
+            List<Integer> orderList = adminStatisticsMapper.selectOrderIdByPayTime(date);
+            int goodnum = 0;
+            for (Integer order : orderList) {
+                goodnum += adminStatisticsMapper.selectSumOrderById(order);
+            }
+            statOrder.setOrders(count);
+            statOrder.setProducts(goodnum);
+            statOrder.setDay(date);
+            statOrder.setAmount(adminStatisticsMapper.selectSumOrderPriceByPaytime(date));
+            statOrder.setOrders(adminStatisticsMapper.selectSumOrderByPaytime(date));
+            statOrderList.add(statOrder);
+        }
+        List<String> stringList = new ArrayList<>();
+        stringList.add("day");
+        stringList.add("orders");
+        stringList.add("products");
+        stringList.add("amount");
+
+        StatOrderBean statOrderBean = new StatOrderBean();
+        statOrderBean.setColumns(stringList);
+        statOrderBean.setRows(statOrderList);
+        return statOrderBean;
+    }
 }

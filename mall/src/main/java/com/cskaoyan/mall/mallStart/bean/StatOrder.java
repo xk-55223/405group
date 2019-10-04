@@ -12,6 +12,15 @@ public class StatOrder {
     Date day;
     double pcr;
     int users;
+    int products;
+
+    public int getProducts() {
+        return products;
+    }
+
+    public void setProducts(int product) {
+        this.products = product;
+    }
 
     public double getAmount() {
         return amount;
