@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.mallStart.mapper;
 
 import com.cskaoyan.mall.mallStart.bean.*;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -27,13 +28,11 @@ public interface AdminMallMapper {
 
     List<Issue> selectIssues(@Param("issue") Issue issue);
 
-    void insertIssue(@Param("issue")Issue issue);
+    int insertIssue(@Param("issue")Issue issue);
 
     List<Keyword> selectKeywords(@Param("keyword") Keyword keyword);
 
     void insertKeyword(@Param("keyword") Keyword keyword);
-
-    /*OrderDetail selectOrderDetail(int id);*/
 
     Order selectOrderById(int id);
 
@@ -44,4 +43,21 @@ public interface AdminMallMapper {
     void updateIssue(@Param("issue") Issue issue);
 
     void deleteIssueById(Integer id);
+
+    int insertBrand(@Param("brand") Brand brand);
+
+    Brand selectBrandById(Integer id);
+
+    void updateBrand(@Param("brand") Brand brand);
+
+    void deleteBrandById(Integer id);
+
+    int insertCategory(@Param("category") Category category);
+
+    void updateCategory(@Param("category") Category category);
+
+    @Delete("delete from cskaoyan_mall_keyword where id = #{id}")
+    void deleteKeywordById(Integer id);
+
+    void updateKeyword(@Param("keyword") Keyword keyword);
 }

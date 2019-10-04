@@ -77,4 +77,25 @@
     <delete id="deleteComment">
         delete from cskaoyan_mall_comment where id = #{id}
     </delete>
+    <insert id="insertGoods">
+        <selectKey resultType="int" keyProperty="goods.id" keyColumn="id" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
+        insert into cskaoyan_mall_goods  (goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order,
+          pic_url, is_new, is_hot, unit, counter_price, retail_price, detail, add_time,update_time) values
+          (#{goods.goodsSn},#{goods.name},#{goods.categoryId},#{goods.brandId},#{goods.gallery},#{goods.keywords},#{goods.brief},#{goods.isOnSale},
+          #{goods.sortOrder},#{goods.picUrl},#{goods.isNew},#{goods.isHot},#{goods.unit},#{goods.counterPrice},#{goods.retailPrice},#{goods.detail},#{goods.addTime},#{goods.updateTime})
+    </insert>
+    <insert id="insertAttribute">
+        insert into cskaoyan_mall_goods_attribute (goods_id,attribute,value,add_time,update_time) values (#{attribute.goodsId},
+        #{attribute.attribute},#{attribute.value},#{attribute.addTime},#{attribute.updateTime})
+    </insert>
+    <insert id="insertProducts">
+        insert into cskaoyan_mall_goods_product (goods_id,specifications,price,number,url,add_time,update_time) values
+        (#{product.goodsId},#{product.specifications},#{product.price},#{product.number},#{product.url},#{product.addTime},#{product.updateTime})
+    </insert>
+    <insert id="insertSpecification">
+        insert into cskaoyan_mall_goods_specification (goods_id,specification,value,pic_url,add_time,update_time) values
+        (#{specification.goodsId},#{specification.specification},#{specification.value},#{specification.picUrl},#{specification.addTime},#{specification.updateTime})
+    </insert>
 </mapper>

@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mallStart.controller;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.AdminGeneralizeService;
+import com.cskaoyan.mall.mallStart.tool.StringIsEmpty;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,16 +28,16 @@ public class AdminGeneralizeController {
         BaseRespVo ok = BaseRespVo.ok(allAds);
         return ok;
     }
-    //图片上传
-   /* @RequestMapping("admin/storage/create")
-    public BaseRespVo createAdImg(@RequestBody MultipartFile file){
-        BaseRespVo ok = BaseRespVo.ok(storage);
-        return ok;
-    }*/
 
 // 新增广告由两个接口完成，图片上传再完善，先完成后半部分
     @RequestMapping("admin/ad/create")
     public BaseRespVo createAd(@RequestBody Ad ad){
+        if(StringIsEmpty.stringIsEmpty(ad.getContent())){
+            return BaseRespVo.fail("兄弟，请输入广告内容");
+        }
+        if(StringIsEmpty.stringIsEmpty(ad.getName())){
+            return BaseRespVo.fail("兄弟，请输入广告标题");
+        }
         Ad ad1 = service.insertAd(ad);
         BaseRespVo ok = BaseRespVo.ok(ad1);
         return ok;
@@ -46,6 +47,12 @@ public class AdminGeneralizeController {
     //service层调用两次mapper方法，一次更新，一次查询
     @RequestMapping("admin/ad/update")
     public BaseRespVo updateAd(@RequestBody Ad ad) {
+        if(StringIsEmpty.stringIsEmpty(ad.getContent())){
+            return BaseRespVo.fail("兄弟，请输入广告内容");
+        }
+        if(StringIsEmpty.stringIsEmpty(ad.getName())){
+            return BaseRespVo.fail("兄弟，请输入广告标题");
+        }
         Ad ad1 = service.updateAd(ad);
         BaseRespVo ok = BaseRespVo.ok(ad1);
         return ok;
@@ -70,6 +77,14 @@ public class AdminGeneralizeController {
     // 有效期无法进行解析（无法将字符串解析为date类型）
     @RequestMapping("admin/coupon/create")
     public BaseRespVo addCoupon(@RequestBody Coupon coupon){
+        if(StringIsEmpty.stringIsEmpty(coupon.getName())){
+            return BaseRespVo.fail("兄弟，请输入优惠券名称");
+        }
+        if(coupon.getDiscount().signum()== -1|coupon.getDays()<0|coupon.getMin().signum()<0 |
+        coupon.getLimit()<0|coupon.getTotal()<0){
+            return BaseRespVo.fail("兄弟，请不要输入负数");
+        }
+
        Coupon coupon1= service.addCoupon(coupon);
         BaseRespVo ok = BaseRespVo.ok(coupon1);
         return ok;
@@ -97,9 +112,16 @@ public class AdminGeneralizeController {
         return ok;
     }
 
-    //修改coupon也需要json封装，搁置
+    //修改coupon
     @RequestMapping("admin/coupon/update")
     public BaseRespVo updateCoupon(@RequestBody Coupon coupon){
+        if(StringIsEmpty.stringIsEmpty(coupon.getName())){
+            return BaseRespVo.fail("兄弟，请输入优惠券名称");
+        }
+        if(coupon.getDiscount().signum()== -1|coupon.getDays()<0|coupon.getMin().signum()<0 |
+                coupon.getLimit()<0|coupon.getTotal()<0){
+            return BaseRespVo.fail("兄弟，请不要输入负数");
+        }
         Coupon coupon1 = service.updateCoupon(coupon);
         BaseRespVo ok = BaseRespVo.ok(coupon1);
         return ok;
@@ -123,6 +145,12 @@ public class AdminGeneralizeController {
     //新建专题
     @RequestMapping("admin/topic/create")
     public BaseRespVo insertTopic(@RequestBody Topic topic){
+        if(StringIsEmpty.stringIsEmpty(topic.getTitle())){
+            return BaseRespVo.fail("兄弟，请输入正确标题");
+        }
+        if(StringIsEmpty.stringIsEmpty(topic.getSubtitle())){
+            return BaseRespVo.fail("兄弟，请输入正确子标题");
+        }
         Topic topic1 =  service.insertTopic(topic);
         BaseRespVo ok = BaseRespVo.ok(topic1);
         return ok;
@@ -131,6 +159,12 @@ public class AdminGeneralizeController {
     //修改topic
     @RequestMapping("admin/topic/update")
     public BaseRespVo updateTopic(@RequestBody Topic topic){
+        if(StringIsEmpty.stringIsEmpty(topic.getTitle())){
+            return BaseRespVo.fail("兄弟，请输入正确标题");
+        }
+        if(StringIsEmpty.stringIsEmpty(topic.getSubtitle())){
+            return BaseRespVo.fail("兄弟，请输入正确子标题");
+        }
         Topic topic1 =  service.updateTopic(topic);
         BaseRespVo ok = BaseRespVo.ok(topic1);
         return ok;
@@ -146,6 +180,17 @@ public class AdminGeneralizeController {
     //团购规则增加，需要通过商品id去查询商品的部分参数并填入groupRules表中
     @RequestMapping("admin/groupon/create")
     public BaseRespVo insertGrouponRules(@RequestBody GrouponRules grouponRules){
+        Boolean flag = service.isGoodsExist(grouponRules.getGoodsId());
+        if(!flag){
+            return BaseRespVo.fail("不存在的，这个商品");
+        }
+        if(grouponRules.getDiscountMember()==null|grouponRules.getExpireTime()==null|grouponRules.getDiscount()==null){
+            return BaseRespVo.fail("兄弟，请输入完整参数");
+        }
+        if(grouponRules.getDiscount().signum()<0|grouponRules.getDiscountMember()<0){
+            return BaseRespVo.fail("兄弟，请不要输入负数");
+        }
+
         GrouponRules grouponRules1 =service.insertGrouponRules(grouponRules);
         BaseRespVo ok = BaseRespVo.ok(grouponRules1);
         return ok;
@@ -153,6 +198,17 @@ public class AdminGeneralizeController {
     //团购规则更改，若是尼玛更改商品id就他妈的要重新查询goods并重新赋值
     @RequestMapping("admin/groupon/update")
     public BaseRespVo updateGrouponRules(@RequestBody GrouponRules grouponRules){
+        Boolean flag = service.isGoodsExist(grouponRules.getGoodsId());
+        if(!flag){
+            return BaseRespVo.fail("不存在的，这个商品");
+        }
+        if(grouponRules.getDiscountMember()==null|grouponRules.getExpireTime()==null|grouponRules.getDiscount()==null){
+            return BaseRespVo.fail("兄弟，请输入完整参数");
+        }
+        if(grouponRules.getDiscount().signum()<0|grouponRules.getDiscountMember()<0){
+            return BaseRespVo.fail("兄弟，请不要输入负数");
+        }
+
         service.updateGrouponRules(grouponRules);
         BaseRespVo ok = BaseRespVo.ok("");
         return ok;
@@ -162,6 +218,15 @@ public class AdminGeneralizeController {
     public BaseRespVo deleteGrouponRules(@RequestBody GrouponRules grouponRules){
         service.deleteGrouponRules(grouponRules.getId());
         BaseRespVo ok = BaseRespVo.ok("");
+        return ok;
+    }
+
+    //团购活动添加，新建GrouponBean类，封装goods、groupon、grouponRules和一个string数组
+    //对GrouponBean进行分页和查询。
+    @RequestMapping("admin/groupon/listRecord")
+    public BaseRespVo listGroupon(int page,int limit,Integer goodsId){
+       ListBean listBean = service.listGroupon(page,limit,goodsId);
+        BaseRespVo ok = BaseRespVo.ok(listBean);
         return ok;
     }
 }

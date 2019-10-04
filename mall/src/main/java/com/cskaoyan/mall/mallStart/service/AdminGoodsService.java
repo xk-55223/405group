@@ -1,9 +1,6 @@
 package com.cskaoyan.mall.mallStart.service;
 
-import com.cskaoyan.mall.mallStart.bean.Goods;
-import com.cskaoyan.mall.mallStart.bean.GoodsCategoryBean;
-import com.cskaoyan.mall.mallStart.bean.ListBean;
-import com.cskaoyan.mall.mallStart.bean.UpdateGoodsInfo;
+import com.cskaoyan.mall.mallStart.bean.*;
 
 import java.util.List;
 
@@ -25,4 +22,8 @@ public interface AdminGoodsService {
     ListBean commentList(int page,Integer userId,Integer valueId,int limit,String sort,String order);
 
     void deleteComment(Integer id);
+
+    void createGoods(GoodCreatBean goods);
+
+
 }

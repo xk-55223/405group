@@ -2,12 +2,10 @@ package com.cskaoyan.mall.mallStart.service;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.AdminMallMapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +17,6 @@ public class AdminMallServiceImpl implements AdminMallService {
     @Override
     public List<Region> selectRegions() {
         List<Region> regions = mapper.selectRegions();
-        System.out.println(regions);
         return regions;
     }
 
@@ -42,14 +39,14 @@ public class AdminMallServiceImpl implements AdminMallService {
     @Override
     public void deleteCategory(Category category) {
         mapper.deleteCategoryById(category.getId());
-        deleteStaticFile(category.getIconUrl());
+        /*deleteStaticFile(category.getIconUrl());
         deleteStaticFile(category.getPicUrl());
         List<Category> childrens = category.getChildren();
         for (Category children : childrens) {
             mapper.deleteCategoryById(children.getId());
             deleteStaticFile(children.getIconUrl());
             deleteStaticFile(children.getPicUrl());
-        }
+        }*/
     }
 
     @Override
@@ -107,9 +104,56 @@ public class AdminMallServiceImpl implements AdminMallService {
         mapper.deleteIssueById(id);
     }
 
-    private void deleteStaticFile(String url) {
+    @Override
+    public Brand insertBrand(Brand brand) {
+        Date date = new Date();
+        brand.setAddTime(date);
+        brand.setUpdateTime(date);
+        mapper.insertBrand(brand);
+        return brand;
+    }
+
+    @Override
+    public Brand updateBrand(Brand brand) {
+        mapper.updateBrand(brand);
+        Brand newBrand = mapper.selectBrandById(brand.getId());
+        return newBrand;
+    }
+
+    @Override
+    public void deleteBrand(Brand brand) {
+        mapper.deleteBrandById(brand.getId());
+    }
+
+    @Override
+    public Category insertCategory(Category category) {
+        Date date = new Date();
+        category.setAddTime(date);
+        category.setUpdateTime(date);
+        mapper.insertCategory(category);
+        return category;
+    }
+
+    @Override
+    public void updateCategory(Category category) {
+        mapper.updateCategory(category);
+    }
+
+    @Override
+    public void deleteKeywordById(Integer id) {
+        mapper.deleteKeywordById(id);
+    }
+
+    @Override
+    public Keyword updateKeyword(Keyword keyword) {
+        keyword.setUpdateTime(new Date());
+        mapper.updateKeyword(keyword);
+        return keyword;
+    }
+
+   /* private void deleteStaticFile(String url) {
         File file = new File(url);
         file.delete();
-    }
+    }*/
 
 }

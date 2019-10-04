@@ -4,6 +4,8 @@ import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.AdminMallService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,6 @@ public class AdminMallController {
     @Autowired
     AdminMallService service;
 
-
     // 行政区域的查询啊显示
     @RequestMapping("admin/region/list")
     public BaseRespVo regionlist() {
@@ -29,6 +30,7 @@ public class AdminMallController {
 
     // 品牌制造商的查询和显示
     @RequestMapping("admin/brand/list")
+    @RequiresPermissions(value = {"admin:brand:list","admin:brand:read"}, logical = Logical.OR)
     public BaseRespVo brandList(FromPageInfo page,Brand brand) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Brand> brands = service.selectBrands(brand);
@@ -41,6 +43,46 @@ public class AdminMallController {
         return result;
     }
 
+    // 品牌制造商的创建
+    @RequestMapping("admin/brand/create")
+    public BaseRespVo brandCreate(@RequestBody Brand brand) {
+        if (brand == null) return BaseRespVo.fail("错误的请求");
+        if (brand.getName() == null || brand.getName().trim().equals("")) {
+            BaseRespVo.fail("名字不能为空");
+        } else if (brand.getDesc() == null || brand.getDesc().trim().equals("")) {
+            BaseRespVo.fail("介绍不能为空");
+        } else if (brand.getFloorPrice() == null || brand.getFloorPrice().toString().equals("")) {
+            BaseRespVo.fail("低价不能为空");
+        } else if (brand.getPicUrl() == null || brand.getPicUrl().trim().equals("")) {
+            BaseRespVo.fail("图片不能为空");
+        }
+        Brand newBrand = service.insertBrand(brand);
+        return BaseRespVo.ok(newBrand);
+    }
+
+    // 品牌制造商的编辑
+    @RequestMapping("admin/brand/update")
+    public BaseRespVo brandUpdate(@RequestBody Brand brand) {
+        if (brand == null) return BaseRespVo.fail("错误的请求");
+        if (brand.getName() == null || brand.getName().trim().equals("")) {
+            BaseRespVo.fail("名字不能为空");
+        } else if (brand.getDesc() == null || brand.getDesc().trim().equals("")) {
+            BaseRespVo.fail("介绍不能为空");
+        } else if (brand.getFloorPrice() == null || brand.getFloorPrice().toString().equals("")) {
+            BaseRespVo.fail("低价不能为空");
+        } else if (brand.getPicUrl() == null || brand.getPicUrl().trim().equals("")) {
+            BaseRespVo.fail("图片不能为空");
+        }
+        Brand newBrand = service.updateBrand(brand);
+        return BaseRespVo.ok(newBrand);
+    }
+
+    @RequestMapping("admin/brand/delete")
+    public BaseRespVo brandDelete(@RequestBody Brand brand) {
+        service.deleteBrand(brand);
+        return BaseRespVo.ok(null);
+    }
+
     // 所有商品的查询
     @RequestMapping("admin/category/list")
     public BaseRespVo categoryList() {
@@ -48,6 +90,23 @@ public class AdminMallController {
         BaseRespVo result = BaseRespVo.ok(categories);
         return result;
     }
+
+    // 商品类目的创建
+    @RequestMapping("admin/category/create")
+    public BaseRespVo categoryCreate(@RequestBody Category category) {
+        if (category.getDesc() == null || category.getDesc().trim().equals("")) {
+            return BaseRespVo.fail("简介不能为空");
+        } else if (category.getIconUrl() == null || category.getPicUrl() == null ) {
+            return BaseRespVo.fail("图片不能为空");
+        } else if (category.getKeywords() == null || category.getKeywords().trim().equals("")) {
+            return BaseRespVo.fail("关键词不能为空");
+        } else if (category.getName() == null || category.getName().trim().equals("")) {
+            return BaseRespVo.fail("名字不能为空");
+        }
+        Category newCategory = service.insertCategory(category);
+        return BaseRespVo.ok(newCategory);
+    }
+
 
     // 商品类目中的商品种类显示
     @RequestMapping("admin/category/l1")
@@ -59,10 +118,17 @@ public class AdminMallController {
 
     // 商品类目的删除 还没有写完
     @RequestMapping("admin/category/delete")
-    public BaseRespVo categoryDelete(Category category) {
+    public BaseRespVo categoryDelete(@RequestBody Category category) {
         service.deleteCategory(category);
         BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
+    }
+
+    // 商品类目的编辑
+    @RequestMapping("admin/category/update")
+    public BaseRespVo categoryUpdate(@RequestBody Category category) {
+        service.updateCategory(category);
+        return BaseRespVo.ok(null);
     }
 
 
@@ -138,6 +204,28 @@ public class AdminMallController {
         return result;
     }
 
+    // 删除相应的关键词
+    @RequestMapping("admin/keyword/delete")
+    public BaseRespVo keywordDelete(@RequestBody Keyword keyword) {
+        service.deleteKeywordById(keyword.getId());
+        return BaseRespVo.ok(null);
+    }
+
+    // 关键词信息的更新
+    @RequestMapping("admin/keyword/update")
+    public BaseRespVo keywordUpdate(@RequestBody Keyword keyword) {
+        if (keyword.getKeyword() == null || keyword.getKeyword().trim().equals("")){
+            return BaseRespVo.fail("关键词不能为空");
+        } else if (keyword.getUrl() == null || keyword.getUrl().trim().equals("")){
+            return BaseRespVo.fail("跳转链接不能为空");
+        } else if(keyword.getIsHot() == null) {
+            return BaseRespVo.fail("是否推荐不能为空");
+        } else if (keyword.getIsDefault() == null) {
+            return BaseRespVo.fail("是否默认不能为空");
+        }
+        Keyword newKeyword = service.updateKeyword(keyword);
+        return BaseRespVo.ok(newKeyword);
+    }
 
     // 订单详情
     @RequestMapping("admin/order/detail")

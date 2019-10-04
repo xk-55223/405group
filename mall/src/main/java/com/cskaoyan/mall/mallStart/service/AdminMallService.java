@@ -30,4 +30,18 @@ public interface AdminMallService {
     void updateIssue(Issue issue);
 
     void deleteIssueById(Integer id);
+
+    Brand insertBrand(Brand brand);
+
+    Brand updateBrand(Brand brand);
+
+    void deleteBrand(Brand brand);
+
+    Category insertCategory(Category category);
+
+    void updateCategory(Category category);
+
+    void deleteKeywordById(Integer id);
+
+    Keyword updateKeyword(Keyword keyword);
 }

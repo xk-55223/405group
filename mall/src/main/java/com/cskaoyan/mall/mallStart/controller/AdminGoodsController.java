@@ -90,4 +90,16 @@ public class AdminGoodsController {
         BaseRespVo ok = BaseRespVo.ok("成功");
         return ok;
     }
+
+    @RequestMapping("admin/goods/create")
+    public BaseRespVo createGoods(@RequestBody GoodCreatBean goods){
+        int value = goods.getGoods().getCounterPrice().intValue();
+        int value1 = goods.getGoods().getRetailPrice().intValue();
+        if((value<0||value>99999999)||(value1<0||value1>99999999)){
+            return BaseRespVo.fail("请输入正确的价格");
+        }
+        adminGoodsService.createGoods(goods);
+        BaseRespVo ok = BaseRespVo.ok("成功");
+        return ok;
+    }
 }
