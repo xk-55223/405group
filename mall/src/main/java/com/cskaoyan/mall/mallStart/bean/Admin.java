@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.mallStart.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Admin {
@@ -15,9 +17,11 @@ public class Admin {
 
     private String avatar;
 
-    private String addTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date addTime;
 
-    private String updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
     private Boolean deleted;
 
@@ -71,19 +75,19 @@ public class Admin {
         this.avatar = avatar;
     }
 
-    public String getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(String addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
