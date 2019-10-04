@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper">
+    <resultMap id="UserMap" type="com.cskaoyan.mall.mallStart.bean.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="gender" jdbcType="TINYINT" property="gender"/>
+        <result column="birthday" jdbcType="DATE" property="birthday"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+        <result column="user_level" jdbcType="TINYINT" property="userLevel"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="weixin_openid" jdbcType="VARCHAR" property="weixinOpenid"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="deleted" jdbcType="BIT" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, username, password, gender, birthday, last_login_time, last_login_ip, user_level,
+    nickname, mobile, avatar, weixin_openid, status, add_time, update_time, deleted
+    </sql>
+    <!--查询所有用户,根据add_time desc-->
+    <select id="selectUserAll" resultMap="UserMap">
+        select
+        <include refid="Base_Column_List"/>
+        from cskaoyan_mall_user
+        <where>
+            <if test="username !=null">
+                and username like '%' #{username} '%'
+            </if>
+            <if test="mobile !=null">
+                and mobile = #{mobile}
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--查询用户地址-->
+    <resultMap id="AddressRegionMap" type="com.cskaoyan.mall.mallStart.bean.AddressRegion">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="user_id" property="userId"/>
+        <result column="address" property="address"/>
+        <result column="mobile" property="mobile"/>
+        <result column="is_default" property="isDefault"/>
+        <association property="provinceId" column="province_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper.selectProvinceId"/>
+        <association property="province" column="province_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper.selectProvince"/>
+        <association property="cityId" column="city_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper.selectCityId"/>
+        <association property="city" column="city_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper.selectCity"/>
+        <association property="areaId" column="area_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper.selectAreaId"/>
+        <association property="area" column="area_id"
+                     select="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper.selectArea"/>
+    </resultMap>
+    <select id="selectAddressAll" resultMap="AddressRegionMap">
+        select id ,name,user_id,province_id,city_id,area_id,address,mobile,is_default
+        from cskaoyan_mall_address
+        <where>
+            <if test="name !=null">
+                and name like '%' #{name} '%'
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <select id="selectProvinceId" resultType="int">
+        select id as provinceId from cskaoyan_mall_region where `code` =  #{province_id}
+    </select>
+    <select id="selectProvince" resultType="string">
+        select name as province from cskaoyan_mall_region where `code` =  #{province_id}
+    </select>
+    <select id="selectCityId" resultType="int">
+        select id as cityId from cskaoyan_mall_region where `code` =  #{city_id}
+    </select>
+    <select id="selectCity" resultType="string">
+        select name as city from cskaoyan_mall_region where `code` =  #{city_id}
+    </select>
+    <select id="selectAreaId" resultType="int">
+        select id as areaId from cskaoyan_mall_region where `code` =  #{area_id}
+    </select>
+    <select id="selectArea" resultType="string">
+        select name as area from cskaoyan_mall_region where `code` =  #{area_id}
+    </select>
+
+    <!--查询会员收藏-->
+    <resultMap id="CollectMap" type="com.cskaoyan.mall.mallStart.bean.Collect">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="value_id" property="valueId"/>
+        <result column="type" property="type"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectCollectAll" resultMap="CollectMap">
+        select id ,user_id,value_id,`type`,add_time,update_time,deleted
+        from cskaoyan_mall_collect
+        <where>
+            <if test="userId !=null">
+                and user_id = #{userId}
+            </if>
+            <if test="valueId != null">
+                and value_id = #{valueId}
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+
+    <!--查询会员足迹-->
+    <resultMap id="FootprintMap" type="com.cskaoyan.mall.mallStart.bean.Footprint">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectFootprintAll" resultMap="FootprintMap">
+        select id ,user_id,goods_id,add_time,update_time,deleted
+        from cskaoyan_mall_footprint
+        <where>
+            <if test="userId !=null">
+                and user_id = #{userId}
+            </if>
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+
+    <!--查询搜索历史-->
+    <resultMap id="SearchHistoryMap" type="com.cskaoyan.mall.mallStart.bean.SearchHistory">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="keyword" property="keyword"/>
+        <result column="from" property="from"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectSearchHistoryAll" resultMap="SearchHistoryMap">
+        select id ,user_id,keyword,`from`,add_time,update_time,deleted
+        from cskaoyan_mall_search_history
+        <where>
+            <if test="userId !=null">
+                and user_id = #{userId}
+            </if>
+            <if test="keyword !=null">
+                and keyword like '%' #{keyword} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+
+    <!--查询意见反馈-->
+    <resultMap id="FeedbackMap" type="com.cskaoyan.mall.mallStart.bean.Feedback">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="mobile" property="mobile"/>
+        <result column="feed_type" property="feedType"/>
+        <result column="content" property="content"/>
+        <result column="status" property="status"/>
+        <result column="has_picture" property="hasPicture"/>
+        <result column="pic_urls" property="picUrls"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectFeedbackAll" resultMap="FeedbackMap">
+        select id ,user_id,username,mobile,feed_type,content,status,has_picture,pic_urls,add_time,update_time,deleted
+        from cskaoyan_mall_feedback
+        <where>
+            <if test="id !=null">
+                and id = #{id}
+            </if>
+            <if test="username !=null">
+                and username like '%' #{username} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+
+</mapper>

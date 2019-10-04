@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminSystemMapper">
+    <!--查询管理员-->
+    <resultMap id="AdminMap" type="com.cskaoyan.mall.mallStart.bean.Admin">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="avatar" property="avatar"/>
+        <result column="role_ids" property="roleIds"/>
+    </resultMap>
+    <select id="selectAdminAll" resultMap="AdminMap">
+        select id ,username,avatar,`role_ids`
+        from cskaoyan_mall_admin
+        <where>
+            <if test="username !=null">
+                and username like '%' #{username} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--查询管理员根据用户名-->
+    <select id="selectAdminByUsername" resultMap="AdminMap">
+        select id ,username,avatar,`role_ids`
+        from cskaoyan_mall_admin
+        where username = #{username}
+    </select>
+    <!--查询管理员 role/options-->
+    <resultMap id="RoleOptionsMap" type="com.cskaoyan.mall.mallStart.bean.RoleOptions">
+        <result column="id" property="value"/>
+        <result column="name" property="label"/>
+    </resultMap>
+    <select id="selectRoleOptionsAll" resultMap="RoleOptionsMap">
+        select id ,`name`
+        from cskaoyan_mall_role
+    </select>
+    <!--查询操作日志-->
+    <resultMap id="LogMap" type="com.cskaoyan.mall.mallStart.bean.Log">
+        <result column="id" property="id"/>
+        <result column="admin" property="admin"/>
+        <result column="ip" property="ip"/>
+        <result column="type" property="type"/>
+        <result column="action" property="action"/>
+        <result column="status" property="status"/>
+        <result column="result" property="result"/>
+        <result column="comment" property="comment"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectLogAll" resultMap="LogMap">
+        select `id`,`admin`,`ip`,`type`,`action`,`status`,`result`,comment,add_time,update_time,deleted
+        from cskaoyan_mall_log
+        <where>
+            <if test="name !=null">
+                and `admin` like '%' #{name} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--查询角色管理-->
+    <resultMap id="RoleMap" type="com.cskaoyan.mall.mallStart.bean.Role">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="enabled" property="enabled"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectRoleAll" resultMap="RoleMap">
+        select `id`,`name`,`desc`,`enabled`,add_time,update_time,`deleted`
+        from cskaoyan_mall_role
+        <where>
+            <if test="name !=null">
+                and `name` like '%' #{name} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--添加角色管理-->
+    <insert id="insertRole">
+        <selectKey resultType="int" keyProperty="role.id" keyColumn="last_insert_id()" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into
+        cskaoyan_mall_role
+        (`name`,`desc`,add_time,update_time)
+        values
+        (#{role.name},#{role.desc},#{role.addTime},#{role.updateTime})
+    </insert>
+    <!--删除角色管理-->
+    <delete id="deleteRole">
+        delete from cskaoyan_mall_role where id = #{role.id}
+    </delete>
+    <!--更新角色管理-->
+    <update id="updateRole">
+        update cskaoyan_mall_role set `name` = #{role.name},`desc` = #{role.desc},update_time = now() where id = #{role.id}
+    </update>
+    <!--查询对象存储-->
+    <resultMap id="StorageMap" type="com.cskaoyan.mall.mallStart.bean.Storage">
+        <result column="id" property="id"/>
+        <result column="key" property="key"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="size" property="size"/>
+        <result column="url" property="url"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectStorageAll" resultMap="StorageMap">
+        select id ,`key`,`name`,`type`,`size`,`url`,add_time,update_time,deleted
+        from cskaoyan_mall_storage
+        <where>
+            <if test="key != null">
+                and `key` = #{key}
+            </if>
+            <if test="name != null">
+                and `name` like '%' #{name} '%'
+            </if>
+        </where>
+        order by
+        #{pageInfo.sort} #{pageInfo.order}
+    </select>
+    <!--添加上传对象-->
+    <insert id="insertStorage">
+        <selectKey resultType="int" keyProperty="storage.id" keyColumn="last_insert_id()" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into
+        cskaoyan_mall_storage
+        (`key`,`name`,`type`,`size`,`url`,add_time,update_time)
+        values
+        (#{storage.key},#{storage.name},#{storage.type},#{storage.size},#{storage.url},#{storage.addTime},#{storage.updateTime})
+    </insert>
+    <!--更新上传对象-->
+    <update id="updateStorage">
+        update cskaoyan_mall_storage set `name` = #{storage.name}, update_time = #{storage.updateTime} where id = #{storage.id}
+    </update>
+    <!--删除上传对象-->
+    <delete id="deleteStorage">
+        delete from cskaoyan_mall_storage where id = #{storage.id}
+    </delete>
+    <!--新增管理员-->
+    <insert id="insertAdmin">
+        <selectKey resultType="int" keyProperty="admin.id" keyColumn="last_insert_id()" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into
+        cskaoyan_mall_admin
+        (`username`,`password`,`avatar`,`add_time`,`update_time`,role_ids)
+        values
+        (#{admin.username},#{admin.password},#{admin.avatar},#{admin.addTime},#{admin.updateTime},#{admin.roleIds})
+    </insert>
+    <!--更新管理员-->
+    <update id="updateAdmin">
+        update cskaoyan_mall_admin set username = #{admin.username}, password = #{admin.password}, avatar = #{admin.avatar}, update_time = #{admin.updateTime},role_ids = #{admin.roleIds} where id = #{admin.id}
+    </update>
+    <!--删除管理员-->
+    <delete id="deleteAdmin">
+        delete from cskaoyan_mall_admin where id = #{admin.id}
+    </delete>
+    <!--查询角色名称-->
+    <select id="selectRoleNamesByRolesId" resultType="string">
+        select name from cskaoyan_mall_role
+        where id in
+        <foreach collection="roleIds" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+    <!--查询权限名称-->
+    <select id="selectPermsByRolesId" resultType="string">
+        select permission from cskaoyan_mall_permission
+        where role_id in
+        <foreach collection="roleIds" item="roleId" separator="," open="(" close=")">
+            #{roleId}
+        </foreach>
+    </select>
+    <!--根据管理员用户名查询密码-->
+    <select id="selectPasswordByUserName" resultType="string">
+        select password from cskaoyan_mall_admin where username = #{username}
+    </select>
+    <!--查询所有权限-->
+    <resultMap id="SystemPermissionsMap" type="com.cskaoyan.mall.mallStart.bean.SystemPermissions">
+        <result column="1st_name" property="id"/>
+        <result column="1st_name" property="label"/>
+        <collection property="children" ofType="com.cskaoyan.mall.mallStart.bean.SystemPermissions">
+            <result column="2st_name" property="id"/>
+            <result column="2st_name" property="label"/>
+            <collection property="children" ofType="com.cskaoyan.mall.mallStart.bean.SystemPermission">
+                <result column="label" property="label"/>
+                <result column="id" property="id"/>
+                <result column="api" property="api"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="selectSystemPermissionsAll" resultMap="SystemPermissionsMap">
+        select cskaoyan_mall_permission1.name as 1st_name,cskaoyan_mall_permission2.name as 2st_name, cskaoyan_mall_permission3.api as api ,cskaoyan_mall_permission3.`name` as label ,cskaoyan_mall_permission3.permission as id from cskaoyan_mall_permission1 LEFT JOIN cskaoyan_mall_permission2 on cskaoyan_mall_permission1.id = cskaoyan_mall_permission2.permission1_id LEFT JOIN cskaoyan_mall_permission3 on cskaoyan_mall_permission2.id = cskaoyan_mall_permission3.permission2_id
+    </select>
+    <!--查询所有权限-->
+    <select id="selectPermsAll" resultType="string">
+        select permission from cskaoyan_mall_permission3
+    </select>
+    <!--更新角色权限-->
+    <delete id="deletePermsByRoleId" parameterType="int">
+        delete from cskaoyan_mall_permission where role_id = #{roleId}
+    </delete>
+    <insert id="insertPerms" parameterType="int">
+        insert into cskaoyan_mall_permission (role_id,permission,add_time,update_time) values
+        <foreach collection="roleIdAndPermissions.permissions" item="permissions" separator=",">
+            (#{roleIdAndPermissions.roleId},#{permissions},now(),now())
+        </foreach>
+    </insert>
+</mapper>

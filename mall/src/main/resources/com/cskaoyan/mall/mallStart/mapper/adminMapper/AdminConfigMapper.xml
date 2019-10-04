@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminConfigMapper">
+
+    <select id="selectLiteMallMall" resultType="com.cskaoyan.mall.mallStart.bean.LiteMallMall">
+        select phone as cskaoyan_mall_mall_phone, address as cskaoyan_mall_mall_address, name as cskaoyan_mall_mall_name
+        , qq as cskaoyan_mall_mall_qq
+        from cskaoyan_litemall_mall
+    </select>
+
+    <update id="updateLiteMallMall">
+        update cskaoyan_litemall_mall set phone = #{mallConfig.cskaoyan_mall_mall_phone}
+        , address = #{mallConfig.cskaoyan_mall_mall_address}, name = #{mallConfig.cskaoyan_mall_mall_name}
+        , qq = #{mallConfig.cskaoyan_mall_mall_qq}
+        where id = 1
+    </update>
+
+    <select id="selectLiteMallExpress" resultType="com.cskaoyan.mall.mallStart.bean.LiteMallExpress">
+        select freight_min as cskaoyan_mall_express_freight_min, freight_value as cskaoyan_mall_express_freight_value
+        from cskaoyan_litemall_express
+    </select>
+
+    <update id="updateLiteMallExpress">
+        update cskaoyan_litemall_express set freight_min = #{expressConfig.cskaoyan_mall_express_freight_min},
+        freight_value = #{expressConfig.cskaoyan_mall_express_freight_value}
+        where id = 1
+    </update>
+
+    <select id="selectLiteMallOrder" resultType="com.cskaoyan.mall.mallStart.bean.LiteMallOrder">
+        select unpaid as cskaoyan_mall_order_unpaid
+        , unconfirm as cskaoyan_mall_order_unconfirm
+        , comment as cskaoyan_mall_order_comment
+        from cskaoyan_litemall_order
+        where id = 1
+    </select>
+
+    <update id="updateLiteMallOrder">
+        update cskaoyan_litemall_order set unpaid = #{orderConfig.cskaoyan_mall_order_unpaid}
+        , unconfirm = #{orderConfig.cskaoyan_mall_order_unconfirm}
+        , comment = #{orderConfig.cskaoyan_mall_order_comment}
+        where id = 1
+    </update>
+
+    <select id="selectLiteMallWx" resultType="com.cskaoyan.mall.mallStart.bean.LiteMallWx">
+        select catlog_goods as cskaoyan_mall_wx_catlog_goods
+        , catlog_list as cskaoyan_mall_wx_catlog_list
+        , index_brand as cskaoyan_mall_wx_index_brand
+        , index_hot as cskaoyan_mall_wx_index_hot
+        , index_new as cskaoyan_mall_wx_index_new
+        , index_topic as cskaoyan_mall_wx_index_topic
+        from cskaoyan_litemall_wx
+        where id = 1
+    </select>
+
+    <update id="updateLiteMallWx">
+        update cskaoyan_litemall_wx set catlog_goods = #{wxConfig.cskaoyan_mall_wx_catlog_goods}
+        , catlog_list = #{wxConfig.cskaoyan_mall_wx_catlog_list}
+        , index_brand = #{wxConfig.cskaoyan_mall_wx_index_brand}
+        , index_hot = #{wxConfig.cskaoyan_mall_wx_index_hot}
+        , index_new = #{wxConfig.cskaoyan_mall_wx_index_new}
+        , index_topic = #{wxConfig.cskaoyan_mall_wx_index_topic}
+        <if test="wxConfig.cskaoyan_mall_wx_share != null">
+            , share = #{wxConfig.cskaoyan_mall_wx_share}
+        </if>
+        where id = 1
+    </update>
+
+
+</mapper>

@@ -1,7 +1,7 @@
 package com.cskaoyan.mall.mallStart;
 
 import com.cskaoyan.mall.mallStart.bean.Region;
-import com.cskaoyan.mall.mallStart.mapper.AdminMallMapper;
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

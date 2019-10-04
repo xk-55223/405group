@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminStatisticsMapper">
+    <select id="selectSumOrderPriceByPaytime" resultType="double">
+        select sum(order_price) from cskaoyan_mall_order where pay_time like '%' #{date} '%'
+    </select>
+    <select id="selectSumUserByPaytime" resultType="int">
+        select count(user_id) from cskaoyan_mall_order where pay_time like '%' #{date} '%'
+    </select>
+    <select id="selectSumOrderByPaytime" resultType="int">
+        select count(id) from cskaoyan_mall_order where pay_time like '%' #{date} '%'
+    </select>
+    <resultMap id="UserMap" type="com.cskaoyan.mall.mallStart.bean.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="gender" jdbcType="TINYINT" property="gender"/>
+        <result column="birthday" jdbcType="DATE" property="birthday"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp"/>
+        <result column="user_level" jdbcType="TINYINT" property="userLevel"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="weixin_openid" jdbcType="VARCHAR" property="weixinOpenid"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="deleted" jdbcType="BIT" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, username, password, gender, birthday, last_login_time, last_login_ip, user_level,
+    nickname, mobile, avatar, weixin_openid, status, add_time, update_time, deleted
+    </sql>
+    <select id="selectUserAllGroupByAddTime" resultMap="UserMap">
+select
+    <include refid="Base_Column_List"/>
+    from cskaoyan_mall_user group by add_time order by add_time
+    </select>
+    <select id="selectSumUserByAddTime" resultType="int">
+        select count(id) from cskaoyan_mall_user where add_time like '%' #{date} '%'
+    </select>
+    <select id="selectOrderIdByPayTime" resultType="int">
+        select id from cskaoyan_mall_order where pay_time like '%' #{date} '%'
+    </select>
+    <select id="selectSumOrderById" resultType="int">
+        select id from cskaoyan_mall_order_goods where order_id = #{id}
+    </select>
+</mapper>
