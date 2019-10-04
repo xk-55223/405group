@@ -5,6 +5,8 @@ import com.cskaoyan.mall.mallStart.mapper.AdminFirstPageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AdminFirstPageServiceImpl implements AdminFirstPageService {
 
@@ -19,5 +21,20 @@ public class AdminFirstPageServiceImpl implements AdminFirstPageService {
         dashBoard.setUserTotal(firstPageMapper.getUserTotal());
         dashBoard.setProductTotal(firstPageMapper.getProductTotal());
         return dashBoard;
+    }
+
+    @Override
+    public String selectAvatarByUserName(String username) {
+        return firstPageMapper.selectAvatarByUserName(username);
+    }
+
+    @Override
+    public List<String> selectRolesByUsername(String username) {
+        return firstPageMapper.selectRolesByUsername(username);
+    }
+
+    @Override
+    public List<String> selectPermissionByUserName(String username) {
+        return firstPageMapper.selectPermissionByUserName(username);
     }
 }

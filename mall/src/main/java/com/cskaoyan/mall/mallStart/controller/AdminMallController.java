@@ -4,6 +4,8 @@ import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.AdminMallService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,6 @@ public class AdminMallController {
     @Autowired
     AdminMallService service;
 
-
     // 行政区域的查询啊显示
     @RequestMapping("admin/region/list")
     public BaseRespVo regionlist() {
@@ -29,6 +30,7 @@ public class AdminMallController {
 
     // 品牌制造商的查询和显示
     @RequestMapping("admin/brand/list")
+    @RequiresPermissions(value = {"admin:brand:list","admin:brand:read"}, logical = Logical.OR)
     public BaseRespVo brandList(FromPageInfo page,Brand brand) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Brand> brands = service.selectBrands(brand);
