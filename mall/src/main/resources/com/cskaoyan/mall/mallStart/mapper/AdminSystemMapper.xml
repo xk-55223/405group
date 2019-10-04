@@ -134,4 +134,27 @@
     <update id="updateStorage">
         update cskaoyan_mall_storage set `name` = #{storage.name}, update_time = #{storage.updateTime} where id = #{storage.id}
     </update>
+    <!--删除上传对象-->
+    <delete id="deleteStorage">
+        delete from cskaoyan_mall_storage where id = #{storage.id}
+    </delete>
+    <!--新增管理员-->
+    <insert id="insertAdmin">
+        <selectKey resultType="int" keyProperty="admin.id" keyColumn="last_insert_id()" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into
+        cskaoyan_mall_admin
+        (`username`,`password`,`avatar`,`add_time`,`update_time`,role_ids)
+        values
+        (#{admin.username},#{admin.password},#{admin.avatar},#{admin.addTime},#{admin.updateTime},#{admin.roleIds})
+    </insert>
+    <!--更新管理员-->
+    <update id="updateAdmin">
+        update cskaoyan_mall_admin set username = #{admin.username}, password = #{admin.password}, avatar = #{admin.avatar}, update_time = #{admin.updateTime},role_ids = #{admin.roleIds} where id = #{admin.id}
+    </update>
+    <!--删除管理员-->
+    <delete id="deleteAdmin">
+        delete from cskaoyan_mall_admin where id = #{admin.id}
+    </delete>
 </mapper>

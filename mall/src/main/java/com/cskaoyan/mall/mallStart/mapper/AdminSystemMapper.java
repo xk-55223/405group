@@ -25,4 +25,12 @@ public interface AdminSystemMapper {
     int insertStorage(@Param("storage") Storage storage);
 
     int updateStorage(@Param("storage") Storage storage);
+
+    int deleteStorage(@Param("storage") Storage storage);
+
+    int insertAdmin(@Param("admin") Admin admin);
+
+    int updateAdmin(@Param("admin") Admin admin);
+
+    int deleteAdmin(@Param("admin") Admin admin);
 }

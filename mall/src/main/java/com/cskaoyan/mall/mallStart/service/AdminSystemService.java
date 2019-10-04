@@ -27,4 +27,12 @@ public interface AdminSystemService {
     Storage insertStorage(MultipartFile file) throws IOException;
 
     Storage updateStorage(Storage storage);
+
+    int deleteStorage(Storage storage);
+
+    Admin insertAdmin(Admin admin);
+
+    Admin updateAdmin(Admin admin);
+
+    int deleteAdmin(Admin admin);
 }
