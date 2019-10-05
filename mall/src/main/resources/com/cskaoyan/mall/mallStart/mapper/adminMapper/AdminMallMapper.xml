@@ -181,7 +181,13 @@
     <select id="selectHistoryKeywords" resultType="com.cskaoyan.mall.mallStart.bean.Keyword">
         select keyword
         from cskaoyan_mall_search_history
+        where user_id = #{userId}
     </select>
+
+    <insert id="insertSearchHistory">
+        insert into cskaoyan_mall_search_history (keyword,user_id,add_time,update_time)
+        values (#{history.keyword},#{history.userId},#{history.addTime},#{history.updateTime})
+    </insert>
 
     <select id="selectStringKeywords" resultType="String">
         select keyword from cskaoyan_mall_keyword where keyword like '%' #{keyword} '%'
@@ -322,6 +328,10 @@ where order_id = #{id}
 
     <delete id="deleteIssueById">
         delete from cskaoyan_mall_issue where id = #{id}
+    </delete>
+
+    <delete id="deleteSearchHistory">
+        delete from cskaoyan_mall_search_history where user_id = #{userId}
     </delete>
 
 </mapper>

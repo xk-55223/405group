@@ -68,7 +68,11 @@ public interface AdminMallMapper {
 
     Keyword selectDefaultKeyword();
 
-    List<Keyword> selectHistoryKeywords();
+    List<Keyword> selectHistoryKeywords(int userId);
 
     List<String> selectStringKeywords(String keyword);
+
+    void deleteSearchHistory(int userId);
+
+    void insertSearchHistory(@Param("history")SearchHistory history);
 }

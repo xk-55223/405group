@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,10 +61,10 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-    public SearchIndexInfo searchIndex() {
+    public SearchIndexInfo searchIndex(int userId) {
         List<Keyword> hotKeywords = mallMapper.selectHotKeywords(true);
         Keyword defaultKeyword = mallMapper.selectDefaultKeyword();
-        List<Keyword> historyKeywords = mallMapper.selectHistoryKeywords();
+        List<Keyword> historyKeywords = mallMapper.selectHistoryKeywords(userId);
         SearchIndexInfo indexInfo = new SearchIndexInfo();
         indexInfo.setHotKeywordList(hotKeywords);
         indexInfo.setDefaultKeyword(defaultKeyword);
@@ -77,7 +78,7 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-    public GoodsListInfo goodsList(String keyword, FromPageInfo info, int categoryId) {
+    public GoodsListInfo goodsList(int userId, String keyword, FromPageInfo info, int categoryId) {
         GoodsListInfo goodsListInfo = new GoodsListInfo();
         PageHelper.startPage(info.getPage(),info.getLimit());
         List<Goods> goods = goodsMapper.selectGoodsByKeywordAndCategoryId(keyword,categoryId,info);
@@ -88,6 +89,14 @@ public class WxHomeServiceImpl implements WxHomeService {
         goodsListInfo.setCount(total);
         goodsListInfo.setFilterCategoryList(categories);
         goodsListInfo.setGoodsList(goods);
+        // 添加搜索历史
+        SearchHistory searchHistory = new SearchHistory();
+        Date date = new Date();
+        searchHistory.setAddTime(date);
+        searchHistory.setUpdateTime(date);
+        searchHistory.setUserId(userId);
+        searchHistory.setKeyword(keyword);
+        mallMapper.insertSearchHistory(searchHistory);
         return goodsListInfo;
     }
 
@@ -100,6 +109,11 @@ public class WxHomeServiceImpl implements WxHomeService {
         resultMap.put("totalPages", total);
         resultMap.put("brandList", brands);
         return resultMap;
+    }
+
+    @Override
+    public void searchClearhistory(int userId) {
+        mallMapper.deleteSearchHistory(userId);
     }
 
 }

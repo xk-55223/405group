@@ -28,7 +28,8 @@ public class WxHomeController {
     // 搜索时显示关键词信息
     @RequestMapping("wx/search/index")
     public BaseRespVo searchIndex() {
-        SearchIndexInfo indexInfo = wxHomeService.searchIndex();
+        int userId = 1;
+        SearchIndexInfo indexInfo = wxHomeService.searchIndex(userId);
         return BaseRespVo.ok(indexInfo);
     }
 
@@ -40,7 +41,8 @@ public class WxHomeController {
 
     @RequestMapping("wx/goods/list")
     public BaseRespVo goodsList(String keyword, FromPageInfo info,Integer categoryId) {
-        GoodsListInfo goodsListInfo = wxHomeService.goodsList(keyword, info, categoryId);
+        int userId = 1;
+        GoodsListInfo goodsListInfo = wxHomeService.goodsList(userId, keyword, info, categoryId);
         return BaseRespVo.ok(goodsListInfo);
     }
     /*ljq*/
@@ -48,5 +50,12 @@ public class WxHomeController {
     public BaseRespVo<Map> brandList(FromPageInfo pageInfo) {
         Map resultMap = wxHomeService.selectBrandAll(pageInfo);
         return BaseRespVo.ok(resultMap);
+    }
+
+    @RequestMapping("wx/search/clearhistory")
+    public BaseRespVo searchClearhistory() {
+        int id = 1;
+        wxHomeService.searchClearhistory(id);
+        return BaseRespVo.ok(null);
     }
 }
