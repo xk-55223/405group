@@ -100,4 +100,9 @@ public class AdminGoodsController {
         BaseRespVo ok = BaseRespVo.ok("成功");
         return ok;
     }
+
+//    @RequestMapping("admin/order/reply")
+//    public BaseRespVo createGoods() {
+//
+//    }
 }
