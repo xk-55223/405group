@@ -49,4 +49,6 @@ public interface AdminSystemMapper {
     int deletePermsByRoleId(@Param("roleId") int roleId);
 
     int insertPerms(@Param("roleIdAndPermissions") RoleIdAndPermissions roleIdAndPermissions);
+
+    String selectApisByPerm(String perm);
 }
