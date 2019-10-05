@@ -1,15 +1,12 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
-import com.cskaoyan.mall.mallStart.bean.Goods;
+import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.GoodsCount;
 import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
 import com.cskaoyan.mall.mallStart.service.wxService.WxHomeService;
-import com.cskaoyan.mall.mallStart.tool.BaseRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class WxHomeController {
