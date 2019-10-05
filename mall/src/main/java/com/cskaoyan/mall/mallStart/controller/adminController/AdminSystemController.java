@@ -19,7 +19,7 @@ public class AdminSystemController {
 
     /*用户管理*/
     @RequestMapping("admin/admin/list")
-    public BaseRespVo<List<Admin>> adminList(FromPageInfo pageInfo, String username) {
+    public BaseRespVo<ListBean<Admin>> adminList(FromPageInfo pageInfo, String username) {
         ListBean<Admin> adminListBean = adminSystemService.selectAdminAll(pageInfo, username);
         return BaseRespVo.ok(adminListBean);
     }
@@ -31,13 +31,13 @@ public class AdminSystemController {
     }
 
     @RequestMapping("admin/log/list")
-    public BaseRespVo<List<Log>> logList(FromPageInfo pageInfo, String name) {
+    public BaseRespVo<ListBean<Log>> logList(FromPageInfo pageInfo, String name) {
         ListBean<Log> logListBean = adminSystemService.selectLogAll(pageInfo, name);
         return BaseRespVo.ok(logListBean);
     }
 
     @RequestMapping("admin/role/list")
-    public BaseRespVo<List<Role>> roleList(FromPageInfo pageInfo, String name) {
+    public BaseRespVo<ListBean<Role>> roleList(FromPageInfo pageInfo, String name) {
         ListBean<Role> roleListBean = adminSystemService.selectRoleAll(pageInfo, name);
         return BaseRespVo.ok(roleListBean);
     }
@@ -67,7 +67,7 @@ public class AdminSystemController {
     }
 
     @RequestMapping("admin/storage/list")
-    public BaseRespVo<List<Storage>> storageList(FromPageInfo pageInfo, String key, String name) {
+    public BaseRespVo<ListBean<Storage>> storageList(FromPageInfo pageInfo, String key, String name) {
         ListBean<Storage> storageListBean = adminSystemService.selectStorageAll(pageInfo, key, name);
         return BaseRespVo.ok(storageListBean);
     }

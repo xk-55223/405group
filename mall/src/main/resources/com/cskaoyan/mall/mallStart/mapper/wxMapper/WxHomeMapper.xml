@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cskaoyan.mall.mallStart.mapper.wxMapper.WxHomeMapper">
+    <resultMap id="BrandMap" type="com.cskaoyan.mall.mallStart.bean.Brand">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="floor_price" property="floorPrice"/>
+    </resultMap>
+    <select id="selectBrandAll" resultMap="BrandMap">
+        select id ,`name`,`desc`,`pic_url`,`floor_price` from cskaoyan_mall_brand
+    </select>
+</mapper>

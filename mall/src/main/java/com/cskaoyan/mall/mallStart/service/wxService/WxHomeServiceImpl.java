@@ -5,10 +5,16 @@ import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminConfigMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGeneralizeMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
+import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxHomeMapper;
+import com.cskaoyan.mall.mallStart.tool.BeansManager;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WxHomeServiceImpl implements WxHomeService {
@@ -21,6 +27,8 @@ public class WxHomeServiceImpl implements WxHomeService {
     @Autowired
     AdminGeneralizeMapper generalizeMapper;
 
+    @Autowired
+    WxHomeMapper wxHomeMapper;
 
 
     @Override
@@ -51,4 +59,17 @@ public class WxHomeServiceImpl implements WxHomeService {
     public GoodsCount goodsCount() {
         return goodsMapper.selectGoodsCount();
     }
+
+    @Override
+    public Map selectBrandAll(FromPageInfo fromPageInfo) {
+        PageHelper.startPage(fromPageInfo.getPage(), fromPageInfo.getLimit());
+        List<Brand> brands = wxHomeMapper.selectBrandAll(fromPageInfo);
+        PageInfo<Brand> pageInfo = new PageInfo<>(brands);
+        long total = pageInfo.getTotal();
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("totalPages", total);
+        resultMap.put("brandList", brands);
+        return resultMap;
+    }
+
 }

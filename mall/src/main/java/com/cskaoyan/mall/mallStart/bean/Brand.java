@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Brand<T> {
+public class Brand {
     private Integer id;
 
     private String name;
@@ -16,7 +16,7 @@ public class Brand<T> {
 
     private Byte sortOrder;
 
-    private T floorPrice;
+    private Object floorPrice;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -79,11 +79,11 @@ public class Brand<T> {
         this.sortOrder = sortOrder;
     }
 
-    public T getFloorPrice() {
+    public Object getFloorPrice() {
         return floorPrice;
     }
 
-    public void setFloorPrice(T floorPrice) {
+    public void setFloorPrice(Object floorPrice) {
         this.floorPrice = floorPrice;
     }
 
