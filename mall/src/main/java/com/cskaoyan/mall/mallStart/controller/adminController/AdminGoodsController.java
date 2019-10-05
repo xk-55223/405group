@@ -110,6 +110,7 @@ public class AdminGoodsController {
     }
 
     @RequestMapping("admin/goods/update")
+    @RequiresPermissions("admin:goods:update")
     public BaseRespVo updateGoods(@RequestBody GoodCreatBean goods){
         adminGoodsService.updateGoods(goods);
         BaseRespVo ok = BaseRespVo.ok("成功");
