@@ -5,6 +5,6 @@ import com.cskaoyan.mall.mallStart.bean.FromPageInfo;
 
 import java.util.List;
 
-public interface WxHomeMapper {
+public interface WxBrandMapper {
     List<Brand> selectBrandAll(FromPageInfo pageInfo);
 }
