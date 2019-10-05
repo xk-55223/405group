@@ -65,6 +65,7 @@ public class AdminSystemServiceImpl implements AdminSystemService {
 
     @Override
     public int deleteRole(Role role) {
+        adminSystemMapper.deletePermsByRoleId(role.getId());
         return adminSystemMapper.deleteRole(role);
     }
 

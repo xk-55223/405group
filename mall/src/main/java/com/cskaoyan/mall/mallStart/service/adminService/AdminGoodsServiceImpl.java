@@ -143,5 +143,41 @@ public class AdminGoodsServiceImpl implements AdminGoodsService {
         }
     }
 
+    @Override
+    public void updateGoods(GoodCreatBean goods) {
+        Date date = new Date();
+
+        List<GoodsAttribute> attributes = goods.getAttributes();
+        Goods goods1 = goods.getGoods();
+        List<GoodsProduct> products = goods.getProducts();
+        List<GoodsSpecification> specifications = goods.getSpecifications();
+
+        if(attributes!=null){
+            for (GoodsAttribute attribute : attributes) {
+                attribute.setUpdateTime(date);
+                adminGoodsMapper.updateAttribute(attribute,attribute.getId());
+            }
+        }else {
+            adminGoodsMapper.goodsAttributeDelete(goods1.getId());
+        }
+
+        goods1.setUpdateTime(date);
+        adminGoodsMapper.updateGoods(goods1,goods1.getId());
+
+        for (GoodsProduct product : products) {
+            product.setUpdateTime(date);
+            adminGoodsMapper.updateProduct(product,product.getId());
+        }
+
+        if(specifications!=null){
+            for (GoodsSpecification specification : specifications) {
+                specification.setUpdateTime(date);
+                adminGoodsMapper.updateSpecification(specification,specification.getId());
+            }
+        }else {
+            adminGoodsMapper.goodsSpecificationDelete(goods1.getId());
+        }
+    }
+
 
 }
