@@ -19,4 +19,5 @@ public interface AdminUserMapper {
 
     List<Feedback> selectFeedbackAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("id") Integer id, @Param("username") String username);
 
+    int queryCollectType(int userId,int goodsId);
 }
