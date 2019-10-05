@@ -40,7 +40,7 @@ public class WxHomeController {
     }
 
     @RequestMapping("wx/goods/list")
-    public BaseRespVo goodsList(String keyword, PageInfo info,Integer categoryId) {
+    public BaseRespVo goodsList(String keyword, FromPageInfo info,Integer categoryId) {
         GoodsListInfo goodsListInfo = service.goodsList(keyword,info,categoryId);
         return BaseRespVo.ok(goodsListInfo);
     }

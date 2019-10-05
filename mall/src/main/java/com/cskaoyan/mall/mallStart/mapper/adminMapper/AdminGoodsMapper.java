@@ -123,9 +123,9 @@ public interface AdminGoodsMapper {
     /*GoodsListInfo selectGoodsByKeywordAndCategoryId(@Param("keyword") String keyword
             ,@Param("categoryId") Integer categoryId);*/
     List<Goods> selectGoodsByKeywordAndCategoryId(@Param("keyword") String keyword
-            ,@Param("categoryId") Integer categoryId);
+            ,@Param("categoryId") Integer categoryId
+            ,@Param("pageInfo") FromPageInfo pageInfo);
 
-    List<Category> selectGoodsCategorys(@Param("keyword") String keyword
-            ,@Param("categoryId") Integer categoryId);
+    List<Category> selectGoodsCategorys(@Param("keyword") String keyword);
 }
 

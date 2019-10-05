@@ -74,11 +74,11 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-    public GoodsListInfo goodsList(String keyword, PageInfo info, int categoryId) {
+    public GoodsListInfo goodsList(String keyword, FromPageInfo info, int categoryId) {
         GoodsListInfo goodsListInfo = new GoodsListInfo();
-        PageHelper.startPage(info.getPageNum(),info.getPageSize());
-        List<Goods> goods = goodsMapper.selectGoodsByKeywordAndCategoryId(keyword, categoryId);
-        List<Category> categories = goodsMapper.selectGoodsCategorys(keyword, categoryId);
+        PageHelper.startPage(info.getPage(),info.getLimit());
+        List<Goods> goods = goodsMapper.selectGoodsByKeywordAndCategoryId(keyword,categoryId,info);
+        List<Category> categories = goodsMapper.selectGoodsCategorys(keyword);
         BeansManager beansManager = new BeansManager();
         ListBean listBean = beansManager.toListBean(goods);
         int total = (int) listBean.getTotal();
