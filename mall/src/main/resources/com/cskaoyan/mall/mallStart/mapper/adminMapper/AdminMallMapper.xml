@@ -49,12 +49,16 @@
       , update_time as updateTime, deleted
         from cskaoyan_mall_brand
         <where>
-            <if test="brand.id != 0 and brand.id != null">
+
+        <if test="brand != null">
+            <if test=" brand.id != null and brand.id != 0">
                 and id = #{brand.id}
             </if>
             <if test="brand.name != null and brand.name != ''">
                 and name like '%' #{brand.name} '%'
             </if>
+        </if>
+
         </where>
     </select>
 
@@ -171,6 +175,8 @@
         <result column="level" property="level"/>
         <collection property="children" column="id"
                     select="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper.selectCategoryChildren"></collection>
+        <collection property="goodsList" column="id"
+                    select="com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper.selectGoodsList"/>
     </resultMap>
 
     <select id="selectCategorys" resultMap="CategoryMapper">
@@ -178,6 +184,14 @@
         sortOrder, add_time as addTime, update_time as updateTime, `deleted`
         from cskaoyan_mall_category
         where pid = 0
+    </select>
+
+    <select id="selectGoodsList" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
+        select brief, counter_price as counterPrice, g.id , is_hot as isHot, is_new as isNew
+        ,g.name ,g.pic_url as picUrl, retail_price as retailPrice
+        from cskaoyan_mall_category c LEFT JOIN cskaoyan_mall_goods g
+        on c.id = g.category_id
+        where c.pid = #{id}
     </select>
 
     <select id="selectCategoryChildren" resultType="com.cskaoyan.mall.mallStart.bean.Category">

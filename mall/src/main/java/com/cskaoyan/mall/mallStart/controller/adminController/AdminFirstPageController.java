@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
-import java.util.List;
 
 @RestController
 public class AdminFirstPageController {
@@ -47,12 +46,13 @@ public class AdminFirstPageController {
 
 
     @RequestMapping("admin/auth/info")
-    public BaseRespVo info(String token) {
+    public BaseRespVo info() {
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getPrincipal();
         LoginInfo loginInfo = firstPageService.selectLoginInfoByUsername(username);
         return BaseRespVo.ok(loginInfo);
     }
+
 
     // 退出登录，失败
     @RequestMapping("admin/auth/logout")
@@ -61,6 +61,7 @@ public class AdminFirstPageController {
         subject.logout();
         return BaseRespVo.ok(null);
     }
+
 
     // 认证失败
     @RequestMapping("fail")

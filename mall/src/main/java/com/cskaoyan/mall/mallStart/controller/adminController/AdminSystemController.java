@@ -104,9 +104,29 @@ public class AdminSystemController {
         Admin admin = adminSystemService.updateAdmin(paramAdmin);
         return BaseRespVo.ok(admin);
     }
+
     @RequestMapping(value = "admin/admin/delete", method = RequestMethod.POST)
     public Map adminDelete(@RequestBody Admin paramAdmin) {
         adminSystemService.deleteAdmin(paramAdmin);
+        Map<String, Object> responseMap = new LinkedHashMap<>();
+        responseMap.put("errno", 0);
+        responseMap.put("errmsg", "成功");
+        return responseMap;
+    }
+
+    @RequestMapping(value = "admin/role/permissions",method = RequestMethod.GET)
+    public BaseRespVo<Map> rolePermissions(int roleId) {
+        int[] roleIds = {roleId};
+        List<String> perms = adminSystemService.selectPermsByRolesIds(roleIds);
+        List<SystemPermissions> systemPermissions = adminSystemService.selectSystemPermissionsAll();
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("assignedPermissions", perms);
+        resultMap.put("systemPermissions", systemPermissions);
+        return BaseRespVo.ok(resultMap);
+    }
+    @RequestMapping(value = "admin/role/permissions",method = RequestMethod.POST)
+    public Map changeRolePermissions(@RequestBody RoleIdAndPermissions roleIdAndPermissions) {
+        adminSystemService.updatePermissions(roleIdAndPermissions);
         Map<String, Object> responseMap = new LinkedHashMap<>();
         responseMap.put("errno", 0);
         responseMap.put("errmsg", "成功");

@@ -134,4 +134,26 @@ public class AdminSystemServiceImpl implements AdminSystemService {
         return adminSystemMapper.deleteAdmin(admin);
     }
 
+    @Override
+    public List<String> selectPermsByRolesIds(int[] roleIds) {
+        List<String> perms = adminSystemMapper.selectPermsByRolesId(roleIds);
+        if (perms.size() != 0) {
+            if ("*".equals(perms.get(0))) {
+                perms = adminSystemMapper.selectPermsAll();
+            }
+        }
+        return perms;
+    }
+
+    @Override
+    public List<SystemPermissions> selectSystemPermissionsAll() {
+        return adminSystemMapper.selectSystemPermissionsAll();
+    }
+
+    @Override
+    public int updatePermissions(RoleIdAndPermissions roleIdAndPermissions) {
+        adminSystemMapper.deletePermsByRoleId(roleIdAndPermissions.getRoleId());
+        return adminSystemMapper.insertPerms(roleIdAndPermissions);
+    }
+
 }

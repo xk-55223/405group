@@ -60,4 +60,6 @@ public interface AdminMallMapper {
     void deleteKeywordById(Integer id);
 
     void updateKeyword(@Param("keyword") Keyword keyword);
+
+    List<Category> selectCategorys(int pid);
 }

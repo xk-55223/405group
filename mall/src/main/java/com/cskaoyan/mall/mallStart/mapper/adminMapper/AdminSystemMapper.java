@@ -41,4 +41,12 @@ public interface AdminSystemMapper {
     List<String> selectPermsByRolesId(@Param("roleIds") int[] roleIds);
 
     String selectPasswordByUserName(@Param("username") String username);
+
+    List<SystemPermissions> selectSystemPermissionsAll();
+
+    List<String> selectPermsAll();
+
+    int deletePermsByRoleId(@Param("roleId") int roleId);
+
+    int insertPerms(@Param("roleIdAndPermissions") RoleIdAndPermissions roleIdAndPermissions);
 }
