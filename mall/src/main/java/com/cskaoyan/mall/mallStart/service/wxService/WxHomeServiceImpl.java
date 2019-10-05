@@ -4,6 +4,7 @@ import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGeneralizeMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
+import com.cskaoyan.mall.mallStart.tool.BeansManager;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxBrandMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -59,6 +60,37 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
+    public SearchIndexInfo searchIndex() {
+        List<Keyword> hotKeywords = mallMapper.selectHotKeywords(true);
+        Keyword defaultKeyword = mallMapper.selectDefaultKeyword();
+        List<Keyword> historyKeywords = mallMapper.selectHistoryKeywords();
+        SearchIndexInfo indexInfo = new SearchIndexInfo();
+        indexInfo.setHotKeywordList(hotKeywords);
+        indexInfo.setDefaultKeyword(defaultKeyword);
+        indexInfo.setHistoryKeywordList(historyKeywords);
+        return indexInfo;
+    }
+
+    @Override
+    public List<String> searchHelper(String keyword) {
+        return mallMapper.selectStringKeywords(keyword);
+    }
+
+    @Override
+    public GoodsListInfo goodsList(String keyword, FromPageInfo info, int categoryId) {
+        GoodsListInfo goodsListInfo = new GoodsListInfo();
+        PageHelper.startPage(info.getPage(),info.getLimit());
+        List<Goods> goods = goodsMapper.selectGoodsByKeywordAndCategoryId(keyword,categoryId,info);
+        List<Category> categories = goodsMapper.selectGoodsCategorys(keyword);
+        BeansManager beansManager = new BeansManager();
+        ListBean listBean = beansManager.toListBean(goods);
+        int total = (int) listBean.getTotal();
+        goodsListInfo.setCount(total);
+        goodsListInfo.setFilterCategoryList(categories);
+        goodsListInfo.setGoodsList(goods);
+        return goodsListInfo;
+    }
+
     public Map selectBrandAll(FromPageInfo fromPageInfo) {
         PageHelper.startPage(fromPageInfo.getPage(), fromPageInfo.getLimit());
         List<Brand> brands = wxBrandMapper.selectBrandAll(fromPageInfo);

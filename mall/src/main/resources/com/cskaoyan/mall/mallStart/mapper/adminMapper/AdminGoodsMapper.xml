@@ -119,6 +119,49 @@
         where is_new = #{isNew}
     </select>
 
+    <select id="selectGoodsByKeywordAndCategoryId" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
+        select id
+        ,brief
+        ,counter_price as counterPrice
+        ,is_new        as isNew
+        ,is_hot        as isHot
+        ,name
+        ,pic_url       as picUrl
+        ,retail_price  as retailPrice
+        from cskaoyan_mall_goods
+        where
+        name like '%' #{keyword} '%'
+        <if test="categoryId != null and categoryId != 0">
+            and category_id = #{categoryId}
+        </if>
+        <if test="pageInfo != null">
+            <if test="pageInfo.order != null and pageInfo.order != ''
+                        and pageInfo.sort != null and pageInfo.sort !=''">
+                order by #{pageInfo.sort} ${pageInfo.order}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectGoodsCategorys" resultType="com.cskaoyan.mall.mallStart.bean.Category">
+        select DISTINCT
+        c.id             as   id
+        ,c.name          as   name
+        ,c.keywords      as   keywords
+        ,c.desc          as   `desc`
+        ,c.icon_url      as   iconUrl
+        ,c.pic_url       as   picUrl
+        ,c.level         as   `level`
+        ,c.add_time      as   addTime
+        ,c.deleted       as   deleted
+        ,c.pid           as   pid
+        ,c.sort_order    as   sortOrder
+        ,c.update_time   as   updateTime
+        from cskaoyan_mall_goods g
+        LEFT JOIN cskaoyan_mall_category c
+        on g.category_id = c.id
+        where
+        g.name like '%' #{keyword} '%'
+    </select>
     <update id="updateAttribute">
         update cskaoyan_mall_goods_attribute set goods_id = #{attribute.goodsId},attribute = #{attribute.attribute},`value` = #{attribute.value},update_time = #{attribute.updateTime}
        where id = #{id}
