@@ -108,4 +108,11 @@ public class AdminGoodsController {
         BaseRespVo ok = BaseRespVo.ok("成功");
         return ok;
     }
+
+    @RequestMapping("admin/goods/update")
+    public BaseRespVo updateGoods(@RequestBody GoodCreatBean goods){
+        adminGoodsService.updateGoods(goods);
+        BaseRespVo ok = BaseRespVo.ok("成功");
+        return ok;
+    }
 }
