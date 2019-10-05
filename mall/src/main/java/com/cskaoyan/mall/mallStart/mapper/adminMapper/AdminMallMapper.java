@@ -3,6 +3,7 @@ package com.cskaoyan.mall.mallStart.mapper.adminMapper;
 import com.cskaoyan.mall.mallStart.bean.*;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -62,4 +63,12 @@ public interface AdminMallMapper {
     void updateKeyword(@Param("keyword") Keyword keyword);
 
     List<Category> selectCategorys(int pid);
+
+    List<Keyword> selectHotKeywords(boolean isHot);
+
+    Keyword selectDefaultKeyword();
+
+    List<Keyword> selectHistoryKeywords();
+
+    List<String> selectStringKeywords(String keyword);
 }

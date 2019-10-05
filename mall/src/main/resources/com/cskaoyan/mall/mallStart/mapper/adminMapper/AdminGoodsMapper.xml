@@ -118,4 +118,102 @@
         from cskaoyan_mall_goods
         where is_new = #{isNew}
     </select>
+
+    <!--<resultMap id="GoodsListInfoMap" type="com.cskaoyan.mall.mallStart.bean.GoodsListInfo">
+        <collection property="goodsList" ofType="com.cskaoyan.mall.mallStart.bean.Goods">
+            <result column="gid"            property="id"/>
+            <result column="gbreif"          property="breif"/>
+            <result column="gcounterPrice"  property="counterPrice"/>
+            <result column="gisNew"         property="isNew"/>
+            <result column="gisHot"         property="isHot"/>
+            <result column="gname"          property="name"/>
+            <result column="gpicUrl"        property="picUrl"/>
+            <result column="gretailPrice"   property="retailPrice"/>
+        </collection>
+
+        <collection property="filterCategoryList" ofType="com.cskaoyan.mall.mallStart.bean.Category" >
+            <result column="cid"         property="id"/>
+            <result column="cname"       property="name"/>
+            <result column="ckeywords"   property="keywords"/>
+            <result column="cdesc"       property="desc"/>
+            <result column="ciconUrl"    property="iconUrl"/>
+            <result column="cpicUrl"     property="picUrl"/>
+            <result column="clevel"      property="level"/>
+            <result column="caddTime"    property="addTime"/>
+            <result column="cdeleted"    property="deleted"/>
+            <result column="cpid"        property="pid"/>
+            <result column="csortOrder"  property="sortOrder"/>
+            <result column="cupdateTime" property="updateTime"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectGoodsByKeywordAndCategoryId" resultMap="GoodsListInfoMap">
+        select
+        g.id as gid
+        ,g.brief as gbrief
+        ,g.counter_price as gcounterPrice
+        ,g.is_new as gisNew
+        ,g.is_hot as gisHot
+        ,g.name as gname
+        ,g.pic_url as gpicUrl
+        ,g.retail_price as gretailPrice
+        ,c.id          as   cid
+        ,c.name        as   cname
+        ,c.keywords    as   ckeywords
+        ,c.desc        as   cdesc
+        ,c.icon_url     as   ciconUrl
+        ,c.pic_url      as   cpicUrl
+        ,c.level       as   clevel
+        ,c.add_time     as   caddTime
+        ,c.deleted     as   cdeleted
+        ,c.pid         as   cpid
+        ,c.sort_order   as   csortOrder
+        ,c.update_time  as   cupdateTime
+        from cskaoyan_mall_goods g
+        LEFT JOIN cskaoyan_mall_category c
+        on g.category_id = c.id
+        where
+        g.name like '%' #{keyword} '%'
+        <if test="categoryId != null and categoryId != 0">
+          and g.category_id = #{categoryId}
+        </if>
+    </select>-->
+
+    <select id="selectGoodsByKeywordAndCategoryId" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
+        select id
+        ,brief
+        ,counter_price as counterPrice
+        ,is_new        as isNew
+        ,is_hot        as isHot
+        ,name
+        ,pic_url       as picUrl
+        ,retail_price  as retailPrice
+        from cskaoyan_mall_goods
+        where
+        name like '%' #{keyword} '%'
+        <if test="categoryId != null and categoryId != 0">
+            and category_id = #{categoryId}
+        </if>
+    </select>
+
+    <select id="selectGoodsCategorys" resultType="com.cskaoyan.mall.mallStart.bean.Category">
+        select DISTINCT
+        c.id             as   id
+        ,c.name          as   name
+        ,c.keywords      as   keywords
+        ,c.desc          as   `desc`
+        ,c.icon_url      as   iconUrl
+        ,c.pic_url       as   picUrl
+        ,c.level         as   `level`
+        ,c.add_time      as   addTime
+        ,c.deleted       as   deleted
+        ,c.pid           as   pid
+        ,c.sort_order    as   sortOrder
+        ,c.update_time   as   updateTime
+        from cskaoyan_mall_goods g
+        LEFT JOIN cskaoyan_mall_category c
+        on g.category_id = c.id
+        where
+        g.name like '%' #{keyword} '%'
+    </select>
 </mapper>

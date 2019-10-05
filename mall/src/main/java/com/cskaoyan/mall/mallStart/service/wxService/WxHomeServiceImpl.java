@@ -5,7 +5,11 @@ import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminConfigMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGeneralizeMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
+import com.cskaoyan.mall.mallStart.tool.BeansManager;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,5 +54,37 @@ public class WxHomeServiceImpl implements WxHomeService {
     @Override
     public GoodsCount goodsCount() {
         return goodsMapper.selectGoodsCount();
+    }
+
+    @Override
+    public SearchIndexInfo searchIndex() {
+        List<Keyword> hotKeywords = mallMapper.selectHotKeywords(true);
+        Keyword defaultKeyword = mallMapper.selectDefaultKeyword();
+        List<Keyword> historyKeywords = mallMapper.selectHistoryKeywords();
+        SearchIndexInfo indexInfo = new SearchIndexInfo();
+        indexInfo.setHotKeywordList(hotKeywords);
+        indexInfo.setDefaultKeyword(defaultKeyword);
+        indexInfo.setHistoryKeywordList(historyKeywords);
+        return indexInfo;
+    }
+
+    @Override
+    public List<String> searchHelper(String keyword) {
+        return mallMapper.selectStringKeywords(keyword);
+    }
+
+    @Override
+    public GoodsListInfo goodsList(String keyword, PageInfo info, int categoryId) {
+        GoodsListInfo goodsListInfo = new GoodsListInfo();
+        PageHelper.startPage(info.getPageNum(),info.getPageSize());
+        List<Goods> goods = goodsMapper.selectGoodsByKeywordAndCategoryId(keyword, categoryId);
+        List<Category> categories = goodsMapper.selectGoodsCategorys(keyword, categoryId);
+        BeansManager beansManager = new BeansManager();
+        ListBean listBean = beansManager.toListBean(goods);
+        int total = (int) listBean.getTotal();
+        goodsListInfo.setCount(total);
+        goodsListInfo.setFilterCategoryList(categories);
+        goodsListInfo.setGoodsList(goods);
+        return goodsListInfo;
     }
 }

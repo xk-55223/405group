@@ -119,5 +119,13 @@ public interface AdminGoodsMapper {
 
     @Select("select count(id) as goodsCount from cskaoyan_mall_goods")
     GoodsCount selectGoodsCount();
+
+    /*GoodsListInfo selectGoodsByKeywordAndCategoryId(@Param("keyword") String keyword
+            ,@Param("categoryId") Integer categoryId);*/
+    List<Goods> selectGoodsByKeywordAndCategoryId(@Param("keyword") String keyword
+            ,@Param("categoryId") Integer categoryId);
+
+    List<Category> selectGoodsCategorys(@Param("keyword") String keyword
+            ,@Param("categoryId") Integer categoryId);
 }
 
