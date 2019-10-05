@@ -162,4 +162,22 @@
         where
         g.name like '%' #{keyword} '%'
     </select>
+    <update id="updateAttribute">
+        update cskaoyan_mall_goods_attribute set goods_id = #{attribute.goodsId},attribute = #{attribute.attribute},`value` = #{attribute.value},update_time = #{attribute.updateTime}
+       where id = #{id}
+    </update>
+
+    <update id="updateGoods">
+        update cskaoyan_mall_goods set goods_sn = #{goods.goodsSn}, `name` = #{goods.name}, category_id = #{goods.categoryId}, brand_id = #{goods.brandId}, gallery = #{goods.gallery}, keywords = #{goods.keywords} , brief = #{goods.brief}, is_on_sale=#{goods.isOnSale}, sort_order=#{goods.sortOrder},
+          pic_url=#{goods.picUrl}, is_new=#{goods.isNew}, is_hot=#{goods.isHot}, unit=#{goods.unit}, counter_price=#{goods.counterPrice}, retail_price=#{goods.retailPrice}, detail=#{goods.detail}, update_time=#{goods.updateTime} where id = #{id}
+    </update>
+
+    <update id="updateProduct">
+        update cskaoyan_mall_goods_product set goods_id=#{product.goodsId},specifications=#{product.specifications},price=#{product.price},`number`=#{product.number},url=#{product.url},update_time=#{product.updateTime}
+        where id = #{id}
+    </update>
+
+    <update id="updateSpecification">
+        update cskaoyan_mall_goods_specification set goods_id=#{specification.goodsId},specification=#{specification.specification},`value`=#{specification.value},pic_url=#{specification.picUrl},update_time=#{specification.updateTime} where id = #{id}
+    </update>
 </mapper>

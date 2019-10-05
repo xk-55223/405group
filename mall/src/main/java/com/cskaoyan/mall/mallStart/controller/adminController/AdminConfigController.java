@@ -3,6 +3,7 @@ package com.cskaoyan.mall.mallStart.controller.adminController;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.adminService.AdminConfigService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ public class AdminConfigController {
 
     // 配置模块 查找商城配置信息
     @RequestMapping(value = "admin/config/mall", method = RequestMethod.GET)
+    @RequiresPermissions("admin:config:mall:list")
     public BaseRespVo configMallGET() {
         LiteMallMall express = service.selectLiteMallMall();
         BaseRespVo result = BaseRespVo.ok(express);
@@ -25,6 +27,7 @@ public class AdminConfigController {
 
     // 同一个接口可能调用不同的请求方法 所以分成两部分
     @RequestMapping(value = "admin/config/mall", method = RequestMethod.POST)
+    @RequiresPermissions("admin:config:mall:updateConfigs")
     public BaseRespVo configMallPOST(@RequestBody LiteMallMall mallConfig) {
         service.updateLiteMallMall(mallConfig);
         BaseRespVo result = BaseRespVo.ok(null);
@@ -33,6 +36,7 @@ public class AdminConfigController {
 
     // 这两个接口和上面的情况一样，运费配置的显示和修改
     @RequestMapping(value = "admin/config/express", method = RequestMethod.GET)
+    @RequiresPermissions("admin:config:express:list")
     public BaseRespVo configExpress() {
         LiteMallExpress liteMallExpress = service.selectLiteMallExpress();
         BaseRespVo result = BaseRespVo.ok(liteMallExpress);
@@ -40,6 +44,7 @@ public class AdminConfigController {
     }
 
     @RequestMapping(value = "admin/config/express", method = RequestMethod.POST)
+    @RequiresPermissions("admin:config:express:updateConfigs")
     public BaseRespVo configExpress(@RequestBody LiteMallExpress expressConfig) {
         service.updateLiteMallExpress(expressConfig);
         BaseRespVo result = BaseRespVo.ok(null);
@@ -48,6 +53,7 @@ public class AdminConfigController {
 
     // 这两个接口和上面的一样，运费配置和修改
     @RequestMapping(value = "admin/config/order", method = RequestMethod.GET)
+    @RequiresPermissions("admin:config:order:list")
     public BaseRespVo configOrder() {
         LiteMallOrder liteMallExpress = service.selectLiteMallOrder();
         BaseRespVo result = BaseRespVo.ok(liteMallExpress);
@@ -55,6 +61,7 @@ public class AdminConfigController {
     }
 
     @RequestMapping(value = "admin/config/order", method = RequestMethod.POST)
+    @RequiresPermissions("admin:config:order:updateConfigs")
     public BaseRespVo configOrder(@RequestBody LiteMallOrder orderConfig) {
         service.updateLiteMallOrder(orderConfig);
         BaseRespVo result = BaseRespVo.ok(null);
@@ -63,6 +70,7 @@ public class AdminConfigController {
 
     // 这两个接口和上一个接口一样，小程序配置
     @RequestMapping(value = "admin/config/wx", method = RequestMethod.GET)
+    @RequiresPermissions("admin:config:wx:list")
     public BaseRespVo configW() {
         LiteMallWx liteMallWx = service.selectLiteMallWx();
         BaseRespVo result = BaseRespVo.ok(liteMallWx);
@@ -70,6 +78,7 @@ public class AdminConfigController {
     }
 
     @RequestMapping(value = "admin/config/wx", method = RequestMethod.POST)
+    @RequiresPermissions("admin:config:wx:updateConfigs")
     public BaseRespVo configWx(@RequestBody LiteMallWx wxConfig) {
         service.updateLiteMallWx(wxConfig);
         BaseRespVo result = BaseRespVo.ok(null);
