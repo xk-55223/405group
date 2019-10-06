@@ -59,14 +59,31 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-    public Map selectBrandAll(FromPageInfo fromPageInfo) {
-        PageHelper.startPage(fromPageInfo.getPage(), fromPageInfo.getLimit());
-        List<Brand> brands = wxBrandMapper.selectBrandAll(fromPageInfo);
-        PageInfo<Brand> pageInfo = new PageInfo<>(brands);
-        long total = pageInfo.getTotal();
+    public Map selectBrandAll(BrandPageInfo pageInfo) {
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
+        List<Brand> brands = wxBrandMapper.selectBrandAll();
+        PageInfo<Brand> brandPageInfo = new PageInfo<>(brands);
+        long total = brandPageInfo.getTotal();
         Map<String, Object> resultMap = new LinkedHashMap<>();
-        resultMap.put("totalPages", total);
+        resultMap.put("totalPages", Math.ceil(total * 1.0 / pageInfo.getSize()));
         resultMap.put("brandList", brands);
+        return resultMap;
+    }
+
+    @Override
+    public Map selectBrandById(int id) {
+        Brand brand = wxBrandMapper.selectBrandById(id);
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("brand",brand);
+        return resultMap;
+    }
+
+    @Override
+    public Map selectGoodsAll(BrandPageInfo pageInfo, int brandId) {
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
+        List<Goods> goods = wxBrandMapper.selectGoodsByBrandId(brandId);
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("goodsList",goods);
         return resultMap;
     }
 

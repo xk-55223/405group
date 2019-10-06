@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +30,21 @@ public class WxHomeController {
 
     /*ljq*/
     @RequestMapping("wx/brand/list")
-    public BaseRespVo<Map> brandList(FromPageInfo pageInfo) {
+    public BaseRespVo<Map> brandList(BrandPageInfo pageInfo) {
         Map resultMap = wxHomeService.selectBrandAll(pageInfo);
         return BaseRespVo.ok(resultMap);
+    }
+
+    /*ljq*/
+    @RequestMapping("wx/brand/detail")
+    public BaseRespVo<Map> brandDetail(int id) {
+        Map resultMap = wxHomeService.selectBrandById(id);
+        return BaseRespVo.ok(resultMap);
+    }
+    /*ljq*/
+    @RequestMapping("wx/goods/list")
+    public BaseRespVo<Map> goodsList(BrandPageInfo pageInfo,int brandId) {
+        Map result = wxHomeService.selectGoodsAll(pageInfo,brandId);
+        return BaseRespVo.ok(result);
     }
 }
