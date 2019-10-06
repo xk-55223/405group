@@ -11,14 +11,21 @@ public interface WxHomeService {
 
     GoodsCount goodsCount();
 
+    Map selectBrandAll(BrandPageInfo pageInfo);
+
+    Map selectBrandById(int id);
+
+    Map selectTopicAll(BrandPageInfo pageInfo);
+
     SearchIndexInfo searchIndex(int userId);
 
     List<String> searchHelper(String keyword);
 
+
     GoodsListInfo goodsList(Integer userId, String keyword, FromPageInfo info, Integer categoryId, Integer brandId);
-    Map selectBrandAll(FromPageInfo pageInfo);
 
     void searchClearhistory(int userId);
 
     GoodsCategoryInfo goodsCategory(Integer id);
+
 }

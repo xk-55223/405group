@@ -47,10 +47,26 @@ public class WxHomeController {
     }
     /*ljq*/
     @RequestMapping("wx/brand/list")
-    public BaseRespVo<Map> brandList(FromPageInfo pageInfo) {
+    public BaseRespVo<Map> brandList(BrandPageInfo pageInfo) {
         Map resultMap = wxHomeService.selectBrandAll(pageInfo);
         return BaseRespVo.ok(resultMap);
     }
+
+    /*ljq*/
+    @RequestMapping("wx/brand/detail")
+    public BaseRespVo<Map> brandDetail(int id) {
+        Map resultMap = wxHomeService.selectBrandById(id);
+        return BaseRespVo.ok(resultMap);
+    }
+
+
+    /*ljq*/
+    @RequestMapping("wx/topic/list")
+    public BaseRespVo<Map> topicList(BrandPageInfo pageInfo) {
+        Map result = wxHomeService.selectTopicAll(pageInfo);
+        return BaseRespVo.ok(result);
+    }
+
 
     @RequestMapping("wx/search/clearhistory")
     public BaseRespVo searchClearhistory() {

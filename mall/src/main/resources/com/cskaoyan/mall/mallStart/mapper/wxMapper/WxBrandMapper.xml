@@ -11,4 +11,29 @@
     <select id="selectBrandAll" resultMap="BrandMap">
         select id ,`name`,`desc`,`pic_url`,`floor_price` from cskaoyan_mall_brand
     </select>
+    <resultMap id="BrandDetailMap" type="com.cskaoyan.mall.mallStart.bean.Brand">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="floor_price" property="floorPrice"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="selectBrandById" resultMap="BrandDetailMap">
+        select id ,`name`,`desc`,`pic_url`,sort_order,`floor_price`,add_time ,update_time ,deleted from cskaoyan_mall_brand where id = #{id}
+    </select>
+    <resultMap id="TopicMap" type="com.cskaoyan.mall.mallStart.bean.Topic">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="price" property="price"/>
+        <result column="read_count" property="readCount"/>
+        <result column="pic_url" property="picUrl"/>
+    </resultMap>
+    <select id="selectTopicAll" resultMap="TopicMap">
+        select id,title,subtitle,price,read_count,pic_url from cskaoyan_mall_topic
+    </select>
 </mapper>
