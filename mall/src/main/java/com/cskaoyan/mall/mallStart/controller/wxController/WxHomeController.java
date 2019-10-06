@@ -40,9 +40,9 @@ public class WxHomeController {
     }
 
     @RequestMapping("wx/goods/list")
-    public BaseRespVo goodsList(String keyword, FromPageInfo info,Integer categoryId) {
+    public BaseRespVo goodsList(String keyword, FromPageInfo info,Integer categoryId,Integer brandId) {
         int userId = 1;
-        GoodsListInfo goodsListInfo = wxHomeService.goodsList(userId, keyword, info, categoryId);
+        GoodsListInfo goodsListInfo = wxHomeService.goodsList(userId, keyword, info, categoryId,brandId);
         return BaseRespVo.ok(goodsListInfo);
     }
     /*ljq*/
@@ -57,5 +57,11 @@ public class WxHomeController {
         int id = 1;
         wxHomeService.searchClearhistory(id);
         return BaseRespVo.ok(null);
+    }
+
+    @RequestMapping("wx/goods/category")
+    public BaseRespVo goodsCategory(Integer id) {
+        GoodsCategoryInfo categoryInfo = wxHomeService.goodsCategory(id);
+        return BaseRespVo.ok(categoryInfo);
     }
 }

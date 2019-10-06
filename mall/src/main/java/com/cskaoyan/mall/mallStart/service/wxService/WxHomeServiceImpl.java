@@ -78,25 +78,33 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-    public GoodsListInfo goodsList(int userId, String keyword, FromPageInfo info, int categoryId) {
+    public GoodsListInfo goodsList(Integer userId, String keyword, FromPageInfo info
+            , Integer categoryId, Integer brandId) {
+
         GoodsListInfo goodsListInfo = new GoodsListInfo();
         PageHelper.startPage(info.getPage(),info.getLimit());
-        List<Goods> goods = goodsMapper.selectGoodsByKeywordAndCategoryId(keyword,categoryId,info);
-        List<Category> categories = goodsMapper.selectGoodsCategorys(keyword);
+        List<Goods> goods = goodsMapper.selectGoodsConditioned(keyword,categoryId,info,brandId);
+        List<Category> categories = null;
+        if (keyword != null) {
+           categories = goodsMapper.selectGoodsCategorys(keyword);
+        }
         BeansManager beansManager = new BeansManager();
         ListBean listBean = beansManager.toListBean(goods);
         int total = (int) listBean.getTotal();
         goodsListInfo.setCount(total);
         goodsListInfo.setFilterCategoryList(categories);
         goodsListInfo.setGoodsList(goods);
-        // 添加搜索历史
-        SearchHistory searchHistory = new SearchHistory();
-        Date date = new Date();
-        searchHistory.setAddTime(date);
-        searchHistory.setUpdateTime(date);
-        searchHistory.setUserId(userId);
-        searchHistory.setKeyword(keyword);
-        mallMapper.insertSearchHistory(searchHistory);
+        // 添加搜索历史, 在搜索页面是会传入keyword。
+        // 如果不是在搜索页面调用这个方法则不传入keyword，则不添加搜索历史
+        if (keyword != null) {
+            SearchHistory searchHistory = new SearchHistory();
+            Date date = new Date();
+            searchHistory.setAddTime(date);
+            searchHistory.setUpdateTime(date);
+            searchHistory.setUserId(userId);
+            searchHistory.setKeyword(keyword);
+            mallMapper.insertSearchHistory(searchHistory);
+        }
         return goodsListInfo;
     }
 
@@ -114,6 +122,28 @@ public class WxHomeServiceImpl implements WxHomeService {
     @Override
     public void searchClearhistory(int userId) {
         mallMapper.deleteSearchHistory(userId);
+    }
+
+    @Override
+    public GoodsCategoryInfo goodsCategory(Integer id) {
+        int pid = mallMapper.selectCategoryPidById(id);
+        Category parent = null;
+        List<Category> brothers = null;
+        Category current = null;
+        if (pid == 0) {
+            brothers = mallMapper.selectCategoryChildren(id);
+            parent = mallMapper.selectCategoryById(id);
+            current = brothers.get(0);
+        } else {
+            parent = mallMapper.selectCategoryById(pid);
+            brothers =  mallMapper.selectCategoryChildren(pid);
+            current = mallMapper.selectCategoryById(id);
+        }
+        GoodsCategoryInfo categoryInfo = new GoodsCategoryInfo();
+        categoryInfo.setBrotherCategory(brothers);
+        categoryInfo.setCurrentCategory(current);
+        categoryInfo.setParentCategory(parent);
+        return categoryInfo;
     }
 
 }

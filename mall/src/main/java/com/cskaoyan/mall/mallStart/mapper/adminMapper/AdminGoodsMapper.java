@@ -120,9 +120,10 @@ public interface AdminGoodsMapper {
     @Select("select count(id) as goodsCount from cskaoyan_mall_goods")
     GoodsCount selectGoodsCount();
 
-    List<Goods> selectGoodsByKeywordAndCategoryId(@Param("keyword") String keyword
+    List<Goods> selectGoodsConditioned(@Param("keyword") String keyword
             ,@Param("categoryId") Integer categoryId
-            ,@Param("pageInfo") FromPageInfo pageInfo);
+            ,@Param("pageInfo") FromPageInfo pageInfo
+            ,@Param("brandId") Integer brandId);
 
     List<Category> selectGoodsCategorys(@Param("keyword") String keyword);
     void updateAttribute(@Param("attribute") GoodsAttribute attribute, @Param("id") Integer id);

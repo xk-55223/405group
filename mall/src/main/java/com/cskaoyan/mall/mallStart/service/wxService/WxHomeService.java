@@ -15,8 +15,10 @@ public interface WxHomeService {
 
     List<String> searchHelper(String keyword);
 
-    GoodsListInfo goodsList(int userId, String keyword, FromPageInfo info, int categoryId);
+    GoodsListInfo goodsList(Integer userId, String keyword, FromPageInfo info, Integer categoryId, Integer brandId);
     Map selectBrandAll(FromPageInfo pageInfo);
 
     void searchClearhistory(int userId);
+
+    GoodsCategoryInfo goodsCategory(Integer id);
 }
