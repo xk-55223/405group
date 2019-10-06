@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mallStart.controller.wxController;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.wxService.WxHomeService;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,10 +42,19 @@ public class WxHomeController {
         Map resultMap = wxHomeService.selectBrandById(id);
         return BaseRespVo.ok(resultMap);
     }
+
     /*ljq*/
     @RequestMapping("wx/goods/list")
-    public BaseRespVo<Map> goodsList(BrandPageInfo pageInfo,int brandId) {
-        Map result = wxHomeService.selectGoodsAll(pageInfo,brandId);
+    public BaseRespVo<Map> goodsList(BrandPageInfo pageInfo, int brandId) {
+        Map result = wxHomeService.selectGoodsAll(pageInfo, brandId);
         return BaseRespVo.ok(result);
     }
+
+    /*ljq*/
+   /* @RequestMapping("wx/topic/list")
+    public BaseRespVo<Map> topicList(BrandPageInfo pageInfo) {
+        Map result = wxHomeService.selectTopicAll(pageInfo);
+        return BaseRespVo.ok(result);
+    }*/
+
 }
