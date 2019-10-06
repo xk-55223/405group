@@ -256,6 +256,17 @@
         delete from cskaoyan_mall_category where id = #{id}
     </delete>
 
+    <select id="selectCategoryPidById" resultType="int">
+        select pid from cskaoyan_mall_category where id = #{id}
+    </select>
+
+    <select id="selectCategoryById" resultType="com.cskaoyan.mall.mallStart.bean.Category">
+        select add_time as addTime , deleted , `desc` , icon_url as iconUrl , id , keywords
+        , level , name , pic_url as picUrl , pid , sort_order as sortOrder , update_time as updateTime
+        from cskaoyan_mall_category
+        where id = #{id}
+    </select>
+
 
     <select id="selectOrderById" resultType="com.cskaoyan.mall.mallStart.bean.Order">
         select id

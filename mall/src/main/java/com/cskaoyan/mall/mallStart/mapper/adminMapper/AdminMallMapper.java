@@ -75,4 +75,8 @@ public interface AdminMallMapper {
     void deleteSearchHistory(int userId);
 
     void insertSearchHistory(@Param("history")SearchHistory history);
+
+    int selectCategoryPidById(Integer id);
+
+    Category selectCategoryById(Integer id);
 }
