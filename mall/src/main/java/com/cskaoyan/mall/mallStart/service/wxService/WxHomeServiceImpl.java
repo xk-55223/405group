@@ -4,8 +4,10 @@ import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGeneralizeMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper;
 import com.cskaoyan.mall.mallStart.tool.BeansManager;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxBrandMapper;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class WxHomeServiceImpl implements WxHomeService {
 
     @Autowired
     WxBrandMapper wxBrandMapper;
+
+    @Autowired
+    AdminUserMapper userMapper;
 
 
     @Override
@@ -175,6 +180,65 @@ public class WxHomeServiceImpl implements WxHomeService {
         couponListInfo.setCount((int) total);
         couponListInfo.setData(allCoupons);
         return couponListInfo;
+    }
+
+    @Override
+    public UserLoginInfo selectUserMessage(User user) {
+        WxUser userInfo = userMapper.selectUserInfoByUserNameAndPassword(user);
+        String token = "ijp6azau3ziy6stolyshl10576h53mp5";
+        String tokenExpire = "2019-10-07T06:17:44.769";
+        UserLoginInfo userLoginInfo = new UserLoginInfo();
+        userLoginInfo.setUserInfo(userInfo);
+        userLoginInfo.setToken(token);
+        userLoginInfo.setTokenExpire(tokenExpire);
+        return userLoginInfo;
+    }
+
+    @Override
+    public UserIndexInfo selectUserIndexInfo(int userId) {
+        UserIndexInfo indexInfo = new UserIndexInfo();
+        int unpaid = mallMapper.selectUserOrderStatusCount(userId,101);
+        int unship = mallMapper.selectUserOrderStatusCount(userId,201);
+        int unrecv = mallMapper.selectUserOrderStatusCount(userId,301);
+        int uncomment = mallMapper.selectUserOrderStatusCount(userId,401);
+        UserOrderInfo userOrderInfo = new UserOrderInfo();
+        userOrderInfo.setUnpaid(unpaid);
+        userOrderInfo.setUnship(unship);
+        userOrderInfo.setUncomment(uncomment);
+        userOrderInfo.setUnrecv(unrecv);
+        indexInfo.setOrder(userOrderInfo);
+        return indexInfo;
+    }
+
+    @Override
+    public String couponReceive(Integer userId, Integer couponId) {
+        Coupon coupon = generalizeMapper.queryCouponById(couponId);
+        if (coupon == null) {
+            return "该优惠券不存在";
+        }
+        if (coupon.getTotal() <= 0) {
+            return "优惠券已领完";
+        }
+        int number = generalizeMapper.selectUserCouponIsOwn(userId,couponId);
+        if (number != 0) {
+            return "优惠券已经领取过";
+        }
+        generalizeMapper.insertUserCoupon(userId,couponId,new Date());
+        coupon.setTotal(coupon.getTotal() - 1);
+        generalizeMapper.updateCoupon(coupon);
+        return null;
+    }
+
+    @Override
+    public GrouponPageInfo grouponList(FromPageInfo fromPageInfo) {
+        PageHelper.startPage(fromPageInfo.getPage(),fromPageInfo.getLimit());
+        List<GrouponInfo> grouponInfos = generalizeMapper.getGrouponInfo();
+        ListBean listBean = new BeansManager().toListBean(grouponInfos);
+        long total = listBean.getTotal();
+        GrouponPageInfo grouponPageInfo = new GrouponPageInfo();
+        grouponPageInfo.setCount((int) total);
+        grouponPageInfo.setData(grouponInfos);
+        return grouponPageInfo;
     }
 
 }

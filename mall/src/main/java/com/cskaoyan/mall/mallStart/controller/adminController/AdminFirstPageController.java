@@ -5,6 +5,7 @@ import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.DashBoard;
 import com.cskaoyan.mall.mallStart.bean.LoginInfo;
 import com.cskaoyan.mall.mallStart.service.adminService.AdminFirstPageServiceImpl;
+import com.cskaoyan.mall.mallStart.shiro.CustomToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -33,7 +34,7 @@ public class AdminFirstPageController {
 
     @RequestMapping("admin/auth/login")
     public BaseRespVo login(@RequestBody Admin admin) {
-        UsernamePasswordToken token = new UsernamePasswordToken(admin.getUsername(), admin.getPassword());
+        CustomToken token = new CustomToken(admin.getUsername(), admin.getPassword(),"admin");
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Date;
 import java.util.List;
 
 public interface AdminGeneralizeMapper {
@@ -64,4 +65,9 @@ public interface AdminGeneralizeMapper {
     List<Groupon> queryAllGroupons();
 
     List<GrouponInfo> getGrouponInfo();
+
+    void insertUserCoupon(@Param("userId") Integer userId, @Param("couponId") Integer couponId
+            ,@Param("nowTime") Date date);
+
+    int selectUserCouponIsOwn(@Param("userId")Integer userId, @Param("couponId")Integer couponId);
 }

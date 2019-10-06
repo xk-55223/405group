@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mallStart.shiro;
 
 import com.cskaoyan.mall.mallStart.bean.Admin;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminSystemMapper;
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -20,6 +21,9 @@ public class CustomRealm extends AuthorizingRealm {
     @Autowired
     AdminSystemMapper adminSystemMapper;
 
+    @Autowired
+    AdminUserMapper adminUserMapper;
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         // 取得关键信息，这里是认证传过来的用户名
@@ -35,10 +39,17 @@ public class CustomRealm extends AuthorizingRealm {
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        CustomToken customToken = (CustomToken) authenticationToken;
         //从token中获取关键信息，这里得到的关键信息是usernameAndPasswordToken中用户名
         String primaryPrincipal = (String) authenticationToken.getPrincipal();
         // 根据用户名从数据库中获取该用户的密码
-        String password = adminSystemMapper.selectPasswordByUserName(primaryPrincipal);
+        String type = customToken.getType();
+        String password = null;
+        if ("admin".equals(type)) {
+            password = adminSystemMapper.selectPasswordByUserName(primaryPrincipal);
+        } else if ("wx".equals(type)) {
+            password = adminUserMapper.selectPasswordByUserName(primaryPrincipal);
+        }
         SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(primaryPrincipal, password, this.getName());
         return simpleAuthenticationInfo;
     }

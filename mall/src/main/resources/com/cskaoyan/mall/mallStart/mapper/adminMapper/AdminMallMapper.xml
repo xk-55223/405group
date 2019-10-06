@@ -345,4 +345,9 @@ where order_id = #{id}
         delete from cskaoyan_mall_search_history where user_id = #{userId}
     </delete>
 
+    <select id="selectUserOrderStatusCount" resultType="int">
+        select count(id) from cskaoyan_mall_order where order_status = #{status}
+        and user_id = #{user_id}
+    </select>
+
 </mapper>
