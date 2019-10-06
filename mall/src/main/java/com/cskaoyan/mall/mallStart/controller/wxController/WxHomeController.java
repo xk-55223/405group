@@ -5,6 +5,7 @@ import com.cskaoyan.mall.mallStart.service.wxService.WxHomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.Map;
 
@@ -40,11 +41,12 @@ public class WxHomeController {
     }
 
     @RequestMapping("wx/goods/list")
-    public BaseRespVo goodsList(String keyword, FromPageInfo info,Integer categoryId) {
+    public BaseRespVo goodsList(String keyword, FromPageInfo info, Integer categoryId) {
         int userId = 1;
         GoodsListInfo goodsListInfo = wxHomeService.goodsList(userId, keyword, info, categoryId);
         return BaseRespVo.ok(goodsListInfo);
     }
+
     /*ljq*/
     @RequestMapping("wx/brand/list")
     public BaseRespVo<Map> brandList(BrandPageInfo pageInfo) {
@@ -65,6 +67,20 @@ public class WxHomeController {
     public BaseRespVo<Map> topicList(BrandPageInfo pageInfo) {
         Map result = wxHomeService.selectTopicAll(pageInfo);
         return BaseRespVo.ok(result);
+    }
+
+    /*ljq*/
+    @RequestMapping("wx/topic/detail")
+    public BaseRespVo<Map> topicDetail(int id) {
+        Map result = wxHomeService.selectTopicById(id);
+        return BaseRespVo.ok(result);
+    }
+
+    /*ljq*/
+    @RequestMapping("wx/topic/related")
+    public BaseRespVo<List<Topic>> topicRelated(int id) {
+        List<Topic> topics = wxHomeService.selectTopicRelated(id);
+        return BaseRespVo.ok(topics);
     }
 
 

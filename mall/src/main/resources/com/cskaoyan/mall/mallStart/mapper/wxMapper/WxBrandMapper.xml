@@ -36,4 +36,24 @@
     <select id="selectTopicAll" resultMap="TopicMap">
         select id,title,subtitle,price,read_count,pic_url from cskaoyan_mall_topic
     </select>
+    <resultMap id="TopicDetail" type="com.cskaoyan.mall.mallStart.bean.Topic">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="price" property="price"/>
+        <result column="read_count" property="readCount"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="goods" property="goods"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="content" property="content"/>
+    </resultMap>
+    <select id="selectTopicById" resultMap="TopicDetail">
+        select id,title,subtitle,price,read_count,pic_url,sort_order,goods,add_time,update_time,deleted,content from cskaoyan_mall_topic where id = #{id}
+    </select>
+    <select id="selectTopicRelated" resultMap="TopicDetail">
+        select id,title,subtitle,price,read_count,pic_url,sort_order,goods,add_time,update_time,deleted,content from cskaoyan_mall_topic where id != #{id}
+    </select>
 </mapper>

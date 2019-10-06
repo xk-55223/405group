@@ -14,4 +14,8 @@ public interface WxBrandMapper {
     Brand selectBrandById(@Param("id") int id);
 
     List<Topic> selectTopicAll();
+
+    Topic selectTopicById(@Param("id") int id);
+
+    List<Topic> selectTopicRelated(@Param("id") int id);
 }

@@ -129,8 +129,27 @@ public class WxHomeServiceImpl implements WxHomeService {
         List<Topic> topics = wxBrandMapper.selectTopicAll();
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("data", topics);
-        resultMap.put("count",new PageInfo<>(topics).getTotal());
+        resultMap.put("count", new PageInfo<>(topics).getTotal());
         return resultMap;
+    }
+
+    @Override
+    public Map selectTopicById(int id) {
+        Topic topic = wxBrandMapper.selectTopicById(id);
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("topic", topic);
+        resultMap.put("goods", topic.getGoods());
+        return resultMap;
+    }
+
+    @Override
+    public List<Topic> selectTopicRelated(int id) {
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        long total = new PageInfo<>(wxBrandMapper.selectTopicRelated(id)).getTotal();
+        final int size = 4;
+        PageHelper.startPage((int) Math.ceil(Math.random() * Math.ceil(total / size)), size);
+        List<Topic> topics = wxBrandMapper.selectTopicRelated(id);
+        return topics;
     }
 
     @Override

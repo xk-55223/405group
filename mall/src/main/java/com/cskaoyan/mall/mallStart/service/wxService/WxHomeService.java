@@ -17,6 +17,10 @@ public interface WxHomeService {
 
     Map selectTopicAll(BrandPageInfo pageInfo);
 
+    Map selectTopicById(int id);
+
+    List<Topic> selectTopicRelated(int id);
+
     SearchIndexInfo searchIndex(int userId);
 
     List<String> searchHelper(String keyword);
