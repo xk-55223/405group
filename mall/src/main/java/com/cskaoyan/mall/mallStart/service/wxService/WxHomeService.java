@@ -28,4 +28,5 @@ public interface WxHomeService {
 
     GoodsCategoryInfo goodsCategory(Integer id);
 
+    CouponListInfo couponList(FromPageInfo fromPageInfo);
 }

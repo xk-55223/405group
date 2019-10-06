@@ -80,4 +80,10 @@ public class WxHomeController {
         GoodsCategoryInfo categoryInfo = wxHomeService.goodsCategory(id);
         return BaseRespVo.ok(categoryInfo);
     }
+
+    @RequestMapping("wx/coupon/list")
+    public BaseRespVo couponList(FromPageInfo fromPageInfo) {
+        CouponListInfo couponListInfo = wxHomeService.couponList(fromPageInfo);
+        return BaseRespVo.ok(couponListInfo);
+    }
 }

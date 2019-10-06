@@ -6,7 +6,6 @@ import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
 import com.cskaoyan.mall.mallStart.tool.BeansManager;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxBrandMapper;
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,6 +163,18 @@ public class WxHomeServiceImpl implements WxHomeService {
         categoryInfo.setCurrentCategory(current);
         categoryInfo.setParentCategory(parent);
         return categoryInfo;
+    }
+
+    @Override
+    public CouponListInfo couponList(FromPageInfo fromPageInfo) {
+        PageHelper.startPage(fromPageInfo.getPage(),fromPageInfo.getLimit());
+        List<Coupon> allCoupons = generalizeMapper.getAllCoupons(null, null, null);
+        ListBean listBean = new BeansManager().toListBean(allCoupons);
+        long total = listBean.getTotal();
+        CouponListInfo couponListInfo = new CouponListInfo();
+        couponListInfo.setCount((int) total);
+        couponListInfo.setData(allCoupons);
+        return couponListInfo;
     }
 
 }
