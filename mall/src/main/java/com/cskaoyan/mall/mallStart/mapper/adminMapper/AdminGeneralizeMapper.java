@@ -58,6 +58,8 @@ public interface AdminGeneralizeMapper {
 
     GrouponRules getGrouponRulesById(Integer id);
 
+    List<GrouponRules> getGrouponRulesByGoodsId(Integer goodId);
+
     void updateGrouponRules(GrouponRules grouponRules);
 
     void deleteGrouponRules(Integer id);

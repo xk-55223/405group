@@ -71,6 +71,9 @@
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
     </resultMap>
+    <select id="listCommentBeanByGoodsId" resultType="com.cskaoyan.mall.mallStart.bean.CommentBean">
+        select c.id as id,c.add_time as addTime,c.content,c.pic_urls as picList,u.nickname as nickname from cskaoyan_mall_comment as c LEFT JOIN cskaoyan_mall_user as u on c.user_id = u.id where c.value_id = #{goodsId} order by c.add_time desc limit 2
+    </select>
     <select id="commentsList" resultMap="commentsMap">
         select <include refid="comment_columu_list"/> from cskaoyan_mall_comment
         <where>
@@ -117,6 +120,11 @@
         select <include refid="goods_column_list_select"/>
         from cskaoyan_mall_goods
         where is_new = #{isNew}
+    </select>
+
+    <select id="selectGoodsByCategoryId" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
+        select <include refid="goods_column_list_select"/>
+        from cskaoyan_mall_goods where category_id = #{categoryId};
     </select>
 
     <select id="selectGoodsConditioned" resultType="com.cskaoyan.mall.mallStart.bean.Goods">

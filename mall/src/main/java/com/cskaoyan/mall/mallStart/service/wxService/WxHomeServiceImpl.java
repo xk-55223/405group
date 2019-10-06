@@ -12,7 +12,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -98,11 +101,11 @@ public class WxHomeServiceImpl implements WxHomeService {
     public GoodsListInfo goodsList(Integer userId, String keyword, FromPageInfo info
             , Integer categoryId, Integer brandId) {
         GoodsListInfo goodsListInfo = new GoodsListInfo();
-        PageHelper.startPage(info.getPage(),info.getLimit());
-        List<Goods> goods = goodsMapper.selectGoodsConditioned(keyword,categoryId,info,brandId);
+        PageHelper.startPage(info.getPage(), info.getLimit());
+        List<Goods> goods = goodsMapper.selectGoodsConditioned(keyword, categoryId, info, brandId);
         List<Category> categories = null;
         if (keyword != null) {
-           categories = goodsMapper.selectGoodsCategorys(keyword);
+            categories = goodsMapper.selectGoodsCategorys(keyword);
         }
         BeansManager beansManager = new BeansManager();
         ListBean listBean = beansManager.toListBean(goods);
@@ -139,8 +142,50 @@ public class WxHomeServiceImpl implements WxHomeService {
         List<Topic> topics = wxBrandMapper.selectTopicAll();
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("data", topics);
-        resultMap.put("count",new PageInfo<>(topics).getTotal());
+        resultMap.put("count", new PageInfo<>(topics).getTotal());
         return resultMap;
+    }
+
+    @Override
+    public Map selectTopicById(int id) {
+        Topic topic = wxBrandMapper.selectTopicById(id);
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("topic", topic);
+        resultMap.put("goods", topic.getGoods());
+        return resultMap;
+    }
+
+    @Override
+    public Map selectCommentsByValueId(BrandPageInfo pageInfo, int valueId) {
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
+        List<CommentLJQ> comments = wxBrandMapper.selectCommentsByValueId(valueId);
+        PageInfo<CommentLJQ> commentsPageInfo = new PageInfo<>(comments);
+        long total = commentsPageInfo.getTotal();
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("data", comments);
+        resultMap.put("count", total);
+        resultMap.put("currentPage", pageInfo.getPage());
+        return resultMap;
+    }
+
+    @Override
+    public Comment commentPost(Comment comment, HttpServletRequest request) {
+        comment.setAddTime(new Date());
+        comment.setUpdateTime(new Date());
+        /*待修改*/
+        comment.setUserId(1);
+        wxBrandMapper.insertComment(comment);
+        return comment;
+    }
+
+    @Override
+    public List<Topic> selectTopicRelated(int id) {
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        long total = new PageInfo<>(wxBrandMapper.selectTopicRelated(id)).getTotal();
+        final int size = 4;
+        PageHelper.startPage((int) Math.ceil(Math.random() * Math.ceil(total / size)), size);
+        List<Topic> topics = wxBrandMapper.selectTopicRelated(id);
+        return topics;
     }
 
     @Override
@@ -160,7 +205,7 @@ public class WxHomeServiceImpl implements WxHomeService {
             current = brothers.get(0);
         } else {
             parent = mallMapper.selectCategoryById(pid);
-            brothers =  mallMapper.selectCategoryChildren(pid);
+            brothers = mallMapper.selectCategoryChildren(pid);
             current = mallMapper.selectCategoryById(id);
         }
         GoodsCategoryInfo categoryInfo = new GoodsCategoryInfo();
@@ -172,7 +217,7 @@ public class WxHomeServiceImpl implements WxHomeService {
 
     @Override
     public CouponListInfo couponList(FromPageInfo fromPageInfo) {
-        PageHelper.startPage(fromPageInfo.getPage(),fromPageInfo.getLimit());
+        PageHelper.startPage(fromPageInfo.getPage(), fromPageInfo.getLimit());
         List<Coupon> allCoupons = generalizeMapper.getAllCoupons(null, null, null);
         ListBean listBean = new BeansManager().toListBean(allCoupons);
         long total = listBean.getTotal();

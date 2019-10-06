@@ -29,6 +29,8 @@ public interface AdminMallMapper {
 
     List<Issue> selectIssues(@Param("issue") Issue issue);
 
+    List<Issue> selectAllIssues();
+
     int insertIssue(@Param("issue")Issue issue);
 
     List<Keyword> selectKeywords(@Param("keyword") Keyword keyword);

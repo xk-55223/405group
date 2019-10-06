@@ -36,4 +36,44 @@
     <select id="selectTopicAll" resultMap="TopicMap">
         select id,title,subtitle,price,read_count,pic_url from cskaoyan_mall_topic
     </select>
+    <resultMap id="TopicDetail" type="com.cskaoyan.mall.mallStart.bean.Topic">
+        <result column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="price" property="price"/>
+        <result column="read_count" property="readCount"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="goods" property="goods"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="content" property="content"/>
+    </resultMap>
+    <select id="selectTopicById" resultMap="TopicDetail">
+        select id,title,subtitle,price,read_count,pic_url,sort_order,goods,add_time,update_time,deleted,content from cskaoyan_mall_topic where id = #{id}
+    </select>
+    <select id="selectTopicRelated" resultMap="TopicDetail">
+        select id,title,subtitle,price,read_count,pic_url,sort_order,goods,add_time,update_time,deleted,content from cskaoyan_mall_topic where id != #{id}
+    </select>
+    <resultMap id="CommentMap" type="com.cskaoyan.mall.mallStart.bean.CommentLJQ">
+        <result column="add_time" property="addTime"/>
+        <result column="pic_list" property="picList"/>
+        <result column="content" property="content"/>
+        <collection property="userInfo" ofType="com.cskaoyan.mall.mallStart.tool.UserInfo">
+            <result column="nick_name" property="nickName"/>
+            <result column="avatar_url" property="avatarUrl"/>
+        </collection>
+    </resultMap>
+    <select id="selectCommentsByValueId" resultMap="CommentMap">
+        select cskaoyan_mall_comment.add_time as add_time,cskaoyan_mall_comment.pic_urls as pic_list ,cskaoyan_mall_comment.content as content, cskaoyan_mall_user.nickname as nick_name,cskaoyan_mall_user.avatar as avatar_url from cskaoyan_mall_comment LEFT JOIN cskaoyan_mall_user on cskaoyan_mall_comment.user_id = cskaoyan_mall_user.id
+        where cskaoyan_mall_comment.value_id = #{valueId}
+    </select>
+    <insert id="insertComment">
+        <selectKey resultType="int" keyProperty="comment.id" keyColumn="last_insert_id()" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        insert into cskaoyan_mall_comment (`type`,value_id,content,star,has_picture,pic_urls,user_id)
+        value (#{comment.type},#{comment.valueId},#{comment.content},#{comment.star},#{comment.hasPicture},#{comment.picUrls},#{comment.userId})
+    </insert>
 </mapper>

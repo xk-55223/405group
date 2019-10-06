@@ -341,6 +341,11 @@ where order_id = #{id}
         delete from cskaoyan_mall_issue where id = #{id}
     </delete>
 
+    <select id="selectAllIssues" resultType="com.cskaoyan.mall.mallStart.bean.Issue">
+        select id,question,answer,add_time as addTime, update_time as updateTime ,deleted
+        from cskaoyan_mall_issue limit 8
+    </select>
+
     <delete id="deleteSearchHistory">
         delete from cskaoyan_mall_search_history where user_id = #{userId}
     </delete>

@@ -215,6 +215,13 @@
          expire_time as expireTime,deleted from cskaoyan_mall_groupon_rules where id = #{id}
     </select>
 
+
+    <select id="getGrouponRulesByGoodsId" resultType="com.cskaoyan.mall.mallStart.bean.GrouponRules">
+        select id,goods_id as goodsId,goods_name as goodsName,pic_url as picUrl,
+        discount,discount_member as discountMember,add_time as addTime,update_time as updateTime,
+         expire_time as expireTime,deleted from cskaoyan_mall_groupon_rules where goods_id = #{goodsId}
+    </select>
+
     <update id="updateGrouponRules">
       update cskaoyan_mall_groupon_rules set
          deleted =#{deleted},
