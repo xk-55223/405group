@@ -42,7 +42,8 @@ public interface AdminGoodsMapper {
     /**
      * 根据规格id获取分类
      */
-    @Select("select pid from cskaoyan_mall_category where id = #{categoryId}")
+    @Select("select id,name,keywords,`desc`,pid,icon_url as iconUrl, pic_url as picUrl, level,sort_order as\n" +
+            "        sortOrder, add_time as addTime, update_time as updateTime, `deleted` from cskaoyan_mall_category where id = #{categoryId}")
     public Category goodCategory(int categoryId);
 
     /**
@@ -69,7 +70,7 @@ public interface AdminGoodsMapper {
             " updateTime, deleted from cskaoyan_mall_goods_specification where goods_id = #{id}")
     List<GoodsSpecification> goodSpecification(int id);
 
-    @Select("select id, goods_id as GoodsId, specifications, price, number, url, add_time as addTime, update_time as updateTime, " +
+    @Select("select id, goods_id as goodsId, specifications, price, number, url, add_time as addTime, update_time as updateTime, " +
             "deleted from cskaoyan_mall_goods_product where goods_id = #{id}")
     List<GoodsProduct> goodProducts(int id);
 
@@ -133,5 +134,15 @@ public interface AdminGoodsMapper {
     void updateProduct(@Param("product") GoodsProduct product,@Param("id") Integer id);
 
     void updateSpecification(@Param("specification") GoodsSpecification specification,@Param("id") Integer id);
+
+    List<CommentBean> listCommentBeanByGoodsId(int goodsId);
+
+    @Select("select count(id) from cskaoyan_mall_comment where value_id = #{goodsId}")
+    int countCommentByGoodsId(int goodsId);
+
+    @Select("select category_id from cskaoyan_mall_goods where id = #{id}")
+    int selectCategoryIdByGoodsId(int id);
+
+    List<Goods> selectGoodsByCategoryId(int categoryId);
 }
 

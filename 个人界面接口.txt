@@ -1,0 +1,32 @@
+------------------------------------------登录接口 
+ AuthLoginByWeixin: WxApiRoot + 'auth/login_by_weixin', //微信登录
+  AuthLoginByAccount: WxApiRoot + 'auth/login', //账号登录
+  AuthLogout: WxApiRoot + 'auth/logout', //账号登出
+  AuthRegister: WxApiRoot + 'auth/register', //账号注册
+  AuthReset: WxApiRoot + 'auth/reset', //账号密码重置
+  AuthRegisterCaptcha: WxApiRoot + 'auth/regCaptcha', //验证码
+  AuthBindPhone: WxApiRoot + 'auth/bindPhone', //绑定微信手机号
+------------------------------------------个人显示界面
+UserIndex: WxApiRoot + 'user/index', //个人页面用户相关信息
+-------------------------------------------地址管理
+  AddressList: WxApiRoot + 'address/list', //收货地址列表
+  AddressDetail: WxApiRoot + 'address/detail', //收货地址详情
+  AddressSave: WxApiRoot + 'address/save', //保存收货地址
+  AddressDelete: WxApiRoot + 'address/delete', //保存收货地址
+--------------------------------------------团购
+  GroupOnMy: WxApiRoot + 'groupon/my', //团购API-我的团购
+  GroupOnDetail: WxApiRoot + 'groupon/detail', //团购API-详情
+-------------------------------------------足迹
+  FootprintList: WxApiRoot + 'footprint/list', //足迹列表
+--------------------------------------------优惠券
+  CouponMyList: WxApiRoot + 'coupon/mylist', //我的优惠券列表
+  CouponExchange: WxApiRoot + 'coupon/exchange', //优惠券兑换
+--------------------------------------------商品收藏
+  CollectList: WxApiRoot + 'collect/list', //收藏列表
+---------------------------------------------订单
+  OrderList: WxApiRoot + 'order/list', //订单列表11
+  OrderDetail: WxApiRoot + 'order/detail', //订单详情11
+  OrderCancel: WxApiRoot + 'order/cancel', //取消订单11
+  OrderRefund: WxApiRoot + 'order/refund', //退款取消订单11
+  OrderDelete: WxApiRoot + 'order/delete', //删除订单11
+  OrderConfirm: WxApiRoot + 'order/confirm', //确认收货11

@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
-
+import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
+import com.cskaoyan.mall.mallStart.bean.GoodsCount;
+import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.adminService.AdminSystemService;
 import com.cskaoyan.mall.mallStart.service.wxService.WxHomeService;
