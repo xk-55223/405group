@@ -3,16 +3,6 @@ package com.cskaoyan.mall.mallStart.bean;
 import java.util.List;
 
 public class WxGoodsDetail {
-    private List<GoodsAttribute> attribute;
-    private Brand brand;
-    private ListBean<Comment> comment;
-    private List<GrouponRules> groupon;
-    private Goods info;
-    private List<Issue> issue;
-    private List<GoodsProduct> productList;
-    private List<GoodsSpecificationBean> specificationLists;
-    private int userHasCollect;
-
     @Override
     public String toString() {
         return "WxGoodsDetail{" +
@@ -21,12 +11,41 @@ public class WxGoodsDetail {
                 ", comment=" + comment +
                 ", groupon=" + groupon +
                 ", info=" + info +
+                ", shareImage='" + shareImage + '\'' +
                 ", issue=" + issue +
                 ", productList=" + productList +
-                ", specificationLists=" + specificationLists +
+                ", specificationList=" + specificationList +
                 ", userHasCollect=" + userHasCollect +
                 '}';
     }
+
+    private List<GoodsAttribute> attribute;
+    private Brand brand;
+    private CommentListBean comment;
+    private List<GrouponRules> groupon;
+    private Goods info;
+
+    public CommentListBean getComment() {
+        return comment;
+    }
+
+    public void setComment(CommentListBean comment) {
+        this.comment = comment;
+    }
+
+    public String getShareImage() {
+        return shareImage;
+    }
+
+    public void setShareImage(String shareImage) {
+        this.shareImage = shareImage;
+    }
+
+    private String shareImage;
+    private List<Issue> issue;
+    private List<GoodsProduct> productList;
+    private List<GoodsSpecificationBean> specificationList;
+    private int userHasCollect;
 
     public List<GoodsAttribute> getAttribute() {
         return attribute;
@@ -42,14 +61,6 @@ public class WxGoodsDetail {
 
     public void setBrand(Brand brand) {
         this.brand = brand;
-    }
-
-    public ListBean<Comment> getComment() {
-        return comment;
-    }
-
-    public void setComment(ListBean<Comment> comment) {
-        this.comment = comment;
     }
 
     public List<GrouponRules> getGroupon() {
@@ -84,12 +95,12 @@ public class WxGoodsDetail {
         this.productList = productList;
     }
 
-    public List<GoodsSpecificationBean> getSpecificationLists() {
-        return specificationLists;
+    public List<GoodsSpecificationBean> getSpecificationList() {
+        return specificationList;
     }
 
-    public void setSpecificationLists(List<GoodsSpecificationBean> specificationLists) {
-        this.specificationLists = specificationLists;
+    public void setSpecificationList(List<GoodsSpecificationBean> specificationList) {
+        this.specificationList = specificationList;
     }
 
     public int getUserHasCollect() {

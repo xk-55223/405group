@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
 import com.cskaoyan.mall.mallStart.bean.Category;
+import com.cskaoyan.mall.mallStart.bean.Goods;
 import com.cskaoyan.mall.mallStart.bean.WxGoodsDetail;
 
 import java.util.List;
@@ -14,4 +15,8 @@ public interface WxCategoryService {
     List<Category> currentCategoryList();
 
     WxGoodsDetail getWxGoodsDetail(int id,int userId);
+
+    int countCartGoods(int a);
+
+    List<Goods> goodsRelated(int id);
 }

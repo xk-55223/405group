@@ -20,4 +20,7 @@ public interface AdminUserMapper {
     List<Feedback> selectFeedbackAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("id") Integer id, @Param("username") String username);
 
     int queryCollectType(int userId,int goodsId);
+
+    @Select("select count(id) from cskaoyan_mall_cart where user_id = #{userId}")
+    int countCartGoods(int userId);
 }

@@ -52,11 +52,17 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         Goods info = goodsMapper.listGoodsById(id);
         Brand brand = mallMapper.selectBrandById(info.getBrandId());
         List<GrouponRules> groupon = generalizeMapper.getGrouponRulesByGoodsId(id);
-        List<Issue> issues = mallMapper.selectIssues(null);
+        List<Issue> issues = mallMapper.selectAllIssues();
         List<GoodsProduct> productList = goodsMapper.goodProducts(id);
         List<GoodsSpecification> goodsSpecifications = goodsMapper.goodSpecification(id);
-        List<GoodsSpecificationBean> speccificationList = new ArrayList<>();
+        List<GoodsSpecificationBean> specificationList = new ArrayList<>();
         List<String> strings = new ArrayList<>();
+        CommentListBean comment = new CommentListBean();
+        List<CommentBean> data = goodsMapper.listCommentBeanByGoodsId(id);
+        int count = goodsMapper.countCommentByGoodsId(id);
+        comment.setData(data);
+        comment.setCount(count);
+
         for(GoodsSpecification goodsSpecification:goodsSpecifications){
             String specification = goodsSpecification.getSpecification();
             if(!strings.contains(specification)){
@@ -68,12 +74,12 @@ public class WxCategoryServiceImpl implements WxCategoryService {
             goodsSpecificationBean.setName(name);
             List<GoodsSpecification> goodsSpecifications1 = new ArrayList<>();
             for (GoodsSpecification goodsSpecification : goodsSpecifications) {
-                if(name == goodsSpecification.getSpecification()){
+                if(name .equals(goodsSpecification.getSpecification())){
                     goodsSpecifications1.add(goodsSpecification);
                 }
             }
             goodsSpecificationBean.setValueList(goodsSpecifications1);
-            speccificationList.add(goodsSpecificationBean);
+            specificationList.add(goodsSpecificationBean);
         }
         if(userId!=-1){
             int i = userMapper.queryCollectType(userId, id);
@@ -85,11 +91,25 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         detail.setInfo(info);
         detail.setIssue(issues);
         detail.setProductList(productList);
-        detail.setSpecificationLists(speccificationList);
+        detail.setSpecificationList(specificationList);
+        detail.setComment(comment);
         return detail;
 
 
 
+    }
+
+    @Override
+    public int countCartGoods(int a) {
+        int i = userMapper.countCartGoods(a);
+        return i;
+    }
+
+    @Override
+    public List<Goods> goodsRelated(int id) {
+        int i = goodsMapper.selectCategoryIdByGoodsId(id);
+        List<Goods> goods = goodsMapper.selectGoodsByCategoryId(i);
+        return goods;
     }
 
 

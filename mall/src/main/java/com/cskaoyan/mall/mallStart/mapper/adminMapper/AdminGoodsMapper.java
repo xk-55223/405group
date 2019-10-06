@@ -133,5 +133,15 @@ public interface AdminGoodsMapper {
     void updateProduct(@Param("product") GoodsProduct product,@Param("id") Integer id);
 
     void updateSpecification(@Param("specification") GoodsSpecification specification,@Param("id") Integer id);
+
+    List<CommentBean> listCommentBeanByGoodsId(int goodsId);
+
+    @Select("select count(id) from cskaoyan_mall_comment where value_id = #{goodsId}")
+    int countCommentByGoodsId(int goodsId);
+
+    @Select("select category_id from cskaoyan_mall_goods where id = #{id}")
+    int selectCategoryIdByGoodsId(int id);
+
+    List<Goods> selectGoodsByCategoryId(int categoryId);
 }
 
