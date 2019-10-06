@@ -25,17 +25,15 @@
     <select id="selectBrandById" resultMap="BrandDetailMap">
         select id ,`name`,`desc`,`pic_url`,sort_order,`floor_price`,add_time ,update_time ,deleted from cskaoyan_mall_brand where id = #{id}
     </select>
-    <resultMap id="GoodsMap" type="com.cskaoyan.mall.mallStart.bean.Goods">
+    <resultMap id="TopicMap" type="com.cskaoyan.mall.mallStart.bean.Topic">
         <result column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="brief" property="brief"/>
+        <result column="title" property="title"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="price" property="price"/>
+        <result column="read_count" property="readCount"/>
         <result column="pic_url" property="picUrl"/>
-        <result column="is_new" property="isNew"/>
-        <result column="is_hot" property="isHot"/>
-        <result column="counter_price" property="counterPrice"/>
-        <result column="retail_price" property="retailPrice"/>
     </resultMap>
-    <select id="selectGoodsByBrandId" resultMap="GoodsMap">
-        select id,`name`,brief,pic_url,is_new,is_hot,counter_price,retail_price from cskaoyan_mall_goods where brand_id = #{brandId}
+    <select id="selectTopicAll" resultMap="TopicMap">
+        select id,title,subtitle,price,read_count,pic_url from cskaoyan_mall_topic
     </select>
 </mapper>

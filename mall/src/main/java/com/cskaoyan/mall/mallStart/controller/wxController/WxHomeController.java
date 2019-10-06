@@ -61,11 +61,11 @@ public class WxHomeController {
 
 
     /*ljq*/
-   /* @RequestMapping("wx/topic/list")
+    @RequestMapping("wx/topic/list")
     public BaseRespVo<Map> topicList(BrandPageInfo pageInfo) {
         Map result = wxHomeService.selectTopicAll(pageInfo);
         return BaseRespVo.ok(result);
-    }*/
+    }
 
 
     @RequestMapping("wx/search/clearhistory")

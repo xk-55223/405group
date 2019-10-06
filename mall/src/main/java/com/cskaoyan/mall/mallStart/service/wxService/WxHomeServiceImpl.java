@@ -6,6 +6,7 @@ import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
 import com.cskaoyan.mall.mallStart.tool.BeansManager;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxBrandMapper;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,13 +62,19 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-<<<<<<< HEAD
+
     public Map selectBrandAll(BrandPageInfo pageInfo) {
         PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
         List<Brand> brands = wxBrandMapper.selectBrandAll();
         PageInfo<Brand> brandPageInfo = new PageInfo<>(brands);
         long total = brandPageInfo.getTotal();
-=======
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("totalPages", Math.ceil(total * 1.0 / pageInfo.getSize()));
+        resultMap.put("brandList", brands);
+        return resultMap;
+    }
+
+    @Override
     public SearchIndexInfo searchIndex(int userId) {
         List<Keyword> hotKeywords = mallMapper.selectHotKeywords(true);
         Keyword defaultKeyword = mallMapper.selectDefaultKeyword();
@@ -87,8 +94,8 @@ public class WxHomeServiceImpl implements WxHomeService {
     @Override
     public GoodsListInfo goodsList(int userId, String keyword, FromPageInfo info, int categoryId) {
         GoodsListInfo goodsListInfo = new GoodsListInfo();
-        PageHelper.startPage(info.getPage(),info.getLimit());
-        List<Goods> goods = goodsMapper.selectGoodsByKeywordAndCategoryId(keyword,categoryId,info);
+        PageHelper.startPage(info.getPage(), info.getLimit());
+        List<Goods> goods = goodsMapper.selectGoodsByKeywordAndCategoryId(keyword, categoryId, info);
         List<Category> categories = goodsMapper.selectGoodsCategorys(keyword);
         BeansManager beansManager = new BeansManager();
         ListBean listBean = beansManager.toListBean(goods);
@@ -107,38 +114,28 @@ public class WxHomeServiceImpl implements WxHomeService {
         return goodsListInfo;
     }
 
-    public Map selectBrandAll(FromPageInfo fromPageInfo) {
-        PageHelper.startPage(fromPageInfo.getPage(), fromPageInfo.getLimit());
-        List<Brand> brands = wxBrandMapper.selectBrandAll(fromPageInfo);
-        PageInfo<Brand> pageInfo = new PageInfo<>(brands);
-        long total = pageInfo.getTotal();
->>>>>>> d190f5689896654bb0635c3ff962b90982f8d109
-        Map<String, Object> resultMap = new LinkedHashMap<>();
-        resultMap.put("totalPages", Math.ceil(total * 1.0 / pageInfo.getSize()));
-        resultMap.put("brandList", brands);
-        return resultMap;
-    }
 
     @Override
-<<<<<<< HEAD
     public Map selectBrandById(int id) {
         Brand brand = wxBrandMapper.selectBrandById(id);
         Map<String, Object> resultMap = new LinkedHashMap<>();
-        resultMap.put("brand",brand);
+        resultMap.put("brand", brand);
         return resultMap;
     }
 
     @Override
-    public Map selectGoodsAll(BrandPageInfo pageInfo, int brandId) {
+    public Map selectTopicAll(BrandPageInfo pageInfo) {
         PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
-        List<Goods> goods = wxBrandMapper.selectGoodsByBrandId(brandId);
+        List<Topic> topics = wxBrandMapper.selectTopicAll();
         Map<String, Object> resultMap = new LinkedHashMap<>();
-        resultMap.put("goodsList",goods);
+        resultMap.put("data", topics);
+        resultMap.put("count",new PageInfo<>(topics).getTotal());
         return resultMap;
-=======
+    }
+
+    @Override
     public void searchClearhistory(int userId) {
         mallMapper.deleteSearchHistory(userId);
->>>>>>> d190f5689896654bb0635c3ff962b90982f8d109
     }
 
 }
