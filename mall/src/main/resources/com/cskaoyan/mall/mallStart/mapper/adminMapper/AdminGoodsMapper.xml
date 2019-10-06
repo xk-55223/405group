@@ -127,7 +127,7 @@
         from cskaoyan_mall_goods where category_id = #{categoryId};
     </select>
 
-    <select id="selectGoodsByKeywordAndCategoryId" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
+    <select id="selectGoodsConditioned" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
         select id
         ,brief
         ,counter_price as counterPrice
@@ -137,17 +137,23 @@
         ,pic_url       as picUrl
         ,retail_price  as retailPrice
         from cskaoyan_mall_goods
-        where
-        name like '%' #{keyword} '%'
-        <if test="categoryId != null and categoryId != 0">
-            and category_id = #{categoryId}
-        </if>
-        <if test="pageInfo != null">
-            <if test="pageInfo.order != null and pageInfo.order != ''
-                        and pageInfo.sort != null and pageInfo.sort !=''">
-                order by #{pageInfo.sort} ${pageInfo.order}
+        <where>
+            <if test="keyword != null">
+                name like '%' #{keyword} '%'
             </if>
-        </if>
+            <if test="categoryId != null and categoryId != 0">
+                and category_id = #{categoryId}
+            </if>
+            <if test="brandId != null">
+                and brand_id = #{brandId}
+            </if>
+            <if test="pageInfo != null">
+                <if test="pageInfo.order != null and pageInfo.order != ''
+                            and pageInfo.sort != null and pageInfo.sort !=''">
+                    order by #{pageInfo.sort} ${pageInfo.order}
+                </if>
+            </if>
+        </where>
     </select>
 
     <select id="selectGoodsCategorys" resultType="com.cskaoyan.mall.mallStart.bean.Category">

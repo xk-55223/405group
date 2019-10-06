@@ -63,5 +63,5 @@ public class WxCategoryController {
         map.put("goodsList",goodsList);
         return BaseRespVo.ok(map);
     }
-    
+
 }

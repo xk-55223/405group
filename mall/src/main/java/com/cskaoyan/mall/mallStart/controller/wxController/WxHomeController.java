@@ -30,7 +30,8 @@ public class WxHomeController {
     // 搜索时显示关键词信息
     @RequestMapping("wx/search/index")
     public BaseRespVo searchIndex() {
-        SearchIndexInfo indexInfo = wxHomeService.searchIndex();
+        int userId = 1;
+        SearchIndexInfo indexInfo = wxHomeService.searchIndex(userId);
         return BaseRespVo.ok(indexInfo);
     }
 
@@ -41,14 +42,50 @@ public class WxHomeController {
     }
 
     @RequestMapping("wx/goods/list")
-    public BaseRespVo goodsList(String keyword, FromPageInfo info,Integer categoryId) {
-        GoodsListInfo goodsListInfo = wxHomeService.goodsList(keyword, info, categoryId);
+    public BaseRespVo goodsList(String keyword, FromPageInfo info,Integer categoryId,Integer brandId) {
+        int userId = 1;
+        GoodsListInfo goodsListInfo = wxHomeService.goodsList(userId, keyword, info, categoryId,brandId);
         return BaseRespVo.ok(goodsListInfo);
     }
     /*ljq*/
     @RequestMapping("wx/brand/list")
-    public BaseRespVo<Map> brandList(FromPageInfo pageInfo) {
+    public BaseRespVo<Map> brandList(BrandPageInfo pageInfo) {
         Map resultMap = wxHomeService.selectBrandAll(pageInfo);
         return BaseRespVo.ok(resultMap);
+    }
+
+    /*ljq*/
+    @RequestMapping("wx/brand/detail")
+    public BaseRespVo<Map> brandDetail(int id) {
+        Map resultMap = wxHomeService.selectBrandById(id);
+        return BaseRespVo.ok(resultMap);
+    }
+
+
+    /*ljq*/
+    @RequestMapping("wx/topic/list")
+    public BaseRespVo<Map> topicList(BrandPageInfo pageInfo) {
+        Map result = wxHomeService.selectTopicAll(pageInfo);
+        return BaseRespVo.ok(result);
+    }
+
+
+    @RequestMapping("wx/search/clearhistory")
+    public BaseRespVo searchClearhistory() {
+        int id = 1;
+        wxHomeService.searchClearhistory(id);
+        return BaseRespVo.ok(null);
+    }
+
+    @RequestMapping("wx/goods/category")
+    public BaseRespVo goodsCategory(Integer id) {
+        GoodsCategoryInfo categoryInfo = wxHomeService.goodsCategory(id);
+        return BaseRespVo.ok(categoryInfo);
+    }
+
+    @RequestMapping("wx/coupon/list")
+    public BaseRespVo couponList(FromPageInfo fromPageInfo) {
+        CouponListInfo couponListInfo = wxHomeService.couponList(fromPageInfo);
+        return BaseRespVo.ok(couponListInfo);
     }
 }

@@ -181,7 +181,13 @@
     <select id="selectHistoryKeywords" resultType="com.cskaoyan.mall.mallStart.bean.Keyword">
         select keyword
         from cskaoyan_mall_search_history
+        where user_id = #{userId}
     </select>
+
+    <insert id="insertSearchHistory">
+        insert into cskaoyan_mall_search_history (keyword,user_id,add_time,update_time)
+        values (#{history.keyword},#{history.userId},#{history.addTime},#{history.updateTime})
+    </insert>
 
     <select id="selectStringKeywords" resultType="String">
         select keyword from cskaoyan_mall_keyword where keyword like '%' #{keyword} '%'
@@ -249,6 +255,17 @@
     <delete id="deleteCategoryById">
         delete from cskaoyan_mall_category where id = #{id}
     </delete>
+
+    <select id="selectCategoryPidById" resultType="int">
+        select pid from cskaoyan_mall_category where id = #{id}
+    </select>
+
+    <select id="selectCategoryById" resultType="com.cskaoyan.mall.mallStart.bean.Category">
+        select add_time as addTime , deleted , `desc` , icon_url as iconUrl , id , keywords
+        , level , name , pic_url as picUrl , pid , sort_order as sortOrder , update_time as updateTime
+        from cskaoyan_mall_category
+        where id = #{id}
+    </select>
 
 
     <select id="selectOrderById" resultType="com.cskaoyan.mall.mallStart.bean.Order">
@@ -329,5 +346,7 @@ where order_id = #{id}
         from cskaoyan_mall_issue limit 8
     </select>
 
-
+    <delete id="deleteSearchHistory">
+        delete from cskaoyan_mall_search_history where user_id = #{userId}
+    </delete>
 </mapper>

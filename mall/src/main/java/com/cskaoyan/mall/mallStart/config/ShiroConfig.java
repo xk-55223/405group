@@ -32,6 +32,7 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
+    //自定义securityManager
     @Bean
     public SecurityManager securityManager(CustomRealm realm, DefaultWebSessionManager sessionManager) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
@@ -40,6 +41,7 @@ public class ShiroConfig {
         return defaultWebSecurityManager;
     }
 
+    //自定义sessionManager
     @Bean
     DefaultWebSessionManager defaultWebSessionManager() {
         MallSessionManager mallSessionManager = new MallSessionManager();
