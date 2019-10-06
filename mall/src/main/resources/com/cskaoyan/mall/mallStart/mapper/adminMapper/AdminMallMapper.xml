@@ -134,7 +134,10 @@
     </select>
 
 
-
+    <sql id="keyword_colum_list_property">
+         id,keyword,url,is_hot as isHot,is_default as isDefault,sort_order as sortOrder
+        ,add_time as addTime,update_time as updateTime, deleted
+    </sql>
     <select id="selectKeywords" resultType="com.cskaoyan.mall.mallStart.bean.Keyword">
         select id,keyword,url,is_hot as isHot,is_default as isDefault,sort_order as sortOrder
         ,add_time as addTime,update_time as updateTime, deleted
@@ -164,6 +167,31 @@
         , url = #{keyword.url}
         where id = #{keyword.id}
     </update>
+
+    <select id="selectHotKeywords" resultType="com.cskaoyan.mall.mallStart.bean.Keyword">
+        select <include refid="keyword_colum_list_property"/>
+        from cskaoyan_mall_keyword where is_hot = #{isHot}
+    </select>
+
+    <select id="selectDefaultKeyword" resultType="com.cskaoyan.mall.mallStart.bean.Keyword">
+        select <include refid="keyword_colum_list_property"/>
+        from cskaoyan_mall_keyword where is_default = true
+    </select>
+
+    <select id="selectHistoryKeywords" resultType="com.cskaoyan.mall.mallStart.bean.Keyword">
+        select keyword
+        from cskaoyan_mall_search_history
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertSearchHistory">
+        insert into cskaoyan_mall_search_history (keyword,user_id,add_time,update_time)
+        values (#{history.keyword},#{history.userId},#{history.addTime},#{history.updateTime})
+    </insert>
+
+    <select id="selectStringKeywords" resultType="String">
+        select keyword from cskaoyan_mall_keyword where keyword like '%' #{keyword} '%'
+    </select>
 
     <resultMap id="CategoryMapper" type="com.cskaoyan.mall.mallStart.bean.Category">
         <result column="id" property="id"/>
@@ -300,6 +328,10 @@ where order_id = #{id}
 
     <delete id="deleteIssueById">
         delete from cskaoyan_mall_issue where id = #{id}
+    </delete>
+
+    <delete id="deleteSearchHistory">
+        delete from cskaoyan_mall_search_history where user_id = #{userId}
     </delete>
 
 </mapper>

@@ -179,6 +179,11 @@
             #{roleId}
         </foreach>
     </select>
+    <!--查询权限的api名称-->
+    <select id="selectApisByPerm" resultType="string">
+        select api from cskaoyan_mall_permission3
+        where permission = #{perm}
+    </select>
     <!--根据管理员用户名查询密码-->
     <select id="selectPasswordByUserName" resultType="string">
         select password from cskaoyan_mall_admin where username = #{username}

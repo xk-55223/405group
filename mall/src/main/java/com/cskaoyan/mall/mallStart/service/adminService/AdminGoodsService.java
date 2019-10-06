@@ -25,5 +25,5 @@ public interface AdminGoodsService {
 
     void createGoods(GoodCreatBean goods);
 
-
+    void updateGoods(GoodCreatBean goods);
 }
