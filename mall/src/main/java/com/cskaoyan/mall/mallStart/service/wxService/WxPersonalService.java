@@ -17,6 +17,8 @@ public interface WxPersonalService {
 
     Map couponMylist(BrandPageInfo pageInfo, Integer status, Integer userId);
 
+    Map collectList(BrandPageInfo pageInfo, Integer type, Integer userId);
+
     Map personalIndex();
 
     List<Address> addressList(Integer userId);
@@ -27,12 +29,13 @@ public interface WxPersonalService {
 
     WxIndexInfo homeIndex();
 
-
     AddressRegion addressDetail(int id);
 
-    void addressSave(AddressRegion addressRegion,Integer userId);
+    void addressSave(AddressRegion addressRegion, Integer userId);
 
     void addressDelete(Integer id);
 
     List<Region> selectRegionByPid(int pid);
+
+    int feedbackSubmit(Feedback feedback);
 }

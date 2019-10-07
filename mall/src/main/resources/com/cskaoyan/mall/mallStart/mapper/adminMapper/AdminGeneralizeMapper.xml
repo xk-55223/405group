@@ -276,4 +276,8 @@ on r.goods_id = g.id
         select count(id) from cskaoyan_mall_coupon_user
         where user_id = #{userId} and coupon_id = #{couponId}
     </select>
+
+    <select id="queryCouponIdByCode" resultType="int">
+        select id from cskaoyan_mall_coupon where `code` = #{code}
+    </select>
 </mapper>
