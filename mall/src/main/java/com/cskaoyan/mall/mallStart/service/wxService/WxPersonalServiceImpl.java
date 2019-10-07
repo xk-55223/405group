@@ -177,6 +177,8 @@ public class WxPersonalServiceImpl implements WxPersonalService {
             createGroupon.setOrderSn(orderSn);
             createGroupon.setOrderStatusText(orderStatusText);
             createGroupon.setRules(rules);
+            createGroupon.setId(groupon.getId());
+
             data.add(createGroupon);
         }
         map.put("data",data);
@@ -222,6 +224,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
             createGroupon.setOrderSn(orderSn);
             createGroupon.setOrderStatusText(orderStatusText);
             createGroupon.setRules(rules);
+            createGroupon.setId(groupon.getId());
             data.add(createGroupon);
         }
         map.put("count", count);
@@ -350,6 +353,38 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     }
 
     @Override
+    public void deleteOrder(int id) {
+        mallMapper.deleteOrder(id);
+    }
+
+    public GrouponDetail grouponDetail(int grouponId) {
+        GrouponDetail grouponDetail = new GrouponDetail();
+        int creatorId = userMapper.getOrderCreatorById(grouponId);
+        String userNicknameById = userMapper.getUserNicknameById(creatorId);
+        User creator = new User();
+        creator.setNickname(userNicknameById);
+        Groupon groupon = generalizeMapper.getGrouponById(grouponId);
+        Integer rulesId = groupon.getRulesId();
+        int[] i = generalizeMapper.getUserIdByRulesId(rulesId);
+        List<User> joiners = new ArrayList<>();
+        for (int id : i) {
+            User user1 = new User();
+            String userNicknameById1 = userMapper.getUserNicknameById(id);
+            user1.setNickname(userNicknameById1);
+            joiners.add(user1);
+        }
+        Order orderInfo = mallMapper.selectOrderById(grouponId);
+        List<OrderGoods> orderGoods = mallMapper.selectOrderGoods(orderInfo.getId());
+        GrouponRules rules = generalizeMapper.getGrouponRulesById(groupon.getRulesId());
+        grouponDetail.setCreator(creator);
+        grouponDetail.setGroupon(groupon);
+        grouponDetail.setJoiners(joiners);
+        grouponDetail.setLinkGrouponId(grouponId);
+        grouponDetail.setOrderGoods(orderGoods);
+        grouponDetail.setOrderInfo(orderInfo);
+        grouponDetail.setRules(rules);
+        return grouponDetail;
+    }
     public boolean register(String mobile, String username, String password) {
         User user = new User();
         Date date = new Date();
