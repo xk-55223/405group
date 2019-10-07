@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
+import com.cskaoyan.mall.mallStart.bean.Address;
+import com.cskaoyan.mall.mallStart.bean.AddressRegion;
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.User;
 import com.cskaoyan.mall.mallStart.bean.UserLoginInfo;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -96,5 +99,25 @@ public class WxPersonalController {
         }
 
         return BaseRespVo.ok(null);
+    }
+//    @RequestMapping("wx/user/index")
+//    public BaseRespVo personalIndex(){
+//        Map order = wxPersonalService.personalIndex();
+//        return BaseRespVo.ok(order);
+//    }
+
+    //-----------------地址管理------------------------
+    @RequestMapping("wx/address/list")
+    public BaseRespVo addressList(){
+        List<Address> addresses = wxPersonalService.addressList();
+        BaseRespVo ok = BaseRespVo.ok(addresses);
+        return ok;
+    }
+
+    @RequestMapping("wx/address/detail")
+    public BaseRespVo addressDetail(int id){
+        AddressRegion addressRegion = wxPersonalService.addressDetail(id);
+        BaseRespVo ok = BaseRespVo.ok(addressRegion);
+        return ok;
     }
 }

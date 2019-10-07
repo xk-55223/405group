@@ -19,6 +19,8 @@ public class Address {
 
     private String mobile;
 
+    private String detailedAddress;
+
     private Boolean isDefault;
 
     private Date addTime;
@@ -121,5 +123,13 @@ public class Address {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public String getDetailedAddress() {
+        return detailedAddress;
+    }
+
+    public void setDetailedAddress(String detailedAddress) {
+        this.detailedAddress = detailedAddress;
     }
 }

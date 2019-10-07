@@ -194,4 +194,6 @@
     <update id="updateSpecification">
         update cskaoyan_mall_goods_specification set goods_id=#{specification.goodsId},specification=#{specification.specification},`value`=#{specification.value},pic_url=#{specification.picUrl},update_time=#{specification.updateTime} where id = #{id}
     </update>
+
+
 </mapper>

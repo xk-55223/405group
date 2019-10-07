@@ -45,7 +45,13 @@ public class WxHomeController {
     @RequestMapping("wx/search/index")
     public BaseRespVo searchIndex() {
         Subject subject = SecurityUtils.getSubject();
-        int userId = (int) subject.getSession().getAttribute("userId");
+        Session session = subject.getSession();
+        Serializable id = session.getId();
+        System.out.println(id);
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            return BaseRespVo.ok(null);
+        }
         SearchIndexInfo indexInfo = wxHomeService.searchIndex(userId);
         return BaseRespVo.ok(indexInfo);
     }

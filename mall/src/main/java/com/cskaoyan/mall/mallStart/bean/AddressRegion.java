@@ -9,8 +9,11 @@ public class AddressRegion {
     boolean isDefault;
     int provinceId;
     int cityId;
+    String cityName;
     int areaId;
+    String areaName;
     String province;
+    String provinceName;
     String city;
     String area;
 
@@ -54,7 +57,7 @@ public class AddressRegion {
         this.address = address;
     }
 
-    public boolean isDefault() {
+    public boolean getIsDefault() {
         return isDefault;
     }
 
@@ -108,5 +111,29 @@ public class AddressRegion {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
     }
 }

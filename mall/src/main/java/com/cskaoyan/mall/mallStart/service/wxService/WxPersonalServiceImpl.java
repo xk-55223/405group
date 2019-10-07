@@ -6,6 +6,8 @@ import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxBrandMapper;
+import com.cskaoyan.mall.mallStart.bean.Address;
+import com.cskaoyan.mall.mallStart.bean.AddressRegion;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -104,5 +106,20 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         order.put("unship",unshipNo);
         orderInfo.put("order",order);
         return orderInfo;
+    }
+
+    @Override
+    public List<Address> addressList() {
+        List<Address> addresses = wxPersonalMapper.selectAddresses();
+        return addresses;
+    }
+
+    @Override
+    public AddressRegion addressDetail(int id) {
+        AddressRegion addressRegion = wxPersonalMapper.addressDetail(id);
+        addressRegion.setProvinceName(wxPersonalMapper.selectProvinceById(addressRegion.getProvinceId()));
+        addressRegion.setCityName(wxPersonalMapper.selectCityById(addressRegion.getCityId()));
+        addressRegion.setAreaName(wxPersonalMapper.selectAreaById(addressRegion.getAreaId()));
+        return addressRegion;
     }
 }

@@ -5,6 +5,10 @@ import com.cskaoyan.mall.mallStart.bean.UserLoginInfo;
 import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
 
 import java.io.Serializable;
+import com.cskaoyan.mall.mallStart.bean.Address;
+import com.cskaoyan.mall.mallStart.bean.AddressRegion;
+
+import java.util.List;
 import java.util.Map;
 
 public interface WxPersonalService {
@@ -15,4 +19,7 @@ public interface WxPersonalService {
     int selectUserIdByUserName(String username);
 
     WxIndexInfo homeIndex();
+    List<Address> addressList();
+
+    AddressRegion addressDetail(int id);
 }
