@@ -1,6 +1,8 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
+import com.cskaoyan.mall.mallStart.bean.CreateGroupon;
+import com.cskaoyan.mall.mallStart.bean.ListBean;
 import com.cskaoyan.mall.mallStart.bean.BrandPageInfo;
 import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
 import com.cskaoyan.mall.mallStart.service.wxService.WxHomeService;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
@@ -30,7 +33,6 @@ import java.util.Map;
  **/
 @RestController
 public class WxPersonalController {
-
     @Autowired
     WxPersonalService wxPersonalService;
     @Autowired
@@ -41,6 +43,20 @@ public class WxPersonalController {
         Map order = wxPersonalService.personalIndex();
         return BaseRespVo.ok(order);
     }
+
+
+    @RequestMapping("wx/groupon/my")
+    public BaseRespVo myGroupon(int showType) {
+        int userId = 1;
+        Map<String, Object> objectObjectHashMap = new HashMap<>();
+        if (showType == 0) {
+            objectObjectHashMap = wxPersonalService.selectCreateGroupons(userId);
+            return BaseRespVo.ok(objectObjectHashMap);
+        }
+        objectObjectHashMap = wxPersonalService.selectJoinedGroupons(userId);
+        return BaseRespVo.ok(objectObjectHashMap);
+    }
+
 
     /*ljq*/
     @RequestMapping("wx/coupon/mylist")
@@ -98,6 +114,7 @@ public class WxPersonalController {
         return BaseRespVo.ok(null);
     }
 
+
     @RequestMapping("wx/auth/login")
     public BaseRespVo authLogin(@RequestBody User user) {
         CustomToken wx = new CustomToken(user.getUsername(), user.getPassword(), "wx");
@@ -141,7 +158,7 @@ public class WxPersonalController {
         String code = (int) ((Math.random() * 9 + 1) * 100000) + "";
         System.out.println(code);
         String mobile = (String) map.get("mobile");
-        System.out.println(mobile);
+        wxPersonalService.sendMessage(mobile, code);
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("code", code);
         Serializable id1 = session.getId();
@@ -152,16 +169,47 @@ public class WxPersonalController {
     @RequestMapping("wx/auth/register")
     public BaseRespVo register(@RequestBody Map map) {
         Session session = SecurityUtils.getSubject().getSession();
-        System.out.println(session.getId());
+        Serializable token = session.getId();
         String codeFromSession = (String) session.getAttribute("code");
         String code = (String) map.get("code");
         if (!code.equals(codeFromSession)) {
             return BaseRespVo.fail("验证码错误");
         }
-
-        return BaseRespVo.ok(null);
+        String mobile = (String) map.get("mobile");
+        String username = (String) map.get("username");
+        String password = (String) map.get("password");
+        boolean register = wxPersonalService.register(mobile, username, password);
+        if (register) {
+            UserLoginInfo userLoginInfo = new UserLoginInfo();
+            userLoginInfo.setToken(token);
+            WxUser userInfo = new WxUser();
+            userInfo.setAvatarUrl("");
+            userInfo.setNickName(username);
+            userLoginInfo.setUserInfo(userInfo);
+            return BaseRespVo.ok(userLoginInfo);
+        }
+        return BaseRespVo.fail("该用户名已存在");
     }
 
+    @RequestMapping("wx/auth/bindPhone")
+    public BaseRespVo authBindPhone(@RequestBody Map map) {
+        return BaseRespVo.fail("系统内部错误");
+    }
+
+    @RequestMapping("wx/auth/reset")
+    public BaseRespVo authReset(@RequestBody Map map) {
+        String code = (String) map.get("code");
+        Session session = SecurityUtils.getSubject().getSession();
+        System.out.println(session.getId());
+        String messageCode = (String) session.getAttribute("code");
+        if (code != null && code.equals(messageCode)) {
+            String mobile = (String) map.get("mobile");
+            String password = (String) map.get("password");
+            wxPersonalService.resetUser(mobile,password);
+            return BaseRespVo.ok(null);
+        }
+        return BaseRespVo.fail("验证码错误");
+    }
 
     //-----------------地址管理------------------------
     @RequestMapping("wx/address/list")
@@ -178,6 +226,7 @@ public class WxPersonalController {
         BaseRespVo ok = BaseRespVo.ok(addressRegion);
         return ok;
     }
+
 
     @RequestMapping("wx/address/save")
     public BaseRespVo addressSave(@RequestBody AddressRegion addressRegion) {
@@ -201,4 +250,32 @@ public class WxPersonalController {
         BaseRespVo ok = BaseRespVo.ok(regions);
         return ok;
     }
+
+    @RequestMapping("wx/groupon/detail")
+    public BaseRespVo grouponDetail(int grouponId) {
+        GrouponDetail detail = wxPersonalService.grouponDetail(grouponId);
+        return BaseRespVo.ok(detail);
+    }
+
+    //---------------足迹-----------------
+    @RequestMapping("wx/footprint/list")
+    public BaseRespVo footprintList(int page, int size) {
+        Session session = SecurityUtils.getSubject().getSession();
+        int id = (int) session.getAttribute("userId");
+        Map footprintList = wxPersonalService.footprintList(page, size, id);
+        BaseRespVo ok = BaseRespVo.ok(footprintList);
+        return ok;
+    }
+
+    //---------------订单-------------------
+    @RequestMapping("wx/order/concel")
+    public BaseRespVo orderConcel(int orderId){
+        wxPersonalService.deleteOrder(orderId);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
+    }
 }
+
+
+
+

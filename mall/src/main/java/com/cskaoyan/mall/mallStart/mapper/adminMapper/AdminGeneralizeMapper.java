@@ -72,7 +72,36 @@ public interface AdminGeneralizeMapper {
     void insertUserCoupon(@Param("userId") Integer userId, @Param("couponId") Integer couponId
             , @Param("nowTime") Date date);
 
-    int selectUserCouponIsOwn(@Param("userId") Integer userId, @Param("couponId") Integer couponId);
 
     Integer queryCouponIdByCode(@Param("code") String code);
+
+    int selectUserCouponIsOwn(@Param("userId") Integer userId, @Param("couponId") Integer couponId);
+
+    @Select("select count(rules_id) from cskaoyan_mall_groupon " +
+            "where creator_user_id = #{userId}")
+    int countGrouponByCreatorId(int userId);
+
+    @Select(" select id,order_id as orderId,groupon_id as grouponId,rules_id as rulesId," +
+            "        user_id as userId,creator_user_id as creatorUserId,add_time as addTime,share_url as shareUrl," +
+            "        update_time as updateTime,payed,deleted from cskaoyan_mall_groupon where creator_user_id = #{userId} and user_id = #{userId}")
+    List<Groupon> queryAllGrouponsByCreator(int userId);
+
+    @Select("select count(id) from cskaoyan_mall_groupon where rules_id = #{rulesId}")
+    int selectUsersByGrouponRulesId(Integer rulesId);
+
+    @Select(" select id,order_id as orderId,groupon_id as grouponId,rules_id as rulesId," +
+            "        user_id as userId,creator_user_id as creatorUserId,add_time as addTime,share_url as shareUrl," +
+            "        update_time as updateTime,payed,deleted from cskaoyan_mall_groupon where user_id = #{userId}")
+    List<Groupon> queryAllGrouponsByUserId(int userId);
+
+    @Select("select count(id) from cskaoyan_mall_groupon where user_id = #{userId}")
+    int countGrouponByUserId(int userId);
+
+    @Select(" select id,order_id as orderId,groupon_id as grouponId,rules_id as rulesId," +
+            "        user_id as userId,creator_user_id as creatorUserId,add_time as addTime,share_url as shareUrl," +
+            "        update_time as updateTime,payed,deleted from cskaoyan_mall_groupon where id = #{id}")
+    Groupon getGrouponById(int id);
+
+    @Select("select user_Id from cskaoyan_mall_groupon where rules_id = #{rules_id}")
+    int[] getUserIdByRulesId(Integer rulesId);
 }
