@@ -5,11 +5,17 @@ import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.adminService.AdminSystemService;
 import com.cskaoyan.mall.mallStart.service.wxService.WxHomeService;
+import com.cskaoyan.mall.mallStart.shiro.CustomToken;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +32,34 @@ public class WxHomeController {
     @Autowired
     AdminSystemService adminSystemService;
 
+    @RequestMapping("wx/auth/login")
+    public BaseRespVo authLogin(@RequestBody User user) {
+        CustomToken wx = new CustomToken(user.getUsername(), user.getPassword(), "wx");
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        System.out.println(session.getId());
+        try {
+            subject.login(wx);
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        }
+        UserLoginInfo userMessage = wxHomeService.selectUserMessage(user);
+        return BaseRespVo.ok(userMessage);
+    }
+
+    @RequestMapping("wx/auth/logout")
+    public BaseRespVo authLogout() {
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.logout();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return BaseRespVo.ok(null);
+    }
     @RequestMapping("wx/home/index")
     public BaseRespVo homeIndex() {
+        Subject subject = SecurityUtils.getSubject();
         WxIndexInfo wxIndexInfo = wxHomeService.homeIndex();
         return BaseRespVo.ok(wxIndexInfo);
     }
@@ -118,19 +150,6 @@ public class WxHomeController {
         return BaseRespVo.ok(resultComment);
     }
 
-    /*ljq临时login*/
-    @RequestMapping("wx/auth/login")
-    public BaseRespVo<Map> authLogin() {
-        Map<String, Object> resultMap = new LinkedHashMap<>();
-        Map<String, String> userInfo = new LinkedHashMap<>();
-        userInfo.put("nickName", "wx");
-        userInfo.put("avatarUrl", "");
-        resultMap.put("userInfo", userInfo);
-        resultMap.put("tokenExpire", "2019-10-07T09:30:55.542");
-        resultMap.put("token", "mdrbticbuyp59yynqhsf2rre6ihxst7m");
-        return BaseRespVo.ok(resultMap);
-    }
-
 
     @RequestMapping("wx/search/clearhistory")
     public BaseRespVo searchClearhistory() {
@@ -149,5 +168,30 @@ public class WxHomeController {
     public BaseRespVo couponList(FromPageInfo fromPageInfo) {
         CouponListInfo couponListInfo = wxHomeService.couponList(fromPageInfo);
         return BaseRespVo.ok(couponListInfo);
+    }
+
+    @RequestMapping("wx/user/index")
+    public BaseRespVo userIndex() {
+        int userId = 1;
+        UserIndexInfo indexInfo = wxHomeService.selectUserIndexInfo(userId);
+        return BaseRespVo.ok(indexInfo);
+    }
+
+    @RequestMapping("wx/coupon/receive")
+    public BaseRespVo couponReceive(@RequestBody Map<String,Integer> map) {
+        Integer couponId = map.get("couponId");
+        int userId = 1;
+        String receiveMessage = wxHomeService.couponReceive(userId,couponId);
+        if (receiveMessage == null) {
+            return BaseRespVo.ok(null);
+        } else {
+            return BaseRespVo.fail(receiveMessage);
+        }
+    }
+
+    @RequestMapping("wx/groupon/list")
+    public BaseRespVo grouponList(FromPageInfo fromPageInfo) {
+        GrouponPageInfo grouponInfo = wxHomeService.grouponList(fromPageInfo);
+        return BaseRespVo.ok(grouponInfo);
     }
 }

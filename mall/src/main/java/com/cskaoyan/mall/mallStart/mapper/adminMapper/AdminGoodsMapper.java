@@ -37,6 +37,7 @@ public interface AdminGoodsMapper {
     /**
      * 根据id获取某个商品
      */
+
     public Goods listGoodsById(@Param("id") int id);
 
     /**
@@ -144,5 +145,10 @@ public interface AdminGoodsMapper {
     int selectCategoryIdByGoodsId(int id);
 
     List<Goods> selectGoodsByCategoryId(int categoryId);
+
+    @Select("select id, goods_id as goodsId, specifications, price, number, url, add_time as addTime, update_time as updateTime, " +
+            "deleted from cskaoyan_mall_goods_product where id = #{id}")
+    GoodsProduct selectGoodsProductById(Integer productId);
+
 }
 

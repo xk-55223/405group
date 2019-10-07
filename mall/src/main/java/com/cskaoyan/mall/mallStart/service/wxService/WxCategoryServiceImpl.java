@@ -112,5 +112,25 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         return goods;
     }
 
+    @Override
+    public String collectGoods(int valueId, int type, int userId) {
+        int i = userMapper.isGoodsCollected(valueId,type,userId);
+        if(i==0){
+            userMapper.collectGoods(valueId,type,userId);
+            return "add";
+        }
+        userMapper.deleteCollectGoods(valueId,type,userId);
+        return "delete";
+    }
+
+    @Override
+    public int addGoodsToCart(Integer goodsId, Integer number, Integer productId, int userId) {
+        Goods goods = goodsMapper.listGoodsById(goodsId);
+        GoodsProduct product = goodsMapper.selectGoodsProductById(productId);
+        userMapper.insertGoodsToCart(goods,product,number,userId);
+        int count = userMapper.countCartGoodsByUserId(userId);
+        return count;
+    }
+
 
 }

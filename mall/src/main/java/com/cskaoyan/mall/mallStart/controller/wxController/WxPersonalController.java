@@ -16,7 +16,7 @@ import java.util.Map;
  * @author: silphon
  * * @create: 2019-10-06 17:28
  **/
-@RestController
+/*@RestController
 public class WxPersonalController {
     @Autowired
     WxPersonalService wxPersonalService;
@@ -25,4 +25,4 @@ public class WxPersonalController {
         Map order = wxPersonalService.personalIndex();
         return BaseRespVo.ok(order);
     }
-}
+}*/

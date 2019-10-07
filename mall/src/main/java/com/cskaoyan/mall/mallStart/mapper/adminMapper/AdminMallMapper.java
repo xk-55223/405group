@@ -81,4 +81,6 @@ public interface AdminMallMapper {
     int selectCategoryPidById(Integer id);
 
     Category selectCategoryById(Integer id);
+
+    int selectUserOrderStatusCount(@Param("userId") int userId,@Param("status") int status);
 }

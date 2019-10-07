@@ -38,4 +38,12 @@ public interface WxHomeService {
     GoodsCategoryInfo goodsCategory(Integer id);
 
     CouponListInfo couponList(FromPageInfo fromPageInfo);
+
+    UserLoginInfo selectUserMessage(User user);
+
+    UserIndexInfo selectUserIndexInfo(int userId);
+
+    String couponReceive(Integer userId, Integer couponId);
+
+    GrouponPageInfo grouponList(FromPageInfo fromPageInfo);
 }
