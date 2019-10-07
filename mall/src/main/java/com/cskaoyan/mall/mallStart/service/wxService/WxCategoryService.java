@@ -19,4 +19,8 @@ public interface WxCategoryService {
     int countCartGoods(int a);
 
     List<Goods> goodsRelated(int id);
+
+    String collectGoods(int valueId, int type, int userId);
+
+    int addGoodsToCart(Integer goodsId, Integer number, Integer productId, int userId);
 }
