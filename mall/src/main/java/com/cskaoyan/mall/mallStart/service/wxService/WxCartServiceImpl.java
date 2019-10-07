@@ -18,6 +18,7 @@ public class WxCartServiceImpl implements WxCartService{
 
     @Override
     public CartListBean cartList(Integer id) {
+
         List<Cart> cartList = wxCartMapper.CartList(id);
         CartListBean cartListBean = new CartListBean();
         CartTotal cartTotal = new CartTotal();
