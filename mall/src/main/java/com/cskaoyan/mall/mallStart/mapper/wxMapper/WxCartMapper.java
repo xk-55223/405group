@@ -13,4 +13,6 @@ public interface WxCartMapper {
     void cartUpdate(@Param("cart") Cart cart);
 
     void cartDelete(@Param("productId") Integer productId);
+
+    void changeIschecked(@Param("isChecked") boolean checked,@Param("productId") Integer productId);
 }

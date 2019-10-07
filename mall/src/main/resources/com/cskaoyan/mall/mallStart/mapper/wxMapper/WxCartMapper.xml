@@ -30,4 +30,8 @@
     <delete id="cartDelete">
         delete from cskaoyan_mall_cart where product_id = #{productId}
     </delete>
+
+    <update id="changeIdchecked">
+        update cskaoyan_mall_cart set checked = #{isChecked} where product_id = #{productId}
+    </update>
 </mapper>

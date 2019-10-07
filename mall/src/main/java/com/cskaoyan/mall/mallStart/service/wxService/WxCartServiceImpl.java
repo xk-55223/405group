@@ -1,6 +1,7 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
 import com.cskaoyan.mall.mallStart.bean.Cart;
+import com.cskaoyan.mall.mallStart.bean.CartCheckedBean;
 import com.cskaoyan.mall.mallStart.bean.CartListBean;
 import com.cskaoyan.mall.mallStart.bean.CartTotal;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxCartMapper;
@@ -51,6 +52,17 @@ public class WxCartServiceImpl implements WxCartService{
         for (Integer productId : productIds) {
             wxCartMapper.cartDelete(productId);
         }
+        return cartList();
+    }
+
+    @Override
+    public CartListBean cartChecked(CartCheckedBean productIds) {
+        boolean checked = productIds.isChecked();
+        List<Integer> productIds1 = productIds.getProductIds();
+        for (Integer integer : productIds1) {
+            wxCartMapper.changeIschecked(checked,integer);
+        }
+
         return cartList();
     }
 }

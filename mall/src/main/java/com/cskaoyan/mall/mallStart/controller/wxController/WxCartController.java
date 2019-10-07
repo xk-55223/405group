@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mallStart.controller.wxController;
 
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.Cart;
+import com.cskaoyan.mall.mallStart.bean.CartCheckedBean;
 import com.cskaoyan.mall.mallStart.bean.CartListBean;
 import com.cskaoyan.mall.mallStart.service.wxService.WxCartServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,13 @@ public class WxCartController {
     public BaseRespVo cartDelete(@RequestBody Map<String,Object> map){
         List<Integer> productIds = (List<Integer>) map.get("productIds");
         CartListBean cartListBean = wxCartService.cartDelete(productIds);
+        BaseRespVo ok = BaseRespVo.ok(cartListBean);
+        return ok;
+    }
+
+    @RequestMapping("wx/cart/checked")
+    public BaseRespVo cartChecked(@RequestBody CartCheckedBean productIds){
+        CartListBean cartListBean = wxCartService.cartChecked(productIds);
         BaseRespVo ok = BaseRespVo.ok(cartListBean);
         return ok;
     }
