@@ -30,7 +30,6 @@ public interface WxHomeService {
 
     List<String> searchHelper(String keyword);
 
-
     GoodsListInfo goodsList(Integer userId, String keyword, FromPageInfo info, Integer categoryId, Integer brandId);
 
     void searchClearhistory(int userId);
@@ -42,4 +41,6 @@ public interface WxHomeService {
     String couponReceive(Integer userId, Integer couponId);
 
     GrouponPageInfo grouponList(FromPageInfo fromPageInfo);
+
+    Integer couponExchange(String code);
 }

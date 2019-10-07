@@ -81,6 +81,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         userLoginInfo.setTokenExpire(tokenExpire);
         return userLoginInfo;
     }
+
     @Override
     public WxIndexInfo homeIndex() {
         List<Category> categories = mallMapper.selectCategorys();
@@ -106,8 +107,6 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     }
 
 
-
-
     @Override
     public int selectUserIdByUserName(String username) {
         return userMapper.selectUserIdByUserName(username);
@@ -123,18 +122,25 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         int unshipNo = 0;
         int[] statuses = wxPersonalMapper.selectOrderStatusId();
         for (int status : statuses) {
-            switch (status / 100){
-                case 1: unrecvNo++;break;
-                case 2: uncommentNo++;break;
-                case 3: unpaidNo++;break;
-                case 4: unshipNo++;
+            switch (status / 100) {
+                case 1:
+                    unrecvNo++;
+                    break;
+                case 2:
+                    uncommentNo++;
+                    break;
+                case 3:
+                    unpaidNo++;
+                    break;
+                case 4:
+                    unshipNo++;
             }
         }
-        order.put("unrecv",unrecvNo);
-        order.put("uncomment",uncommentNo);
-        order.put("unpaid",unpaidNo);
-        order.put("unship",unshipNo);
-        orderInfo.put("order",order);
+        order.put("unrecv", unrecvNo);
+        order.put("uncomment", uncommentNo);
+        order.put("unpaid", unpaidNo);
+        order.put("unship", unshipNo);
+        orderInfo.put("order", order);
         return orderInfo;
     }
 
@@ -283,8 +289,20 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         PageInfo<MyCoupon> myCouponPageInfo = new PageInfo<>(myCoupons);
         long total = myCouponPageInfo.getTotal();
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
-        resultMap.put("data",myCoupons);
-        resultMap.put("count",total);
+        resultMap.put("data", myCoupons);
+        resultMap.put("count", total);
+        return resultMap;
+    }
+
+    @Override
+    public Map collectList(BrandPageInfo pageInfo, Integer type, Integer userId) {
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
+        List<MyCollect> collects = wxPersonalMapper.selectCollectsByUserId(type, userId);
+        PageInfo<MyCollect> collectPageInfo = new PageInfo<>(collects);
+        long total = collectPageInfo.getTotal();
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("collectList", collects);
+        resultMap.put("totalPages", total);
         return resultMap;
     }
 
@@ -333,11 +351,11 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     public void addressSave(AddressRegion addressRegion,Integer userId) {
         Date date = new Date();
         addressRegion.setUpdateTime(date);
-        if(addressRegion.getId()!=0) {
+        if (addressRegion.getId() != 0) {
             wxPersonalMapper.updateAddress(addressRegion);
-        }else {
+        } else {
             addressRegion.setAddTime(date);
-            wxPersonalMapper.insertAddress(addressRegion,userId);
+            wxPersonalMapper.insertAddress(addressRegion, userId);
         }
     }
 
@@ -353,6 +371,9 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     }
 
     @Override
+    public int feedbackSubmit(Feedback feedback) {
+        return wxPersonalMapper.insertFeedback(feedback);
+    }
     public void deleteOrder(int id) {
         mallMapper.deleteOrder(id);
     }
@@ -385,6 +406,8 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         grouponDetail.setRules(rules);
         return grouponDetail;
     }
+
+    @Override
     public boolean register(String mobile, String username, String password) {
         User user = new User();
         Date date = new Date();

@@ -213,11 +213,11 @@ public class WxHomeServiceImpl implements WxHomeService {
         if (coupon.getTotal() <= 0) {
             return "优惠券已领完";
         }
-        int number = generalizeMapper.selectUserCouponIsOwn(userId,couponId);
+        int number = generalizeMapper.selectUserCouponIsOwn(userId, couponId);
         if (number != 0) {
             return "优惠券已经领取过";
         }
-        generalizeMapper.insertUserCoupon(userId,couponId,new Date());
+        generalizeMapper.insertUserCoupon(userId, couponId, new Date());
         coupon.setTotal(coupon.getTotal() - 1);
         generalizeMapper.updateCoupon(coupon);
         return null;
@@ -225,7 +225,7 @@ public class WxHomeServiceImpl implements WxHomeService {
 
     @Override
     public GrouponPageInfo grouponList(FromPageInfo fromPageInfo) {
-        PageHelper.startPage(fromPageInfo.getPage(),fromPageInfo.getLimit());
+        PageHelper.startPage(fromPageInfo.getPage(), fromPageInfo.getLimit());
         List<GrouponInfo> grouponInfos = generalizeMapper.getGrouponInfo();
         ListBean listBean = new BeansManager().toListBean(grouponInfos);
         long total = listBean.getTotal();
@@ -233,6 +233,11 @@ public class WxHomeServiceImpl implements WxHomeService {
         grouponPageInfo.setCount((int) total);
         grouponPageInfo.setData(grouponInfos);
         return grouponPageInfo;
+    }
+
+    @Override
+    public Integer couponExchange(String code) {
+        return generalizeMapper.queryCouponIdByCode(code);
     }
 
 }
