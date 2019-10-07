@@ -227,4 +227,28 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         List<Region> regions = wxPersonalMapper.selectRegionByPid(pid);
         return regions;
     }
+
+    @Override
+    public boolean register(String mobile, String username, String password) {
+        User user = new User();
+        Date date = new Date();
+        user.setAddTime(date);
+        user.setAvatar("");
+        user.setLastLoginTime(date);
+        user.setUpdateTime(date);
+        user.setGender((byte) 1);
+        user.setPassword(password);
+        user.setUsername(username);
+        user.setNickname(username);
+        user.setMobile(mobile);
+        user.setBirthday(date);
+        int flag = userMapper.insertUser(user);
+        if (flag == 0) return  false;
+        return true;
+    }
+
+    @Override
+    public void resetUser(String mobile, String password) {
+        userMapper.updateUserPasswordByMoblie(mobile,password);
+    }
 }

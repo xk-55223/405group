@@ -36,4 +36,8 @@ public interface WxPersonalService {
     void addressDelete(Integer id);
 
     List<Region> selectRegionByPid(int pid);
+
+    boolean register(String mobile, String username, String password);
+
+    void resetUser(String mobile, String password);
 }
