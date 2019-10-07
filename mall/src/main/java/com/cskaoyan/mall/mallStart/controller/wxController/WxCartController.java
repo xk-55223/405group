@@ -1,9 +1,6 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
-import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
-import com.cskaoyan.mall.mallStart.bean.Cart;
-import com.cskaoyan.mall.mallStart.bean.CartCheckedBean;
-import com.cskaoyan.mall.mallStart.bean.CartListBean;
+import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.wxService.WxCartServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +48,20 @@ public class WxCartController {
         return ok;
     }
 
+    @RequestMapping("wx/cart/checkout")
+    public BaseRespVo cartCheckout(CheckoutInfo checkoutInfo) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        CartCheckoutInfo result = wxCartService.cartCheckout(userId,checkoutInfo);
+        return BaseRespVo.ok(result);
+    }
 
+    @RequestMapping("wx/coupon/selectlist")
+    public BaseRespVo couponSelectList(Integer cartId, Integer grouponRulesId) {
+        return BaseRespVo.fail("系统内部错误");
+    }
+
+    @RequestMapping("wx/order/submit")
+    public BaseRespVo orderSubmit() {
+        return BaseRespVo.fail("系统内部错误");
+    }
 }

@@ -33,7 +33,7 @@
         select
         <include refid="addressManager"/>
         from cskaoyan_mall_address
-        select <include refid="addressManager"/> from cskaoyan_mall_address where user_id = #{userId}
+        where user_id = #{userId}
     </select>
 
     <resultMap id="addressRegion_list" type="com.cskaoyan.mall.mallStart.bean.AddressRegion">

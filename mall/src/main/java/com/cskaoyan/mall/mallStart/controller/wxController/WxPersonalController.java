@@ -1,8 +1,6 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
-import com.cskaoyan.mall.mallStart.bean.CreateGroupon;
-import com.cskaoyan.mall.mallStart.bean.ListBean;
 import com.cskaoyan.mall.mallStart.bean.BrandPageInfo;
 import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
 import com.cskaoyan.mall.mallStart.service.wxService.WxPersonalService;
@@ -34,27 +32,11 @@ public class WxPersonalController {
     @Autowired
     WxPersonalService wxPersonalService;
 
-    /*
-
-     @Autowired
-     WxPersonalService wxPersonalService;
- <<<<<<< HEAD
-     @Autowired
-
- =======
-
-
-
-
- >>>>>>> 0b45afcb2d147b821e2b2ed25f1b38a20da19790
- >>>>>>> d9029b2b8dff4562b03387ff2a483da9e36c26fd
      @RequestMapping("wx/user/index")
      public BaseRespVo personalIndex() {
          Map order = wxPersonalService.personalIndex();
          return BaseRespVo.ok(order);
      }
- <<<<<<< HEAD
-     */
     @RequestMapping("wx/groupon/my")
     public BaseRespVo myGroupon(int showType) {
         int userId = 1;
