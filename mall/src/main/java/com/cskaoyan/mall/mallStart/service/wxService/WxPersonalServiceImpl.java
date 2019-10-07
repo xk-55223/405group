@@ -23,6 +23,7 @@ import com.cskaoyan.mall.mallStart.bean.Address;
 import com.cskaoyan.mall.mallStart.bean.AddressRegion;
 import com.cskaoyan.mall.mallStart.bean.Region;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
+import com.github.pagehelper.PageHelper;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
@@ -40,6 +41,7 @@ import java.util.Date;
 import java.io.Serializable;
 import java.rmi.ServerException;
 import java.time.LocalDateTime;
+import java.util.*;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -303,6 +305,31 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     }
 
     @Override
+    public Map footprintList(int page, int size, Serializable id) {
+        Map result = new HashMap();
+        Map goodDetail = new HashMap();
+        List footprintList = new ArrayList();
+        PageHelper.startPage(page, size);
+        List<Footprint> footprints = wxPersonalMapper.selectfootprintDetail(id);
+        int totalpages = wxPersonalMapper.getTotalNumById(id);
+        for (Footprint footprint : footprints) {
+            goodDetail.put("addTime", footprint.getAddTime());
+            goodDetail.put("id", footprint.getId());
+            goodDetail.put("goodsId", footprint.getGoodsId());
+            Goods goods = goodsMapper.listGoodsById(footprint.getGoodsId());
+            if (goods != null) {
+                goodDetail.put("brief", goods.getBrief());
+                goodDetail.put("name", goods.getName());
+                goodDetail.put("retailPrice", goods.getRetailPrice());
+                goodDetail.put("picUrl", goods.getPicUrl());
+            }
+            footprintList.add(goodDetail);
+        }
+        result.put("footprintList", footprintList);
+        result.put("totalPages", totalpages);
+        return result;
+    }
+
     public void addressSave(AddressRegion addressRegion,Integer userId) {
         Date date = new Date();
         addressRegion.setUpdateTime(date);

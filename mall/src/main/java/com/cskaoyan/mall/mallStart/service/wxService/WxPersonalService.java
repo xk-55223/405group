@@ -32,8 +32,10 @@ public interface WxPersonalService {
 
     WxIndexInfo homeIndex();
 
-
     AddressRegion addressDetail(int id);
+
+    Map footprintList(int page, int size, Serializable id);
+
     public boolean sendMessage(String mobile, String code);
 
     void addressSave(AddressRegion addressRegion,Integer userId);
