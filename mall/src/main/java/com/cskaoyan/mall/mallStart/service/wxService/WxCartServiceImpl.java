@@ -6,6 +6,7 @@ import com.cskaoyan.mall.mallStart.bean.CartTotal;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxCartMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -38,5 +39,18 @@ public class WxCartServiceImpl implements WxCartService{
         cartListBean.setCartTotal(cartTotal);
         cartListBean.setCartList(cartList);
         return cartListBean;
+    }
+
+    @Override
+    public void cartUpdate(Cart cart) {
+        wxCartMapper.cartUpdate(cart);
+    }
+
+    @Override
+    public CartListBean cartDelete(List<Integer> productIds) {
+        for (Integer productId : productIds) {
+            wxCartMapper.cartDelete(productId);
+        }
+        return cartList();
     }
 }
