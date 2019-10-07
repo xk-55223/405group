@@ -68,6 +68,18 @@
         select `name` from cskaoyan_mall_region where code = #{areaId}
     </select>
 
+    <!--查询足迹-->
+    <resultMap id="FootprintMap" type="com.cskaoyan.mall.mallStart.bean.Footprint">
+        <result column="id" property="id"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="add_time" property="addTime"/>
+    </resultMap>
+    <select id="selectfootprintDetail" resultMap="FootprintMap">
+        select id ,goods_id,add_time
+        from cskaoyan_mall_footprint
+        where user_id = #{id}
+    </select>
+
     <update id="updateAddress">
         update cskaoyan_mall_address set province_id = #{address.provinceId},city_id = #{address.cityId},is_default=#{address.isDefault},
         mobile = #{address.mobile},name = #{address.name},province_id=#{address.provinceId},update_time=#{address.updateTime} where id = #{address.id}

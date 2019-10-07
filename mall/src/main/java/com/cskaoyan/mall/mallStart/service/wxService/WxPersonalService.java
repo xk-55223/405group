@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
+import com.cskaoyan.mall.mallStart.bean.CreateGroupon;
+import com.cskaoyan.mall.mallStart.bean.ListBean;
 
 import com.cskaoyan.mall.mallStart.bean.Address;
 import com.cskaoyan.mall.mallStart.bean.AddressRegion;
@@ -18,6 +20,9 @@ public interface WxPersonalService {
     Map couponMylist(BrandPageInfo pageInfo, Integer status, Integer userId);
 
     Map personalIndex();
+    Map selectCreateGroupons(int userId);
+
+    Map<String, Object> selectJoinedGroupons(int userId);
 
     List<Address> addressList(Integer userId);
 
@@ -27,8 +32,10 @@ public interface WxPersonalService {
 
     WxIndexInfo homeIndex();
 
-
     AddressRegion addressDetail(int id);
+
+    Map footprintList(int page, int size, Serializable id);
+
     public boolean sendMessage(String mobile, String code);
 
     void addressSave(AddressRegion addressRegion,Integer userId);

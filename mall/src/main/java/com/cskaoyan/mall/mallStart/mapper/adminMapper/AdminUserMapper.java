@@ -51,4 +51,10 @@ public interface AdminUserMapper {
 
     @Update("update cskaoyan_mall_user set password = #{password} where mobile = #{mobile}")
     void updateUserPasswordByMoblie(@Param("mobile") String mobile, @Param("password") String password);
+
+    @Select("select nickname from cskaoyan_mall_user where id = #{userId}")
+    String getUserNicknameById(int userId);
+
+    @Select("select creator_user_id from cskaoyan_mall_groupon where user_id = #{param1} and rules_id = #{param2}")
+    int getOrderCreatorByUserId(int userId, Integer rulesId);
 }
