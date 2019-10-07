@@ -175,4 +175,10 @@ public class WxPersonalController {
         BaseRespVo ok = BaseRespVo.ok(regions);
         return ok;
     }
+
+    @RequestMapping("wx/groupon/detail")
+    public BaseRespVo grouponDetail(int grouponId){
+        GrouponDetail detail = wxPersonalService.grouponDetail(grouponId);
+        return BaseRespVo.ok(detail);
+    }
 }

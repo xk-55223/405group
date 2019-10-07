@@ -93,4 +93,12 @@ public interface AdminGeneralizeMapper {
 
     @Select("select count(id) from cskaoyan_mall_groupon where user_id = #{userId}")
     int countGrouponByUserId(int userId);
+
+    @Select(" select id,order_id as orderId,groupon_id as grouponId,rules_id as rulesId," +
+            "        user_id as userId,creator_user_id as creatorUserId,add_time as addTime,share_url as shareUrl," +
+            "        update_time as updateTime,payed,deleted from cskaoyan_mall_groupon where id = #{id}")
+    Groupon getGrouponById(int id);
+
+    @Select("select user_Id from cskaoyan_mall_groupon where rules_id = #{rules_id}")
+    int[] getUserIdByRulesId(Integer rulesId);
 }

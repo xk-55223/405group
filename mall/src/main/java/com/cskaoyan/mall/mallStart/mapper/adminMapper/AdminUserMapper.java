@@ -56,4 +56,7 @@ public interface AdminUserMapper {
 
     @Select("select creator_user_id from cskaoyan_mall_groupon where user_id = #{param1} and rules_id = #{param2}")
     int getOrderCreatorByUserId(int userId, Integer rulesId);
+
+    @Select("select creator_user_id from cskaoyan_mall_groupon where id = #{id}")
+    int getOrderCreatorById(int id);
 }

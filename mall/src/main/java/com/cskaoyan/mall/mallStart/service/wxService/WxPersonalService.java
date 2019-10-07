@@ -41,4 +41,7 @@ public interface WxPersonalService {
     void addressDelete(Integer id);
 
     List<Region> selectRegionByPid(int pid);
+
+
+    GrouponDetail grouponDetail(int grouponId);
 }
