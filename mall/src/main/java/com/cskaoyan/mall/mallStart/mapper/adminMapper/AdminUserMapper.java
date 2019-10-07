@@ -1,10 +1,7 @@
 package com.cskaoyan.mall.mallStart.mapper.adminMapper;
 
 import com.cskaoyan.mall.mallStart.bean.*;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -50,10 +47,17 @@ public interface AdminUserMapper {
     @Select("select count(id) from cskaoyan_mall_cart where user_id = #{userId}")
     int countCartGoodsByUserId(int userId);
 
-    @Select("select nickname from cskaoyan_mall_user where id = #{userId}")
+    int insertUser(@Param("user") User user);
 
+    @Update("update cskaoyan_mall_user set password = #{password} where mobile = #{mobile}")
+    void updateUserPasswordByMoblie(@Param("mobile") String mobile, @Param("password") String password);
+
+    @Select("select nickname from cskaoyan_mall_user where id = #{userId}")
     String getUserNicknameById(int userId);
 
     @Select("select creator_user_id from cskaoyan_mall_groupon where user_id = #{param1} and rules_id = #{param2}")
     int getOrderCreatorByUserId(int userId, Integer rulesId);
+
+    @Select("select creator_user_id from cskaoyan_mall_groupon where id = #{id}")
+    int getOrderCreatorById(int id);
 }

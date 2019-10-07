@@ -45,4 +45,11 @@ public interface WxPersonalService {
     List<Region> selectRegionByPid(int pid);
 
     void deleteOrder(int id);
+
+    GrouponDetail grouponDetail(int grouponId);
+
+    boolean register(String mobile, String username, String password);
+
+    void resetUser(String mobile, String password);
+
 }
