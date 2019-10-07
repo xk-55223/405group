@@ -348,4 +348,9 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         List<Region> regions = wxPersonalMapper.selectRegionByPid(pid);
         return regions;
     }
+
+    @Override
+    public void deleteOrder(int id) {
+        mallMapper.deleteOrder(id);
+    }
 }

@@ -84,4 +84,6 @@ public interface AdminMallMapper {
 
     int selectUserOrderStatusCount(@Param("userId") int userId,@Param("status") int status);
 
+    @Delete("delete from cskaoyan_mall_order where id = #{id}")
+    void deleteOrder(int id);
 }

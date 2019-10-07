@@ -43,4 +43,6 @@ public interface WxPersonalService {
     void addressDelete(Integer id);
 
     List<Region> selectRegionByPid(int pid);
+
+    void deleteOrder(int id);
 }

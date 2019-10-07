@@ -34,27 +34,13 @@ public class WxPersonalController {
     @Autowired
     WxPersonalService wxPersonalService;
 
-    /*
 
-     @Autowired
-     WxPersonalService wxPersonalService;
- <<<<<<< HEAD
-     @Autowired
-
- =======
-
-
-
-
- >>>>>>> 0b45afcb2d147b821e2b2ed25f1b38a20da19790
- >>>>>>> d9029b2b8dff4562b03387ff2a483da9e36c26fd
      @RequestMapping("wx/user/index")
      public BaseRespVo personalIndex() {
          Map order = wxPersonalService.personalIndex();
          return BaseRespVo.ok(order);
      }
- <<<<<<< HEAD
-     */
+
     @RequestMapping("wx/groupon/my")
     public BaseRespVo myGroupon(int showType) {
         int userId = 1;
@@ -189,6 +175,14 @@ public class WxPersonalController {
         int id = (int) session.getAttribute("userId");
         Map footprintList = wxPersonalService.footprintList(page, size, id);
         BaseRespVo ok = BaseRespVo.ok(footprintList);
+        return ok;
+    }
+
+    //---------------订单-------------------
+    @RequestMapping("wx/order/concel")
+    public BaseRespVo orderConcel(int orderId){
+        wxPersonalService.deleteOrder(orderId);
+        BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
     }
 }
