@@ -15,7 +15,7 @@
         id,name,address,mobile,is_default
     </sql>
     <select id="selectAddresses" resultMap="address_list">
-        select <include refid="addressManager"/> from cskaoyan_mall_address
+        select <include refid="addressManager"/> from cskaoyan_mall_address where user_id = #{userId}
     </select>
 
     <resultMap id="addressRegion_list" type="com.cskaoyan.mall.mallStart.bean.AddressRegion">
@@ -47,4 +47,33 @@
     <select id="selectAreaById" resultType="String">
         select `name` from cskaoyan_mall_region where code = #{areaId}
     </select>
+
+    <update id="updateAddress">
+        update cskaoyan_mall_address set province_id = #{address.provinceId},city_id = #{address.cityId},is_default=#{address.isDefault},
+        mobile = #{address.mobile},name = #{address.name},province_id=#{address.provinceId},update_time=#{address.updateTime} where id = #{address.id}
+    </update>
+
+    <delete id="addressDelete">
+        delete from cskaoyan_mall_address where id = #{id}
+    </delete>
+
+    <resultMap id="region_list" type="com.cskaoyan.mall.mallStart.bean.Region">
+        <result column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+    </resultMap>
+    <sql id="regionList">
+        id,pid,name,type,code
+    </sql>
+    <select id="selectRegionByPid" resultMap="region_list">
+        select <include refid="regionList"/> from cskaoyan_mall_region where pid = #{pid}
+    </select>
+
+    <insert id="insertAddress">
+        insert into cskaoyan_mall_address (name,user_id,province_id,city_id,area_id,address,mobile,is_default,add_time,update_time)
+        values (#{address.name},#{userId},#{address.provinceId},#{address.cityId},#{address.areaId},#{address.address},#{address.mobile},
+        #{address.isDefault},#{address.addTime},#{address.updateTime})
+    </insert>
 </mapper>

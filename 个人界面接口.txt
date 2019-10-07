@@ -13,6 +13,7 @@ UserIndex: WxApiRoot + 'user/index', //个人页面用户相关信息
   AddressDetail: WxApiRoot + 'address/detail', //收货地址详情
   AddressSave: WxApiRoot + 'address/save', //保存收货地址
   AddressDelete: WxApiRoot + 'address/delete', //保存收货地址
+Address wx/region/list //省份列表
 --------------------------------------------团购
   GroupOnMy: WxApiRoot + 'groupon/my', //团购API-我的团购
   GroupOnDetail: WxApiRoot + 'groupon/detail', //团购API-详情

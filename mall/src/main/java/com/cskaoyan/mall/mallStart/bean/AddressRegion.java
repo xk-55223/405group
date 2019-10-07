@@ -1,5 +1,8 @@
 package com.cskaoyan.mall.mallStart.bean;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+
 public class AddressRegion {
     int id;
     int userId;
@@ -16,6 +19,8 @@ public class AddressRegion {
     String provinceName;
     String city;
     String area;
+    Date addTime;
+    Date updateTime;
 
     public int getId() {
         return id;
@@ -135,5 +140,21 @@ public class AddressRegion {
 
     public void setProvinceName(String provinceName) {
         this.provinceName = provinceName;
+    }
+
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }
