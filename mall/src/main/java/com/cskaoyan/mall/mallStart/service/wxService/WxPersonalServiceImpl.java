@@ -1,10 +1,16 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
+import com.cskaoyan.mall.mallStart.bean.BrandPageInfo;
+import com.cskaoyan.mall.mallStart.bean.MyCoupon;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,7 +24,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     @Autowired
     WxPersonalMapper wxPersonalMapper;
 
-    @Override
+    /*@Override
     public Map personalIndex() {
         Map order = new HashMap();
         Map orderInfo = new HashMap();
@@ -41,5 +47,17 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         order.put("unship",unshipNo);
         orderInfo.put("order",order);
         return orderInfo;
+    }*/
+
+    @Override
+    public Map couponMylist(BrandPageInfo pageInfo, Integer status, Integer userId) {
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
+        List<MyCoupon> myCoupons = wxPersonalMapper.selectCouponByUserId(status, userId);
+        PageInfo<MyCoupon> myCouponPageInfo = new PageInfo<>(myCoupons);
+        long total = myCouponPageInfo.getTotal();
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("data",myCoupons);
+        resultMap.put("count",total);
+        return resultMap;
     }
 }
