@@ -37,7 +37,7 @@ public interface AdminMallMapper {
 
     void insertKeyword(@Param("keyword") Keyword keyword);
 
-    Order selectOrderById(int id);
+    Order selectOrderById(Integer id);
 
     User selectUserById(Integer userId);
 
@@ -83,4 +83,5 @@ public interface AdminMallMapper {
     Category selectCategoryById(Integer id);
 
     int selectUserOrderStatusCount(@Param("userId") int userId,@Param("status") int status);
+
 }
