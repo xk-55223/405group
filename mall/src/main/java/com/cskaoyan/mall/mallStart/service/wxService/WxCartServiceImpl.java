@@ -17,8 +17,9 @@ public class WxCartServiceImpl implements WxCartService{
     WxCartMapper wxCartMapper;
 
     @Override
-    public CartListBean cartList() {
-        List<Cart> cartList = wxCartMapper.CartList();
+    public CartListBean cartList(Integer id) {
+
+        List<Cart> cartList = wxCartMapper.CartList(id);
         CartListBean cartListBean = new CartListBean();
         CartTotal cartTotal = new CartTotal();
         double goodsAmount = 0;
@@ -48,21 +49,21 @@ public class WxCartServiceImpl implements WxCartService{
     }
 
     @Override
-    public CartListBean cartDelete(List<Integer> productIds) {
+    public CartListBean cartDelete(List<Integer> productIds,Integer userId) {
         for (Integer productId : productIds) {
             wxCartMapper.cartDelete(productId);
         }
-        return cartList();
+        return cartList(userId);
     }
 
     @Override
-    public CartListBean cartChecked(CartCheckedBean productIds) {
+    public CartListBean cartChecked(CartCheckedBean productIds,Integer userId) {
         boolean checked = productIds.isChecked();
         List<Integer> productIds1 = productIds.getProductIds();
         for (Integer integer : productIds1) {
             wxCartMapper.changeIschecked(checked,integer);
         }
 
-        return cartList();
+        return cartList(userId);
     }
 }
