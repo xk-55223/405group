@@ -1,6 +1,14 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
+import com.aliyuncs.CommonRequest;
+import com.aliyuncs.CommonResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.http.MethodType;
+import com.aliyuncs.profile.DefaultProfile;
 import com.cskaoyan.mall.mallStart.bean.*;
+import com.cskaoyan.mall.mallStart.config.AliyunConfig;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGeneralizeMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
@@ -9,10 +17,15 @@ import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxBrandMapper;
 import com.cskaoyan.mall.mallStart.bean.Address;
 import com.cskaoyan.mall.mallStart.bean.AddressRegion;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.core.JsonParseException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.ServerException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +55,9 @@ public class WxPersonalServiceImpl implements WxPersonalService {
 
     @Autowired
     WxBrandMapper wxBrandMapper;
+
+    @Autowired
+    AliyunConfig aliyunConfig;
 
     @Override
     public UserLoginInfo selectUserMessage(User user, Serializable token) {
@@ -108,6 +124,50 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         return orderInfo;
     }
 
+    @Override
+    public boolean sendMessage(String mobile, String code) {
+        String accessKeyId = aliyunConfig.getAccessKeyId();
+        String accessSecret = aliyunConfig.getAccessSecret();
+        String regionId = aliyunConfig.getSmsConfig().getRegionId();
+        String templateCode = aliyunConfig.getSmsConfig().getTemplateCode();
+        String signName = aliyunConfig.getSmsConfig().getSignName();
+
+        DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou",
+                accessKeyId, accessSecret);
+        IAcsClient client = new DefaultAcsClient(profile);
+
+        CommonRequest request = new CommonRequest();
+        request.setMethod(MethodType.POST);
+        request.setDomain("dysmsapi.aliyuncs.com");
+        request.setVersion("2017-05-25");
+        request.setAction("SendSms");
+        request.putQueryParameter("RegionId", regionId);
+        request.putQueryParameter("PhoneNumbers", mobile);
+        request.putQueryParameter("SignName", signName);
+        request.putQueryParameter("TemplateCode", templateCode);
+        request.putQueryParameter("TemplateParam", "{\"code\":\""+code+"\"}");
+        try {
+            CommonResponse response = client.getCommonResponse(request);
+            System.out.println(response.getData());
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map map = objectMapper.readValue(response.getData(), Map.class);
+            String message = (String) map.get("Message");
+            return "OK".equals(message);
+        } catch (ServerException e) {
+            return false;
+            //e.printStackTrace();
+        } catch (ClientException e) {
+            return false;
+            //e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
     @Override
     public List<Address> addressList() {

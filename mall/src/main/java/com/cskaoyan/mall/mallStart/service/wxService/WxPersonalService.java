@@ -18,4 +18,5 @@ public interface WxPersonalService {
     List<Address> addressList();
 
     AddressRegion addressDetail(int id);
+    public boolean sendMessage(String mobile, String code);
 }

@@ -76,7 +76,7 @@ public class WxPersonalController {
         String code = (int)((Math.random()*9+1)*100000) +"";
         System.out.println(code);
         String mobile = (String) map.get("mobile");
-        System.out.println(mobile);
+        wxPersonalService.sendMessage(mobile,code);
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("code",code);
         Serializable id1 = session.getId();
