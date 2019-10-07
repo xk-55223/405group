@@ -1,12 +1,8 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
-import com.cskaoyan.mall.mallStart.bean.User;
-import com.cskaoyan.mall.mallStart.bean.UserLoginInfo;
-import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
+import com.cskaoyan.mall.mallStart.bean.*;
 
 import java.io.Serializable;
-import com.cskaoyan.mall.mallStart.bean.Address;
-import com.cskaoyan.mall.mallStart.bean.AddressRegion;
 
 import java.util.List;
 import java.util.Map;

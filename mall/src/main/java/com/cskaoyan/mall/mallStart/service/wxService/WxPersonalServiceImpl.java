@@ -93,11 +93,11 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         int unshipNo = 0;
         int[] statuses = wxPersonalMapper.selectOrderStatusId();
         for (int status : statuses) {
-            switch (status){
-                case 101: unrecvNo++;break;
-                case 102: uncommentNo++;break;
-                case 103: unpaidNo++;break;
-                case 104: unshipNo++;
+            switch (status / 100){
+                case 1: unrecvNo++;break;
+                case 2: uncommentNo++;break;
+                case 3: unpaidNo++;break;
+                case 4: unshipNo++;
             }
         }
         order.put("unrecv",unrecvNo);
@@ -107,6 +107,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         orderInfo.put("order",order);
         return orderInfo;
     }
+
 
     @Override
     public List<Address> addressList() {

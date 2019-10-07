@@ -1,11 +1,6 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
-import com.cskaoyan.mall.mallStart.bean.Address;
-import com.cskaoyan.mall.mallStart.bean.AddressRegion;
-import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
-import com.cskaoyan.mall.mallStart.bean.User;
-import com.cskaoyan.mall.mallStart.bean.UserLoginInfo;
-import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
+import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
 import com.cskaoyan.mall.mallStart.service.wxService.WxPersonalService;
 import com.cskaoyan.mall.mallStart.shiro.CustomToken;
@@ -32,11 +27,12 @@ import java.util.Map;
 public class WxPersonalController {
     @Autowired
     WxPersonalService wxPersonalService;
-    /*@RequestMapping("wx/user/index")
+    @RequestMapping("wx/user/index")
     public BaseRespVo personalIndex(){
         Map order = wxPersonalService.personalIndex();
         return BaseRespVo.ok(order);
-    }*/
+    }
+
     @RequestMapping("wx/auth/login")
     public BaseRespVo authLogin(@RequestBody User user) {
         CustomToken wx = new CustomToken(user.getUsername(), user.getPassword(), "wx");
@@ -100,11 +96,6 @@ public class WxPersonalController {
 
         return BaseRespVo.ok(null);
     }
-//    @RequestMapping("wx/user/index")
-//    public BaseRespVo personalIndex(){
-//        Map order = wxPersonalService.personalIndex();
-//        return BaseRespVo.ok(order);
-//    }
 
     //-----------------地址管理------------------------
     @RequestMapping("wx/address/list")

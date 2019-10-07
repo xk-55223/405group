@@ -205,22 +205,6 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-    public UserIndexInfo selectUserIndexInfo(int userId) {
-        UserIndexInfo indexInfo = new UserIndexInfo();
-        int unpaid = mallMapper.selectUserOrderStatusCount(userId,101);
-        int unship = mallMapper.selectUserOrderStatusCount(userId,201);
-        int unrecv = mallMapper.selectUserOrderStatusCount(userId,301);
-        int uncomment = mallMapper.selectUserOrderStatusCount(userId,401);
-        UserOrderInfo userOrderInfo = new UserOrderInfo();
-        userOrderInfo.setUnpaid(unpaid);
-        userOrderInfo.setUnship(unship);
-        userOrderInfo.setUncomment(uncomment);
-        userOrderInfo.setUnrecv(unrecv);
-        indexInfo.setOrder(userOrderInfo);
-        return indexInfo;
-    }
-
-    @Override
     public String couponReceive(Integer userId, Integer couponId) {
         Coupon coupon = generalizeMapper.queryCouponById(couponId);
         if (coupon == null) {

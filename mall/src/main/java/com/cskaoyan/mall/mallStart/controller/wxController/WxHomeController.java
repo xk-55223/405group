@@ -149,14 +149,6 @@ public class WxHomeController {
         return BaseRespVo.ok(couponListInfo);
     }
 
-    @RequestMapping("wx/user/index")
-    public BaseRespVo userIndex() {
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        int  userId = (int) session.getAttribute("userId");
-        UserIndexInfo indexInfo = wxHomeService.selectUserIndexInfo(userId);
-        return BaseRespVo.ok(indexInfo);
-    }
 
     @RequestMapping("wx/coupon/receive")
     public BaseRespVo couponReceive(@RequestBody Map<String,Integer> map) {

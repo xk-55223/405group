@@ -39,9 +39,6 @@ public interface WxHomeService {
 
     CouponListInfo couponList(FromPageInfo fromPageInfo);
 
-
-    UserIndexInfo selectUserIndexInfo(int userId);
-
     String couponReceive(Integer userId, Integer couponId);
 
     GrouponPageInfo grouponList(FromPageInfo fromPageInfo);
