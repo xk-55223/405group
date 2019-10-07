@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,31 +39,6 @@ public class WxHomeServiceImpl implements WxHomeService {
 
     @Autowired
     AdminUserMapper userMapper;
-
-
-    @Override
-    public WxIndexInfo homeIndex() {
-        List<Category> categories = mallMapper.selectCategorys();
-        List<Brand> brands = mallMapper.selectBrands(null);
-        List<Coupon> allCoupons = generalizeMapper.getAllCoupons(null, null, null);
-        List<Ad> allAds = generalizeMapper.getAllAds(null, null);
-        List<Goods> hotGoods = goodsMapper.selectHotGoods(true);
-        List<Goods> newGoods = goodsMapper.selectNewGoods(true);
-        List<GrouponInfo> grouponInfos = generalizeMapper.getGrouponInfo();
-        List<Category> floorGoodsList = mallMapper.selectCategorys();
-        List<Topic> allTopic = generalizeMapper.getAllTopic(null, null);
-        WxIndexInfo wxIndexInfo = new WxIndexInfo();
-        wxIndexInfo.setHotGoods(hotGoods);
-        wxIndexInfo.setNewGoods(newGoods);
-        wxIndexInfo.setBanner(allAds);
-        wxIndexInfo.setBrandList(brands);
-        wxIndexInfo.setChannel(categories);
-        wxIndexInfo.setCouponList(allCoupons);
-        wxIndexInfo.setGrouponList(grouponInfos);
-        wxIndexInfo.setFloorGoodsList(floorGoodsList);
-        wxIndexInfo.setTopicList(allTopic);
-        return wxIndexInfo;
-    }
 
     @Override
     public GoodsCount goodsCount() {
@@ -225,18 +202,6 @@ public class WxHomeServiceImpl implements WxHomeService {
         couponListInfo.setCount((int) total);
         couponListInfo.setData(allCoupons);
         return couponListInfo;
-    }
-
-    @Override
-    public UserLoginInfo selectUserMessage(User user) {
-        WxUser userInfo = userMapper.selectUserInfoByUserNameAndPassword(user);
-        String token = "ijp6azau3ziy6stolyshl10576h53mp5";
-        String tokenExpire = "2019-10-07T06:17:44.769";
-        UserLoginInfo userLoginInfo = new UserLoginInfo();
-        userLoginInfo.setUserInfo(userInfo);
-        userLoginInfo.setToken(token);
-        userLoginInfo.setTokenExpire(tokenExpire);
-        return userLoginInfo;
     }
 
     @Override

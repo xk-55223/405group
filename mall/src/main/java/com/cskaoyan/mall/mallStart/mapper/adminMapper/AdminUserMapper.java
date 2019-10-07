@@ -19,7 +19,7 @@ public interface AdminUserMapper {
 
     List<Feedback> selectFeedbackAll(@Param("pageInfo") FromPageInfo pageInfo, @Param("id") Integer id, @Param("username") String username);
 
-
+    @Select("select password from cskaoyan_mall_user where username = #{username}")
     String selectPasswordByUserName(String primaryPrincipal);
 
     @Select("select avatar as avatarUrl , nickname as nickName from cskaoyan_mall_user where username = #{user.username} and password = #{user.password}")
@@ -29,4 +29,7 @@ public interface AdminUserMapper {
 
     @Select("select count(id) from cskaoyan_mall_cart where user_id = #{userId}")
     int countCartGoods(int userId);
+
+    @Select("select id from cskaoyan_mall_user where username = #{username}")
+    int selectUserIdByUserName(String username);
 }

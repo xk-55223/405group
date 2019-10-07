@@ -4,11 +4,11 @@ import com.cskaoyan.mall.mallStart.bean.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 public interface WxHomeService {
-    WxIndexInfo homeIndex();
 
     GoodsCount goodsCount();
 
@@ -39,7 +39,6 @@ public interface WxHomeService {
 
     CouponListInfo couponList(FromPageInfo fromPageInfo);
 
-    UserLoginInfo selectUserMessage(User user);
 
     UserIndexInfo selectUserIndexInfo(int userId);
 

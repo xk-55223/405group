@@ -8,7 +8,7 @@
         <result property="" column=""/>
     </resultMap>
     <sql id="cartlist">
-        id,user_id,goods_id,goods_sn,goods_name,product_id,price,number,specification,checked,pic_url,add_time,update_time,deleted
+        id,user_id,goods_id,goods_sn,goods_name,product_id,price,number,specifications,checked,pic_url,add_time,update_time,deleted
     </sql>
     <select id="CartList" resultMap="cart_colmun_list">
         select <include refid="cartlist"/> from cskaoyan_mall_cart
