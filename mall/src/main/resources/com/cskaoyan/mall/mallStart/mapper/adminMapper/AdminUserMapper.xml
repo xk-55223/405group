@@ -209,4 +209,12 @@
         #{goods.picUrl},now(),now())
 
     </insert>
+
+    <insert id="insertUser">
+        insert into cskaoyan_mall_user (mobile, username, password, nickname, avatar
+        , update_time, add_time, last_login_time, gender, birthday)
+        values (#{user.mobile},#{user.username},#{user.password},#{user.nickname}
+        ,#{user.avatar},#{user.updateTime},#{user.addTime},#{user.lastLoginTime}
+        ,#{user.gender},#{user.birthday})
+    </insert>
 </mapper>

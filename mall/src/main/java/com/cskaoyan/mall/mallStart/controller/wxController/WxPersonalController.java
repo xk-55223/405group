@@ -131,14 +131,46 @@ public class WxPersonalController {
     @RequestMapping("wx/auth/register")
     public BaseRespVo register(@RequestBody Map map) {
         Session session = SecurityUtils.getSubject().getSession();
-        System.out.println(session.getId());
+        Serializable token = session.getId();
         String codeFromSession = (String) session.getAttribute("code");
         String code = (String) map.get("code");
         if (!code.equals(codeFromSession)) {
             return BaseRespVo.fail("验证码错误");
         }
+        String mobile = (String) map.get("mobile");
+        String username = (String) map.get("username");
+        String password = (String) map.get("password");
+        boolean register = wxPersonalService.register(mobile, username, password);
+        if (register) {
+            UserLoginInfo userLoginInfo = new UserLoginInfo();
+            userLoginInfo.setToken(token);
+            WxUser userInfo = new WxUser();
+            userInfo.setAvatarUrl("");
+            userInfo.setNickName(username);
+            userLoginInfo.setUserInfo(userInfo);
+            return BaseRespVo.ok(userLoginInfo);
+        }
+        return BaseRespVo.fail("该用户名已存在");
+    }
 
-        return BaseRespVo.ok(null);
+    @RequestMapping("wx/auth/bindPhone")
+    public BaseRespVo authBindPhone(@RequestBody Map map) {
+        return BaseRespVo.fail("系统内部错误");
+    }
+
+    @RequestMapping("wx/auth/reset")
+    public BaseRespVo authReset(@RequestBody Map map) {
+        String code = (String) map.get("code");
+        Session session = SecurityUtils.getSubject().getSession();
+        System.out.println(session.getId());
+        String messageCode = (String) session.getAttribute("code");
+        if (code != null && code.equals(messageCode)) {
+            String mobile = (String) map.get("mobile");
+            String password = (String) map.get("password");
+            wxPersonalService.resetUser(mobile,password);
+            return BaseRespVo.ok(null);
+        }
+        return BaseRespVo.fail("验证码错误");
     }
 
 

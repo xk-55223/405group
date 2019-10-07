@@ -46,4 +46,7 @@ public interface WxPersonalService {
 
 
     GrouponDetail grouponDetail(int grouponId);
+    boolean register(String mobile, String username, String password);
+
+    void resetUser(String mobile, String password);
 }
