@@ -8,6 +8,7 @@ import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminSystemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,7 +38,11 @@ public class AdminFirstPageServiceImpl implements AdminFirstPageService {
         List<String> roles = adminSystemMapper.selectRoleNamesByRolesId(admin.getRoleIds());
         loginInfo.setRoles(roles);
         List<String> perms = adminSystemMapper.selectPermsByRolesId(admin.getRoleIds());
-        loginInfo.setPerms(perms);
+        List<String> apis = new ArrayList<>();
+        for (String perm : perms) {
+            apis.add(adminSystemMapper.selectApisByPerm(perm));
+        }
+        loginInfo.setPerms(apis);
         return loginInfo;
     }
 }

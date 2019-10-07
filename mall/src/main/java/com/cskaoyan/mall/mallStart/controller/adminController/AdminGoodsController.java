@@ -2,7 +2,9 @@ package com.cskaoyan.mall.mallStart.controller.adminController;
 
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.service.adminService.AdminGoodsService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,7 @@ public class AdminGoodsController {
     AdminGoodsService adminGoodsService;
 
     @RequestMapping("admin/goods/list")
+    @RequiresPermissions("admin:goods:list")
     public BaseRespVo listGoods(int page, int limit, Integer goodsSn, String name, String add, String order){
 
         ListBean listBean = adminGoodsService.listGoods(page,limit,goodsSn,name,add,order);
@@ -46,6 +49,7 @@ public class AdminGoodsController {
      * 修改商品时显示商品信息
      */
     @RequestMapping("admin/goods/detail")
+    @RequiresPermissions("admin:goods:read")
     public BaseRespVo goodInfo(int id){
         UpdateGoodsInfo updateGoodsInfo = adminGoodsService.goodInfo(id);
         BaseRespVo ok = BaseRespVo.ok(updateGoodsInfo);
@@ -58,6 +62,7 @@ public class AdminGoodsController {
      * @return
      */
     @RequestMapping("admin/goods/delete")
+    @RequiresPermissions("admin:goods:delete")
     public BaseRespVo goodsDelete(@RequestBody Goods goods){
         Integer id = goods.getId();
         adminGoodsService.goodsDelete(id);
@@ -71,6 +76,7 @@ public class AdminGoodsController {
      * @return
      */
     @RequestMapping("admin/comment/list")
+    @RequiresPermissions("admin:comment:list")
     public BaseRespVo commentList(int page, int limit, Integer userId, Integer valueId, String sort, String order){
         ListBean listBean = adminGoodsService.commentList(page, userId, valueId, limit, sort, order);
         BaseRespVo ok = BaseRespVo.ok(listBean);
@@ -82,6 +88,7 @@ public class AdminGoodsController {
      * @return
      */
     @RequestMapping("admin/comment/delete")
+    @RequiresPermissions("admin:comment:delete")
     public BaseRespVo deleteComment(@RequestBody Comment comment){
 
         adminGoodsService.deleteComment(comment.getId());
@@ -90,6 +97,7 @@ public class AdminGoodsController {
     }
 
     @RequestMapping("admin/goods/create")
+    @RequiresPermissions("admin:goods:create")
     public BaseRespVo createGoods(@RequestBody GoodCreatBean goods){
         int value = goods.getGoods().getCounterPrice().intValue();
         int value1 = goods.getGoods().getRetailPrice().intValue();
@@ -102,6 +110,7 @@ public class AdminGoodsController {
     }
 
     @RequestMapping("admin/goods/update")
+    @RequiresPermissions("admin:goods:update")
     public BaseRespVo updateGoods(@RequestBody GoodCreatBean goods){
         adminGoodsService.updateGoods(goods);
         BaseRespVo ok = BaseRespVo.ok("成功");

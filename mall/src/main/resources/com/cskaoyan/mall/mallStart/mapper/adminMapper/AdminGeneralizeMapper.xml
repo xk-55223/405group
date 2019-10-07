@@ -215,6 +215,13 @@
          expire_time as expireTime,deleted from cskaoyan_mall_groupon_rules where id = #{id}
     </select>
 
+
+    <select id="getGrouponRulesByGoodsId" resultType="com.cskaoyan.mall.mallStart.bean.GrouponRules">
+        select id,goods_id as goodsId,goods_name as goodsName,pic_url as picUrl,
+        discount,discount_member as discountMember,add_time as addTime,update_time as updateTime,
+         expire_time as expireTime,deleted from cskaoyan_mall_groupon_rules where goods_id = #{goodsId}
+    </select>
+
     <update id="updateGrouponRules">
       update cskaoyan_mall_groupon_rules set
          deleted =#{deleted},
@@ -259,4 +266,14 @@ on r.goods_id = g.id
             <result column="retailPrice" property="retailPrice"/>
         </association>
     </resultMap>
+
+    <insert id="insertUserCoupon">
+        insert into cskaoyan_mall_coupon_user (user_id,coupon_id,add_time,update_time)
+        values (#{userId},#{couponId},#{nowTime},#{nowTime})
+    </insert>
+
+    <select id="selectUserCouponIsOwn" resultType="int">
+        select count(id) from cskaoyan_mall_coupon_user
+        where user_id = #{userId} and coupon_id = #{couponId}
+    </select>
 </mapper>

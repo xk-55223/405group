@@ -30,7 +30,7 @@ public class AdminMallController {
 
     // 品牌制造商的查询和显示
     @RequestMapping("admin/brand/list")
-    @RequiresPermissions(value = {"admin:brand:list","admin:brand:read"}, logical = Logical.OR)
+    @RequiresPermissions("admin:brand:list")
     public BaseRespVo brandList(FromPageInfo page,Brand brand) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Brand> brands = service.selectBrands(brand);
@@ -45,6 +45,7 @@ public class AdminMallController {
 
     // 品牌制造商的创建
     @RequestMapping("admin/brand/create")
+    @RequiresPermissions("admin:brand:create")
     public BaseRespVo brandCreate(@RequestBody Brand brand) {
         if (brand == null) return BaseRespVo.fail("错误的请求");
         if (brand.getName() == null || brand.getName().trim().equals("")) {
@@ -62,6 +63,7 @@ public class AdminMallController {
 
     // 品牌制造商的编辑
     @RequestMapping("admin/brand/update")
+    @RequiresPermissions("admin:brand:update")
     public BaseRespVo brandUpdate(@RequestBody Brand brand) {
         if (brand == null) return BaseRespVo.fail("错误的请求");
         if (brand.getName() == null || brand.getName().trim().equals("")) {
@@ -78,6 +80,7 @@ public class AdminMallController {
     }
 
     @RequestMapping("admin/brand/delete")
+    @RequiresPermissions("admin:brand:delete")
     public BaseRespVo brandDelete(@RequestBody Brand brand) {
         service.deleteBrand(brand);
         return BaseRespVo.ok(null);
@@ -85,6 +88,7 @@ public class AdminMallController {
 
     // 所有商品的查询
     @RequestMapping("admin/category/list")
+    @RequiresPermissions("admin:category:list")
     public BaseRespVo categoryList() {
         List<Category> categories = service.selectCategorys();
         BaseRespVo result = BaseRespVo.ok(categories);
@@ -93,6 +97,7 @@ public class AdminMallController {
 
     // 商品类目的创建
     @RequestMapping("admin/category/create")
+    @RequiresPermissions("admin:category:create")
     public BaseRespVo categoryCreate(@RequestBody Category category) {
         if (category.getDesc() == null || category.getDesc().trim().equals("")) {
             return BaseRespVo.fail("简介不能为空");
@@ -110,6 +115,7 @@ public class AdminMallController {
 
     // 商品类目中的商品种类显示
     @RequestMapping("admin/category/l1")
+    @RequiresPermissions("admin:category:read")
     public BaseRespVo categoryl1() {
         List<CategoryType> categorieTypes = service.selectCategoryTypes();
         BaseRespVo result = BaseRespVo.ok(categorieTypes);
@@ -118,6 +124,7 @@ public class AdminMallController {
 
     // 商品类目的删除 还没有写完
     @RequestMapping("admin/category/delete")
+    @RequiresPermissions("admin:category:delete")
     public BaseRespVo categoryDelete(@RequestBody Category category) {
         service.deleteCategory(category);
         BaseRespVo ok = BaseRespVo.ok(null);
@@ -126,6 +133,7 @@ public class AdminMallController {
 
     // 商品类目的编辑
     @RequestMapping("admin/category/update")
+    @RequiresPermissions("admin:category:update")
     public BaseRespVo categoryUpdate(@RequestBody Category category) {
         service.updateCategory(category);
         return BaseRespVo.ok(null);
@@ -134,6 +142,7 @@ public class AdminMallController {
 
     // 订单管理的查询和显示接口
     @RequestMapping("admin/order/list")
+    @RequiresPermissions("admin:order:list")
     public BaseRespVo ordList(FromPageInfo page, Order order) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Order> orders = service.selectOrders(order);
@@ -148,6 +157,7 @@ public class AdminMallController {
 
     // 通用问题的查询和显示
     @RequestMapping("admin/issue/list")
+    @RequiresPermissions("admin:issue:list")
     public BaseRespVo issueList(FromPageInfo page, Issue issue) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Issue> issues = service.selectIssues(issue);
@@ -162,6 +172,7 @@ public class AdminMallController {
 
     // 添加通用问题
     @RequestMapping("admin/issue/create")
+    @RequiresPermissions("admin:issue:create")
     public BaseRespVo issueCreate(@RequestBody Issue issue) {
         if (issue.getQuestion() == null || issue.getQuestion().trim().equals("")) {
             return BaseRespVo.fail("问题不能为空");
@@ -175,6 +186,7 @@ public class AdminMallController {
 
     // 关键词的查询和显示
     @RequestMapping("admin/keyword/list")
+    @RequiresPermissions("admin:keyword:list")
     public BaseRespVo keywordList(FromPageInfo page, Keyword keyword) {
         PageHelper.startPage(page.getPage(), page.getLimit());
         List<Keyword> keywords = service.selectKeywords(keyword);
@@ -189,6 +201,7 @@ public class AdminMallController {
 
     // 添加一个关键词
     @RequestMapping("admin/keyword/create")
+    @RequiresPermissions("admin:keyword:create")
     public BaseRespVo keywordCreate(@RequestBody Keyword keyword) {
         if (keyword.getKeyword() == null || keyword.getKeyword().trim().equals("")){
             return BaseRespVo.fail("关键词不能为空");
@@ -206,6 +219,7 @@ public class AdminMallController {
 
     // 删除相应的关键词
     @RequestMapping("admin/keyword/delete")
+    @RequiresPermissions("admin:keyword:delete")
     public BaseRespVo keywordDelete(@RequestBody Keyword keyword) {
         service.deleteKeywordById(keyword.getId());
         return BaseRespVo.ok(null);
@@ -213,6 +227,7 @@ public class AdminMallController {
 
     // 关键词信息的更新
     @RequestMapping("admin/keyword/update")
+    @RequiresPermissions("admin:keyword:update")
     public BaseRespVo keywordUpdate(@RequestBody Keyword keyword) {
         if (keyword.getKeyword() == null || keyword.getKeyword().trim().equals("")){
             return BaseRespVo.fail("关键词不能为空");
@@ -229,6 +244,7 @@ public class AdminMallController {
 
     // 订单详情
     @RequestMapping("admin/order/detail")
+    @RequiresPermissions("admin:order:read")
     public BaseRespVo orderDetail(int id) {
         OrderDetail orderDetail = service.selectOrderDetail(id);
         BaseRespVo result = BaseRespVo.ok(orderDetail);
@@ -238,6 +254,7 @@ public class AdminMallController {
 
     //通用问题的编辑
     @RequestMapping("admin/issue/update")
+    @RequiresPermissions("admin:issue:update")
     public BaseRespVo issueUpate(@RequestBody Issue issue) {
         if (issue.getQuestion() == null || issue.getQuestion().trim().equals("")) {
             return BaseRespVo.fail("问题不能为空");
@@ -251,6 +268,7 @@ public class AdminMallController {
 
     // 通用问题的删除
     @RequestMapping("admin/issue/delete")
+    @RequiresPermissions("admin:issue:delete")
     public BaseRespVo issueDelete(@RequestBody Issue issue) {
         service.deleteIssueById(issue.getId());
         BaseRespVo result = BaseRespVo.ok(null);

@@ -27,11 +27,14 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/admin/auth/login","anon");
         filterChainDefinitionMap.put("/fail","anon");
         filterChainDefinitionMap.put("/admin/**","authc");
+        filterChainDefinitionMap.put("/wx/user/**","authc");
+        filterChainDefinitionMap.put("/wx/**","anon");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
 
+    //自定义securityManager
     @Bean
     public SecurityManager securityManager(CustomRealm realm, DefaultWebSessionManager sessionManager) {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
@@ -40,6 +43,7 @@ public class ShiroConfig {
         return defaultWebSecurityManager;
     }
 
+    //自定义sessionManager
     @Bean
     DefaultWebSessionManager defaultWebSessionManager() {
         MallSessionManager mallSessionManager = new MallSessionManager();

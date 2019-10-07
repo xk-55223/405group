@@ -103,6 +103,10 @@
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
     </resultMap>
+    <select id="queryCollectType" resultType="int">
+    select count(id) from cskaoyan_mall_collect where user_id = #{param1} and
+        value_id = #{param2}
+    </select>
     <select id="selectCollectAll" resultMap="CollectMap">
         select id ,user_id,value_id,`type`,add_time,update_time,deleted
         from cskaoyan_mall_collect
