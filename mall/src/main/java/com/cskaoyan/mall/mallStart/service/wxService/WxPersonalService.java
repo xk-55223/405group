@@ -18,4 +18,6 @@ public interface WxPersonalService {
     List<Address> addressList();
 
     AddressRegion addressDetail(int id);
+
+    Map footprintList(int page, int size, Serializable id);
 }

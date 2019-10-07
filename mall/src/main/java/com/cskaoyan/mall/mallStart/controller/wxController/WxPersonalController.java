@@ -27,6 +27,8 @@ import java.util.Map;
 public class WxPersonalController {
     @Autowired
     WxPersonalService wxPersonalService;
+    @Autowired
+
     @RequestMapping("wx/user/index")
     public BaseRespVo personalIndex(){
         Map order = wxPersonalService.personalIndex();
@@ -109,6 +111,16 @@ public class WxPersonalController {
     public BaseRespVo addressDetail(int id){
         AddressRegion addressRegion = wxPersonalService.addressDetail(id);
         BaseRespVo ok = BaseRespVo.ok(addressRegion);
+        return ok;
+    }
+
+    //---------------足迹-----------------
+    @RequestMapping("wx/footprint/list")
+    public BaseRespVo footprintList(int page, int size){
+        Session session = SecurityUtils.getSubject().getSession();
+        int id = (int)session.getAttribute("userId");
+        Map footprintList = wxPersonalService.footprintList(page, size, id);
+        BaseRespVo ok = BaseRespVo.ok(footprintList);
         return ok;
     }
 }

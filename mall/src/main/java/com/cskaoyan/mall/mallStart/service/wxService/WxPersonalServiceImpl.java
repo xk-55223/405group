@@ -9,14 +9,13 @@ import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxBrandMapper;
 import com.cskaoyan.mall.mallStart.bean.Address;
 import com.cskaoyan.mall.mallStart.bean.AddressRegion;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @program: mall
@@ -122,5 +121,31 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         addressRegion.setCityName(wxPersonalMapper.selectCityById(addressRegion.getCityId()));
         addressRegion.setAreaName(wxPersonalMapper.selectAreaById(addressRegion.getAreaId()));
         return addressRegion;
+    }
+
+    @Override
+    public Map footprintList(int page, int size, Serializable id) {
+        Map result = new HashMap();
+        Map goodDetail = new HashMap();
+        List footprintList = new ArrayList();
+        PageHelper.startPage(page, size);
+        List<Footprint> footprints = wxPersonalMapper.selectfootprintDetail(id);
+        int totalpages = wxPersonalMapper.getTotalNumById(id);
+        for (Footprint footprint : footprints) {
+            goodDetail.put("addTime",footprint.getAddTime());
+            goodDetail.put("id",footprint.getId());
+            goodDetail.put("goodsId",footprint.getGoodsId());
+            Goods goods = goodsMapper.listGoodsById(footprint.getGoodsId());
+            if (goods != null){
+                goodDetail.put("brief",goods.getBrief());
+                goodDetail.put("name",goods.getName());
+                goodDetail.put("retailPrice",goods.getRetailPrice());
+                goodDetail.put("picUrl",goods.getPicUrl());
+            }
+            footprintList.add(goodDetail);
+        }
+        result.put("footprintList",footprintList);
+        result.put("totalPages",totalpages);
+        return result;
     }
 }
