@@ -1,5 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper">
+    <resultMap id="MyCouponMap" type="com.cskaoyan.mall.mallStart.bean.MyCoupon">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="desc" property="desc"/>
+        <result column="tag" property="tag"/>
+        <result column="min" property="min"/>
+        <result column="discount" property="discount"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="days" property="days"/>
+    </resultMap>
+    <select id="selectCouponByUserId" resultMap="MyCouponMap">
+        SELECT cskaoyan_mall_coupon.id as id,cskaoyan_mall_coupon.`name` as `name`,cskaoyan_mall_coupon.`desc` as `desc`,cskaoyan_mall_coupon.tag as tag ,cskaoyan_mall_coupon.min as min , cskaoyan_mall_coupon.discount as discount , cskaoyan_mall_coupon_user.start_time as start_time , cskaoyan_mall_coupon_user.end_time as end_time ,cskaoyan_mall_coupon.days as days  FROM cskaoyan_mall_coupon_user LEFT JOIN cskaoyan_mall_coupon on cskaoyan_mall_coupon_user.coupon_id = cskaoyan_mall_coupon.id
+        where cskaoyan_mall_coupon_user.user_id = #{userId} and cskaoyan_mall_coupon_user.`status` = #{status}
+    </select>
+    <resultMap id="address_list" type="com.cskaoyan.mall.mallStart.bean.Address">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="detailedAddress"/>
+        <result column="mobile" property="mobile"/>
+        <result column="is_default" property="isDefault"/>
+        <result column="user_id" property="userId"/>
+        <result column="province_id" property="provinceId"/>
+        <result column="city_id" property="cityId"/>
+    </resultMap>
+    <sql id="addressManager">
+        id,name,address,mobile,is_default
+    </sql>
+    <select id="selectAddresses" resultMap="address_list">
+        select
+        <include refid="addressManager"/>
+        from cskaoyan_mall_address
+        select <include refid="addressManager"/> from cskaoyan_mall_address where user_id = #{userId}
+    </select>
 
+    <resultMap id="addressRegion_list" type="com.cskaoyan.mall.mallStart.bean.AddressRegion">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="address" property="address"/>
+        <result column="mobile" property="mobile"/>
+        <result column="is_default" property="isDefault"/>
+        <result column="user_id" property="userId"/>
+        <result column="province_id" property="provinceId"/>
+        <result column="city_id" property="cityId"/>
+        <result column="area_id" property="areaId"/>
+    </resultMap>
+    <sql id="addressDetail">
+        id,name,province_id,city_id,area_id,address,mobile,is_default
+    </sql>
+    <select id="addressDetail" resultMap="addressRegion_list">
+        select
+        <include refid="addressDetail"/>
+        from cskaoyan_mall_address where id = #{id}
+    </select>
+
+    <select id="selectProvinceById" resultType="String">
+        select `name` from cskaoyan_mall_region where code = #{provinceId}
+    </select>
+
+    <select id="selectCityById" resultType="String">
+        select `name` from cskaoyan_mall_region where code = #{cityId}
+    </select>
+
+    <select id="selectAreaById" resultType="String">
+        select `name` from cskaoyan_mall_region where code = #{areaId}
+    </select>
+
+    <update id="updateAddress">
+        update cskaoyan_mall_address set province_id = #{address.provinceId},city_id = #{address.cityId},is_default=#{address.isDefault},
+        mobile = #{address.mobile},name = #{address.name},province_id=#{address.provinceId},update_time=#{address.updateTime} where id = #{address.id}
+    </update>
+
+    <delete id="addressDelete">
+        delete from cskaoyan_mall_address where id = #{id}
+    </delete>
+
+    <resultMap id="region_list" type="com.cskaoyan.mall.mallStart.bean.Region">
+        <result column="id" property="id"/>
+        <result column="pid" property="pid"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="code" property="code"/>
+    </resultMap>
+    <sql id="regionList">
+        id,pid,name,type,code
+    </sql>
+    <select id="selectRegionByPid" resultMap="region_list">
+        select <include refid="regionList"/> from cskaoyan_mall_region where pid = #{pid}
+    </select>
+
+    <insert id="insertAddress">
+        insert into cskaoyan_mall_address (name,user_id,province_id,city_id,area_id,address,mobile,is_default,add_time,update_time)
+        values (#{address.name},#{userId},#{address.provinceId},#{address.cityId},#{address.areaId},#{address.address},#{address.mobile},
+        #{address.isDefault},#{address.addTime},#{address.updateTime})
+    </insert>
 </mapper>

@@ -1,4 +1,5 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
+
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.GoodsCount;
 import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,37 +34,6 @@ public class WxHomeController {
     @Autowired
     AdminSystemService adminSystemService;
 
-    @RequestMapping("wx/auth/login")
-    public BaseRespVo authLogin(@RequestBody User user) {
-        CustomToken wx = new CustomToken(user.getUsername(), user.getPassword(), "wx");
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        System.out.println(session.getId());
-        try {
-            subject.login(wx);
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-        }
-        UserLoginInfo userMessage = wxHomeService.selectUserMessage(user);
-        return BaseRespVo.ok(userMessage);
-    }
-
-    @RequestMapping("wx/auth/logout")
-    public BaseRespVo authLogout() {
-        Subject subject = SecurityUtils.getSubject();
-        try {
-            subject.logout();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return BaseRespVo.ok(null);
-    }
-    @RequestMapping("wx/home/index")
-    public BaseRespVo homeIndex() {
-        Subject subject = SecurityUtils.getSubject();
-        WxIndexInfo wxIndexInfo = wxHomeService.homeIndex();
-        return BaseRespVo.ok(wxIndexInfo);
-    }
 
     @RequestMapping("wx/goods/count")
     public BaseRespVo goodsCount() {
@@ -73,7 +44,14 @@ public class WxHomeController {
     // 搜索时显示关键词信息
     @RequestMapping("wx/search/index")
     public BaseRespVo searchIndex() {
-        int userId = 1;
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        Serializable id = session.getId();
+        System.out.println(id);
+        Integer userId = (Integer) session.getAttribute("userId");
+        if (userId == null) {
+            return BaseRespVo.ok(null);
+        }
         SearchIndexInfo indexInfo = wxHomeService.searchIndex(userId);
         return BaseRespVo.ok(indexInfo);
     }
@@ -87,8 +65,9 @@ public class WxHomeController {
     @RequestMapping("wx/goods/list")
 
     public BaseRespVo goodsList(String keyword, FromPageInfo info, Integer categoryId, Integer brandId) {
-
-        int userId = 1;
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        int userId = (int) session.getAttribute("userId");
         GoodsListInfo goodsListInfo = wxHomeService.goodsList(userId, keyword, info, categoryId, brandId);
         return BaseRespVo.ok(goodsListInfo);
     }
@@ -146,7 +125,7 @@ public class WxHomeController {
     /*ljq*/
     @RequestMapping("wx/comment/post")
     public BaseRespVo<Comment> commentPost(@RequestBody Comment comment, HttpServletRequest request) {
-        Comment resultComment = wxHomeService.commentPost(comment,request);
+        Comment resultComment = wxHomeService.commentPost(comment, (Integer) request.getSession().getAttribute("userId"));
         return BaseRespVo.ok(resultComment);
     }
 
@@ -170,18 +149,14 @@ public class WxHomeController {
         return BaseRespVo.ok(couponListInfo);
     }
 
-    @RequestMapping("wx/user/index")
-    public BaseRespVo userIndex() {
-        int userId = 1;
-        UserIndexInfo indexInfo = wxHomeService.selectUserIndexInfo(userId);
-        return BaseRespVo.ok(indexInfo);
-    }
 
     @RequestMapping("wx/coupon/receive")
-    public BaseRespVo couponReceive(@RequestBody Map<String,Integer> map) {
+    public BaseRespVo couponReceive(@RequestBody Map<String, Integer> map) {
         Integer couponId = map.get("couponId");
-        int userId = 1;
-        String receiveMessage = wxHomeService.couponReceive(userId,couponId);
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        int userId = (int) session.getAttribute("userId");
+        String receiveMessage = wxHomeService.couponReceive(userId, couponId);
         if (receiveMessage == null) {
             return BaseRespVo.ok(null);
         } else {
