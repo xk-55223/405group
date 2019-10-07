@@ -146,11 +146,11 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-    public Comment commentPost(Comment comment, HttpServletRequest request) {
+    public Comment commentPost(Comment comment, Integer userId) {
         comment.setAddTime(new Date());
         comment.setUpdateTime(new Date());
         /*待修改*/
-        comment.setUserId(1);
+        comment.setUserId(userId);
         wxBrandMapper.insertComment(comment);
         return comment;
     }

@@ -22,7 +22,7 @@ public interface WxHomeService {
 
     Map selectCommentsByValueId(BrandPageInfo pageInfo, int valueId);
 
-    Comment commentPost(Comment comment, HttpServletRequest request);
+    Comment commentPost(Comment comment, Integer userId);
 
     List<Topic> selectTopicRelated(int id);
 

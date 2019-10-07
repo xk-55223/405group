@@ -1,4 +1,5 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
+
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
 import com.cskaoyan.mall.mallStart.bean.GoodsCount;
 import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
@@ -32,7 +33,6 @@ public class WxHomeController {
     WxHomeService wxHomeService;
     @Autowired
     AdminSystemService adminSystemService;
-
 
 
     @RequestMapping("wx/goods/count")
@@ -125,7 +125,7 @@ public class WxHomeController {
     /*ljq*/
     @RequestMapping("wx/comment/post")
     public BaseRespVo<Comment> commentPost(@RequestBody Comment comment, HttpServletRequest request) {
-        Comment resultComment = wxHomeService.commentPost(comment,request);
+        Comment resultComment = wxHomeService.commentPost(comment, (Integer) request.getSession().getAttribute("userId"));
         return BaseRespVo.ok(resultComment);
     }
 
@@ -151,12 +151,12 @@ public class WxHomeController {
 
 
     @RequestMapping("wx/coupon/receive")
-    public BaseRespVo couponReceive(@RequestBody Map<String,Integer> map) {
+    public BaseRespVo couponReceive(@RequestBody Map<String, Integer> map) {
         Integer couponId = map.get("couponId");
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         int userId = (int) session.getAttribute("userId");
-        String receiveMessage = wxHomeService.couponReceive(userId,couponId);
+        String receiveMessage = wxHomeService.couponReceive(userId, couponId);
         if (receiveMessage == null) {
             return BaseRespVo.ok(null);
         } else {

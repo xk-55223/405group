@@ -49,4 +49,11 @@ public interface AdminUserMapper {
 
     @Select("select count(id) from cskaoyan_mall_cart where user_id = #{userId}")
     int countCartGoodsByUserId(int userId);
+
+    @Select("select nickname from cskaoyan_mall_user where id = #{userId}")
+
+    String getUserNicknameById(int userId);
+
+    @Select("select creator_user_id from cskaoyan_mall_groupon where user_id = #{param1} and rules_id = #{param2}")
+    int getOrderCreatorByUserId(int userId, Integer rulesId);
 }

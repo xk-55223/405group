@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface WxCartMapper {
 
-    List<Cart> CartList();
+    List<Cart> CartList(@Param("userId") Integer id);
 
     void cartUpdate(@Param("cart") Cart cart);
 

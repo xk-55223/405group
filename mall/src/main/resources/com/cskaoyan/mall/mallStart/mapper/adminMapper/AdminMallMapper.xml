@@ -290,6 +290,11 @@
 , update_time   as updateTime
 , deleted
 from cskaoyan_mall_order
+<where>
+    <if test="id!= null and id != ''">
+         id = #{id}
+    </if>
+</where>
     </select>
 
     <select id="selectUserById" resultType="com.cskaoyan.mall.mallStart.bean.User">
