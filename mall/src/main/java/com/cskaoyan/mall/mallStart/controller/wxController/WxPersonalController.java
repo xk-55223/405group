@@ -1,23 +1,20 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
-import com.cskaoyan.mall.mallStart.bean.*;
-
+import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
+import com.cskaoyan.mall.mallStart.bean.BrandPageInfo;
+import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
 import com.cskaoyan.mall.mallStart.service.wxService.WxPersonalService;
-
-import com.cskaoyan.mall.mallStart.tool.UserTokenManager;
+import com.cskaoyan.mall.mallStart.bean.*;
 import org.apache.shiro.SecurityUtils;
-
 import com.cskaoyan.mall.mallStart.shiro.CustomToken;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -36,18 +33,21 @@ public class WxPersonalController {
 
 
 
-//    @RequestMapping("wx/user/index")
-//    public BaseRespVo personalIndex(){
-//        Map order = wxPersonalService.personalIndex();
-//        return BaseRespVo.ok(order);
-//    }
 
     @RequestMapping("wx/user/index")
-    public BaseRespVo personalIndex(){
+    public BaseRespVo personalIndex() {
         Map order = wxPersonalService.personalIndex();
         return BaseRespVo.ok(order);
     }
 
+    /*ljq*/
+    @RequestMapping("wx/coupon/mylist")
+    public BaseRespVo<Map> couponMylist( BrandPageInfo pageInfo, Integer status, HttpServletRequest request) {
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
+        System.out.println(userId);
+        Map resultMap = wxPersonalService.couponMylist(pageInfo,status,userId);
+        return BaseRespVo.ok(resultMap);
+    }
     @RequestMapping("wx/auth/login")
     public BaseRespVo authLogin(@RequestBody User user) {
         CustomToken wx = new CustomToken(user.getUsername(), user.getPassword(), "wx");

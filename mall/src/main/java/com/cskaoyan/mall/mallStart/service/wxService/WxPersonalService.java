@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 public interface WxPersonalService {
+    /*Map personalIndex();*/
+
+    Map couponMylist(BrandPageInfo pageInfo, Integer status, Integer userId);
+
     Map personalIndex();
 
     List<Address> addressList(Integer userId);
@@ -22,6 +26,7 @@ public interface WxPersonalService {
     int selectUserIdByUserName(String username);
 
     WxIndexInfo homeIndex();
+
 
     AddressRegion addressDetail(int id);
     public boolean sendMessage(String mobile, String code);

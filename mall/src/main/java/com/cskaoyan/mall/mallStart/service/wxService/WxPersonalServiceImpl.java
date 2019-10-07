@@ -7,6 +7,8 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
+import com.cskaoyan.mall.mallStart.bean.BrandPageInfo;
+import com.cskaoyan.mall.mallStart.bean.MyCoupon;
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.config.AliyunConfig;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGeneralizeMapper;
@@ -20,6 +22,8 @@ import com.cskaoyan.mall.mallStart.bean.Region;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonParseException;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,7 @@ import java.io.Serializable;
 import java.rmi.ServerException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -173,6 +178,17 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         }
         return true;
     }
+    public Map couponMylist(BrandPageInfo pageInfo, Integer status, Integer userId) {
+        PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
+        List<MyCoupon> myCoupons = wxPersonalMapper.selectCouponByUserId(status, userId);
+        PageInfo<MyCoupon> myCouponPageInfo = new PageInfo<>(myCoupons);
+        long total = myCouponPageInfo.getTotal();
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("data",myCoupons);
+        resultMap.put("count",total);
+        return resultMap;
+    }
+
 
     @Override
     public List<Address> addressList(Integer userId) {
