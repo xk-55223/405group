@@ -1,23 +1,26 @@
 package com.cskaoyan.mall.mallStart.bean;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 public class UserLoginInfo {
-    private String token;
-    private String tokenExpire;
+    private Serializable token;
+    private LocalDateTime tokenExpire;
     private WxUser userInfo;
 
-    public String getToken() {
+    public Serializable getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(Serializable token) {
         this.token = token;
     }
 
-    public String getTokenExpire() {
+    public LocalDateTime getTokenExpire() {
         return tokenExpire;
     }
 
-    public void setTokenExpire(String tokenExpire) {
+    public void setTokenExpire(LocalDateTime tokenExpire) {
         this.tokenExpire = tokenExpire;
     }
 

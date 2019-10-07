@@ -1,11 +1,13 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
 import com.cskaoyan.mall.mallStart.bean.Cart;
+import com.cskaoyan.mall.mallStart.bean.CartCheckedBean;
 import com.cskaoyan.mall.mallStart.bean.CartListBean;
 import com.cskaoyan.mall.mallStart.bean.CartTotal;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxCartMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -38,5 +40,29 @@ public class WxCartServiceImpl implements WxCartService{
         cartListBean.setCartTotal(cartTotal);
         cartListBean.setCartList(cartList);
         return cartListBean;
+    }
+
+    @Override
+    public void cartUpdate(Cart cart) {
+        wxCartMapper.cartUpdate(cart);
+    }
+
+    @Override
+    public CartListBean cartDelete(List<Integer> productIds) {
+        for (Integer productId : productIds) {
+            wxCartMapper.cartDelete(productId);
+        }
+        return cartList();
+    }
+
+    @Override
+    public CartListBean cartChecked(CartCheckedBean productIds) {
+        boolean checked = productIds.isChecked();
+        List<Integer> productIds1 = productIds.getProductIds();
+        for (Integer integer : productIds1) {
+            wxCartMapper.changeIschecked(checked,integer);
+        }
+
+        return cartList();
     }
 }

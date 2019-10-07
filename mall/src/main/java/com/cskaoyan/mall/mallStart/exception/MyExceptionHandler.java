@@ -9,10 +9,10 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @ControllerAdvice
 public class MyExceptionHandler {
-
-    @ExceptionHandler({MethodArgumentTypeMismatchException.class,
-            HttpMessageNotReadableException.class
-            })
+//
+//    @ExceptionHandler({MethodArgumentTypeMismatchException.class,
+//            HttpMessageNotReadableException.class
+//            })
     @ResponseBody
    public BaseRespVo authorizationExceptionHandler(){
         return BaseRespVo.fail("兄弟，请输入正确数字");
