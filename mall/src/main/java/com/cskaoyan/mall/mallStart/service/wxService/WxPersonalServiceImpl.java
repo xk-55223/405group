@@ -524,7 +524,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     @Override
     public Map<String, Object> orderDetail(int orderId) {
         Order orderInfo = mallMapper.selectOrderById(orderId);
-        HandleOption handleOption = orderInfo.getHandleOption();
+        HandleOption handleOption = new HandleOption();
         switch(orderInfo.getOrderStatus()){
             case 101: handleOption.setCancel(true);handleOption.setPay(true);break;
             case 201: handleOption.setRefund(true); break;
@@ -532,6 +532,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
             case 401: handleOption.setComment(true);handleOption.setRefund(true);handleOption.setDelete(true);break;
             default:  break;
         }
+        orderInfo.setHandleOption(handleOption);
         orderInfo.setOrderStatusText(OrderStatus.getString(orderInfo.getOrderStatus()));
         List<OrderGoods> orderGoods = mallMapper.selectOrderGoods(orderInfo.getId());
         Map<String, Object> map = new HashMap<>();
