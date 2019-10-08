@@ -46,7 +46,7 @@ public class WxCategoryServiceImpl implements WxCategoryService {
     }
 
     @Override
-    public WxGoodsDetail getWxGoodsDetail(int id,int userId) {
+    public WxGoodsDetail getWxGoodsDetail(int id,Integer userId) {
         WxGoodsDetail detail = new WxGoodsDetail();
         List<GoodsAttribute> goodsAttributes = goodsMapper.goodAttributes(id);
         Goods info = goodsMapper.listGoodsById(id);
@@ -81,9 +81,11 @@ public class WxCategoryServiceImpl implements WxCategoryService {
             goodsSpecificationBean.setValueList(goodsSpecifications1);
             specificationList.add(goodsSpecificationBean);
         }
-        if(userId!=-1){
+        if(userId!=null){
             int i = userMapper.queryCollectType(userId, id);
             detail.setUserHasCollect(i);
+            userMapper.deleteFootPrint(id,userId);
+            userMapper.insertFootprint(id,userId);
         }
         detail.setAttribute(goodsAttributes);
         detail.setBrand(brand);
@@ -94,8 +96,6 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         detail.setSpecificationList(specificationList);
         detail.setComment(comment);
         //此处增加浏览足迹，先删除原足迹再添加足迹
-        userMapper.deleteFootPrint(id,userId);
-        userMapper.insertFootprint(id,userId);
         return detail;
 
     }

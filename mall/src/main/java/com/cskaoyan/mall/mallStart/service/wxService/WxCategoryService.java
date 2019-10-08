@@ -14,7 +14,7 @@ public interface WxCategoryService {
 
     List<Category> currentCategoryList();
 
-    WxGoodsDetail getWxGoodsDetail(int id,int userId);
+    WxGoodsDetail getWxGoodsDetail(int id,Integer userId);
 
     int countCartGoods(int a);
 
