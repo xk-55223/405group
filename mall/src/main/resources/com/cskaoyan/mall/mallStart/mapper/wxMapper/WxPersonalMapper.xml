@@ -16,6 +16,20 @@
         SELECT cskaoyan_mall_coupon.id as id,cskaoyan_mall_coupon.`name` as `name`,cskaoyan_mall_coupon.`desc` as `desc`,cskaoyan_mall_coupon.tag as tag ,cskaoyan_mall_coupon.min as min , cskaoyan_mall_coupon.discount as discount , cskaoyan_mall_coupon_user.start_time as start_time , cskaoyan_mall_coupon_user.end_time as end_time ,cskaoyan_mall_coupon.days as days  FROM cskaoyan_mall_coupon_user LEFT JOIN cskaoyan_mall_coupon on cskaoyan_mall_coupon_user.coupon_id = cskaoyan_mall_coupon.id
         where cskaoyan_mall_coupon_user.user_id = #{userId} and cskaoyan_mall_coupon_user.`status` = #{status}
     </select>
+    <resultMap id="MyCollectMap" type="com.cskaoyan.mall.mallStart.bean.MyCollect">
+        <result column="brief" property="brief"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="value_id" property="valueId"/>
+        <result column="name" property="name"/>
+        <result column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="retail_price" property="retailPrice"/>
+    </resultMap>
+    <select id="selectCollectsByUserId" resultMap="MyCollectMap">
+        select cskaoyan_mall_goods.brief as brief,cskaoyan_mall_goods.pic_url as pic_url , cskaoyan_mall_collect.value_id as value_id , cskaoyan_mall_goods.name as `name`, cskaoyan_mall_collect.id as id ,cskaoyan_mall_collect.type as type, cskaoyan_mall_goods.retail_price as retail_price from cskaoyan_mall_collect LEFT JOIN cskaoyan_mall_goods on cskaoyan_mall_collect.value_id = cskaoyan_mall_goods.id
+        where cskaoyan_mall_collect.user_id = #{userId} and type = #{type}
+    </select>
+
     <resultMap id="address_list" type="com.cskaoyan.mall.mallStart.bean.Address">
         <result column="id" property="id"/>
         <result column="name" property="name"/>
@@ -32,8 +46,7 @@
     <select id="selectAddresses" resultMap="address_list">
         select
         <include refid="addressManager"/>
-        from cskaoyan_mall_address
-        select <include refid="addressManager"/> from cskaoyan_mall_address where user_id = #{userId}
+        from cskaoyan_mall_address where user_id = #{userId}
     </select>
 
     <resultMap id="addressRegion_list" type="com.cskaoyan.mall.mallStart.bean.AddressRegion">
@@ -100,12 +113,19 @@
         id,pid,name,type,code
     </sql>
     <select id="selectRegionByPid" resultMap="region_list">
-        select <include refid="regionList"/> from cskaoyan_mall_region where pid = #{pid}
+        select
+        <include refid="regionList"/>
+        from cskaoyan_mall_region where pid = #{pid}
     </select>
 
     <insert id="insertAddress">
         insert into cskaoyan_mall_address (name,user_id,province_id,city_id,area_id,address,mobile,is_default,add_time,update_time)
         values (#{address.name},#{userId},#{address.provinceId},#{address.cityId},#{address.areaId},#{address.address},#{address.mobile},
         #{address.isDefault},#{address.addTime},#{address.updateTime})
+    </insert>
+
+    <insert id="insertFeedback">
+        insert into cskaoyan_mall_feedback (user_id,username,mobile,feed_type,content,status,has_picture,pic_urls,add_time,update_time)
+        value (#{feedback.userId},#{feedback.username},#{feedback.mobile},#{feedback.feedType},#{feedback.content},#{feedback.status},#{feedback.hasPicture},#{feedback.picUrls},#{feedback.addTime},#{feedback.updateTime})
     </insert>
 </mapper>

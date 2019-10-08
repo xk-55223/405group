@@ -7,6 +7,15 @@ import java.util.Date;
 import java.util.List;
 
 public class Order {
+    public String getOrderStatusText() {
+        return orderStatusText;
+    }
+
+    public void setOrderStatusText(String orderStatusText) {
+        this.orderStatusText = orderStatusText;
+    }
+
+    private String orderStatusText;
     private Integer id;
 
     private Integer userId;

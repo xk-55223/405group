@@ -31,6 +31,7 @@ public interface AdminUserMapper {
 
     @Select("select id from cskaoyan_mall_user where username = #{username}")
     int selectUserIdByUserName(String username);
+
     @Select("select count(id) from cskaoyan_mall_collect where value_id =" +
             "#{param1} and type = #{param2} and user_id = #{param3}")
     int isGoodsCollected(int valueId, int type, int userId);
@@ -42,7 +43,7 @@ public interface AdminUserMapper {
             "#{param1} and type = #{param2} and user_id = #{param3}")
     void deleteCollectGoods(int valueId, int type, int userId);
 
-    void insertGoodsToCart(@Param("goods") Goods goods,@Param("product") GoodsProduct product,@Param("number") int number,@Param("userId") int userId);
+    void insertGoodsToCart(Cart cart);
 
     @Select("select count(id) from cskaoyan_mall_cart where user_id = #{userId}")
     int countCartGoodsByUserId(int userId);
@@ -60,4 +61,10 @@ public interface AdminUserMapper {
 
     @Select("select creator_user_id from cskaoyan_mall_groupon where id = #{id}")
     int getOrderCreatorById(int id);
+
+    @Select("insert into cskaoyan_mall_footprint values(0,#{param2},#{param1},now(),now(),0)")
+    void insertFootprint(int id, int userId);
+
+    @Select("select avatar from cskaoyan_mall_user where id = #{userId}")
+    String getUserAvatarById(int userId);
 }
