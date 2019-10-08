@@ -43,8 +43,8 @@ public class OrderByUser {
         return orderSn;
     }
 
-    public void setorderSn(String orderSn) {
-        orderSn = orderSn;
+    public void setOrderSn(String orderSn) {
+        this.orderSn = orderSn;
     }
 
     public double getActualPrice() {

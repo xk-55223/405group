@@ -62,6 +62,9 @@ public interface AdminUserMapper {
     @Select("select creator_user_id from cskaoyan_mall_groupon where id = #{id}")
     int getOrderCreatorById(int id);
 
+    // 仅用于订单下单使用
+    @Select("select nickname, mobile from cskaoyan_mall_user where id = #{userId}")
+    User selectUserInfoByUserId(Integer userId);
     @Select("insert into cskaoyan_mall_footprint values(0,#{param2},#{param1},now(),now(),0)")
     void insertFootprint(int id, int userId);
 

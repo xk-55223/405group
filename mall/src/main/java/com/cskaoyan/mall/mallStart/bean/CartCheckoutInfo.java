@@ -8,12 +8,12 @@ public class CartCheckoutInfo {
     Integer addressId;
     Integer availableCouponLength;
     Address checkedAddress;
-    List<Goods> checkedGoodsList;
+    List<CheckGoodsList> checkedGoodsList;
     Integer couponId;
-    Integer couponPrice;
+    BigDecimal couponPrice;
     Integer freightPrice;
     BigDecimal goodsTotalPrice;
-    Integer grouponPrice;
+    BigDecimal grouponPrice;
     Integer grouponRulesId;
     BigDecimal orderTotalPrice;
 
@@ -49,11 +49,11 @@ public class CartCheckoutInfo {
         this.checkedAddress = checkedAddress;
     }
 
-    public List<Goods> getCheckedGoodsList() {
+    public List<CheckGoodsList> getCheckedGoodsList() {
         return checkedGoodsList;
     }
 
-    public void setCheckedGoodsList(List<Goods> checkedGoodsList) {
+    public void setCheckedGoodsList(List<CheckGoodsList> checkedGoodsList) {
         this.checkedGoodsList = checkedGoodsList;
     }
 
@@ -65,11 +65,11 @@ public class CartCheckoutInfo {
         this.couponId = couponId;
     }
 
-    public Integer getCouponPrice() {
+    public BigDecimal getCouponPrice() {
         return couponPrice;
     }
 
-    public void setCouponPrice(Integer couponPrice) {
+    public void setCouponPrice(BigDecimal couponPrice) {
         this.couponPrice = couponPrice;
     }
 
@@ -89,11 +89,11 @@ public class CartCheckoutInfo {
         this.goodsTotalPrice = goodsTotalPrice;
     }
 
-    public Integer getGrouponPrice() {
+    public BigDecimal getGrouponPrice() {
         return grouponPrice;
     }
 
-    public void setGrouponPrice(Integer grouponPrice) {
+    public void setGrouponPrice(BigDecimal grouponPrice) {
         this.grouponPrice = grouponPrice;
     }
 

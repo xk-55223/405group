@@ -277,7 +277,7 @@
 , mobile
 , address
 , message
-, goods_price   as goodsPrince
+, goods_price   as goodsPrice
 , freight_price  as freightPrice
 , coupon_price   as couponPrice
 , integral_price  as integralPrice

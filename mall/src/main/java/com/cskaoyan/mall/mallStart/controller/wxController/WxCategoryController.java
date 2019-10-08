@@ -23,8 +23,9 @@ public class WxCategoryController {
     WxCategoryService service;
 
    @RequestMapping("wx/cart/goodscount")
-    public BaseRespVo cartGoodsCount(HttpServletRequest request){
-       int userId = (int) SecurityUtils.getSubject().getSession().getAttribute("userId");
+    public BaseRespVo cartGoodsCount(){
+       Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+       if (userId == null) return BaseRespVo.ok(0);
        int goodsCount = service.countCartGoods(userId);
         return BaseRespVo.ok(goodsCount);
     }
@@ -45,8 +46,8 @@ public class WxCategoryController {
     }
     //商品详情
     @RequestMapping("wx/goods/detail")
-    public BaseRespVo goodsDetail(int id, HttpServletRequest request){
-        int userId = (int) SecurityUtils.getSubject().getSession().getAttribute("userId");
+    public BaseRespVo goodsDetail(int id){
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
         WxGoodsDetail goods= service.getWxGoodsDetail(id,userId);
         return BaseRespVo.ok(goods);
     }
@@ -66,7 +67,7 @@ public class WxCategoryController {
     public BaseRespVo collectGoods(@RequestBody Map<String,Integer> map1,HttpServletRequest request){
         Integer type = map1.get("type");
         Integer valueId = map1.get("valueId");
-        int userId = (int) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
         String i =  service.collectGoods(valueId,type,userId);
         HashMap<String, String> map = new HashMap<>();
         map.put("type",i);
@@ -79,7 +80,7 @@ public class WxCategoryController {
        int i = (Integer) map.get("number");
        short number = (short) i;
        Integer productId = (Integer) map.get("productId");
-       int userId = (int) SecurityUtils.getSubject().getSession().getAttribute("userId");
+       Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
        int num = service.addGoodsToCart(goodsId,number,productId,userId);
        return BaseRespVo.ok(num);
    }
@@ -89,7 +90,7 @@ public class WxCategoryController {
        int i = (Integer) map.get("number");
        short number = (short) i;
        Integer productId = (Integer) map.get("productId");
-       int userId = (int) SecurityUtils.getSubject().getSession().getAttribute("userId");
+       Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
        int id = service.fastaddToCart(goodsId,number,productId,userId);
        return BaseRespVo.ok(id);
    }
