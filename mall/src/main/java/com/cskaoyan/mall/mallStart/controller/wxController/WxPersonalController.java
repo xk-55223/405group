@@ -47,8 +47,8 @@ public class WxPersonalController {
 
     @RequestMapping("wx/groupon/my")
     public BaseRespVo myGroupon(int showType) {
-        int userId = 1;
-        Map<String, Object> objectObjectHashMap = new HashMap<>();
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        Map<String, Object> objectObjectHashMap;
         if (showType == 0) {
             objectObjectHashMap = wxPersonalService.selectCreateGroupons(userId);
             return BaseRespVo.ok(objectObjectHashMap);
