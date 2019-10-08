@@ -67,7 +67,7 @@ public class WxHomeController {
     public BaseRespVo goodsList(String keyword, FromPageInfo info, Integer categoryId, Integer brandId) {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
-        int userId = (int) session.getAttribute("userId");
+        Integer userId = (Integer) session.getAttribute("userId");
         GoodsListInfo goodsListInfo = wxHomeService.goodsList(userId, keyword, info, categoryId, brandId);
         return BaseRespVo.ok(goodsListInfo);
     }

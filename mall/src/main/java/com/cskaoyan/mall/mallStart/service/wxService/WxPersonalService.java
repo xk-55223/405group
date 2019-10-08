@@ -19,7 +19,10 @@ public interface WxPersonalService {
 
     Map couponMylist(BrandPageInfo pageInfo, Integer status, Integer userId);
 
+    Map collectList(BrandPageInfo pageInfo, Integer type, Integer userId);
+
     Map personalIndex();
+
     Map selectCreateGroupons(int userId);
 
     Map<String, Object> selectJoinedGroupons(int userId);
@@ -32,15 +35,30 @@ public interface WxPersonalService {
 
     WxIndexInfo homeIndex();
 
-
     AddressRegion addressDetail(int id);
+
+    Map footprintList(int page, int size, Serializable id);
+
     public boolean sendMessage(String mobile, String code);
 
-    void addressSave(AddressRegion addressRegion,Integer userId);
+    void addressSave(AddressRegion addressRegion, Integer userId);
 
     void addressDelete(Integer id);
 
     List<Region> selectRegionByPid(int pid);
 
     OrderByUserBean orderList(int showType, int page, int size);
+
+    int feedbackSubmit(Feedback feedback);
+
+    void deleteOrder(int id);
+
+    GrouponDetail grouponDetail(int grouponId);
+
+    boolean register(String mobile, String username, String password);
+
+    void resetUser(String mobile, String password);
+
+    Map<String, Object> orderDetail(int orderId);
+
 }

@@ -22,5 +22,7 @@ public interface WxCategoryService {
 
     String collectGoods(int valueId, int type, int userId);
 
-    int addGoodsToCart(Integer goodsId, Integer number, Integer productId, int userId);
+    int addGoodsToCart(Integer goodsId, short number, Integer productId, int userId);
+
+    int fastaddToCart(Integer goodsId, short number, Integer productId, int userId);
 }

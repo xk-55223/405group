@@ -202,11 +202,22 @@
     </select>
 
     <insert id="insertGoodsToCart" >
+        <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
+            select last_insert_id() as id
+        </selectKey>
         insert into cskaoyan_mall_cart (user_id,goods_id,goods_sn,goods_name,
         product_id,price,`number`,specifications,pic_url,add_time,update_time) values
-        (#{userId},#{goods.id},#{goods.goodsSn},#{goods.name},
-        #{product.id},#{product.price},#{number},#{product.specifications},
-        #{goods.picUrl},now(),now())
+        (#{userId},#{goodsId},#{goodsSn},#{goodsName},
+        #{productId},#{price},#{number},#{specifications},
+        #{picUrl},now(),now())
 
+    </insert>
+
+    <insert id="insertUser">
+        insert into cskaoyan_mall_user (mobile, username, password, nickname, avatar
+        , update_time, add_time, last_login_time, gender, birthday)
+        values (#{user.mobile},#{user.username},#{user.password},#{user.nickname}
+        ,#{user.avatar},#{user.updateTime},#{user.addTime},#{user.lastLoginTime}
+        ,#{user.gender},#{user.birthday})
     </insert>
 </mapper>

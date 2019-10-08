@@ -9,12 +9,13 @@ import java.util.Date;
 import java.util.List;
 
 public interface AdminGeneralizeMapper {
-    List<Ad> getAllAds(String name,String content);
+    List<Ad> getAllAds(String name, String content);
 
     /*int insertAdImg();
     Storage queryAdimgById(int id);*/
 
     int insertAd(Ad ad);
+
     Ad queryAdById(int id);
 
     void updateAd(Ad ad);
@@ -22,10 +23,11 @@ public interface AdminGeneralizeMapper {
     @Delete("delete from cskaoyan_mall_ad where id = #{id}")
     void deleteAd(Ad ad);
 
-    List<Coupon> getAllCoupons(@Param("type")Integer type,@Param("status") Integer status,@Param("name") String name);
+    List<Coupon> getAllCoupons(@Param("type") Integer type, @Param("status") Integer status, @Param("name") String name);
 
 
     void addCoupon(Coupon coupon);
+
     Coupon queryCoupon(Coupon coupon);
 
     List<CouponUser> getAllCouponUser(int couponId, Integer userId, Integer status);
@@ -33,12 +35,11 @@ public interface AdminGeneralizeMapper {
     Coupon queryCouponById(int id);
 
     @Delete("delete from cskaoyan_mall_coupon where id = #{id}")
-
     void deleteCoupon(Coupon coupon);
 
     void updateCoupon(Coupon coupon);
 
-    List<Topic> getAllTopic(@Param("title")String title,@Param("subtitle") String subtitle);
+    List<Topic> getAllTopic(@Param("title") String title, @Param("subtitle") String subtitle);
 
     @Delete("delete from cskaoyan_mall_topic where id = #{id}")
     void deleteTopic();
@@ -54,7 +55,7 @@ public interface AdminGeneralizeMapper {
 
     Goods queryGoodsById(Integer goodsId);
 
-    void insertGrouponRules( GrouponRules grouponRules);
+    void insertGrouponRules(GrouponRules grouponRules);
 
     GrouponRules getGrouponRulesById(Integer id);
 
@@ -69,9 +70,12 @@ public interface AdminGeneralizeMapper {
     List<GrouponInfo> getGrouponInfo();
 
     void insertUserCoupon(@Param("userId") Integer userId, @Param("couponId") Integer couponId
-            ,@Param("nowTime") Date date);
+            , @Param("nowTime") Date date);
 
-    int selectUserCouponIsOwn(@Param("userId")Integer userId, @Param("couponId")Integer couponId);
+
+    Integer queryCouponIdByCode(@Param("code") String code);
+
+    int selectUserCouponIsOwn(@Param("userId") Integer userId, @Param("couponId") Integer couponId);
 
     @Select("select count(rules_id) from cskaoyan_mall_groupon " +
             "where creator_user_id = #{userId}")
@@ -88,9 +92,16 @@ public interface AdminGeneralizeMapper {
     @Select(" select id,order_id as orderId,groupon_id as grouponId,rules_id as rulesId," +
             "        user_id as userId,creator_user_id as creatorUserId,add_time as addTime,share_url as shareUrl," +
             "        update_time as updateTime,payed,deleted from cskaoyan_mall_groupon where user_id = #{userId}")
-
     List<Groupon> queryAllGrouponsByUserId(int userId);
 
     @Select("select count(id) from cskaoyan_mall_groupon where user_id = #{userId}")
     int countGrouponByUserId(int userId);
+
+    @Select(" select id,order_id as orderId,groupon_id as grouponId,rules_id as rulesId," +
+            "        user_id as userId,creator_user_id as creatorUserId,add_time as addTime,share_url as shareUrl," +
+            "        update_time as updateTime,payed,deleted from cskaoyan_mall_groupon where id = #{id}")
+    Groupon getGrouponById(int id);
+
+    @Select("select user_Id from cskaoyan_mall_groupon where rules_id = #{rules_id}")
+    int[] getUserIdByRulesId(Integer rulesId);
 }
