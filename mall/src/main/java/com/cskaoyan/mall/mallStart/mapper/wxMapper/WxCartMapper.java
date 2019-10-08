@@ -27,7 +27,7 @@ public interface WxCartMapper {
 
     Address selectAddressById(Integer addressId);
 
-    List<Cart> selectCartCheckout(Integer userId);
+    List<Cart> selectCartCheckout(@Param("userId") Integer userId,@Param("cartId") Integer cartId);
 
     BigDecimal selectGrouponPrice(Integer grouponRulesId);
 

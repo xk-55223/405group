@@ -171,7 +171,8 @@ public class WxPersonalController {
 
     @RequestMapping("wx/auth/register")
     public BaseRespVo register(@RequestBody Map map) {
-        Session session = SecurityUtils.getSubject().getSession();
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
         Serializable token = session.getId();
         String codeFromSession = (String) session.getAttribute("code");
         String code = (String) map.get("code");
@@ -189,6 +190,8 @@ public class WxPersonalController {
             userInfo.setAvatarUrl("");
             userInfo.setNickName(username);
             userLoginInfo.setUserInfo(userInfo);
+            Integer userId = wxPersonalService.selectUserIdByUserName(username);
+            session.setAttribute("userId",userId);
             return BaseRespVo.ok(userLoginInfo);
         }
         return BaseRespVo.fail("该用户名已存在");

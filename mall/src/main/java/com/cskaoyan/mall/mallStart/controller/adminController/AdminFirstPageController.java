@@ -1,9 +1,7 @@
 package com.cskaoyan.mall.mallStart.controller.adminController;
 
-import com.cskaoyan.mall.mallStart.bean.Admin;
-import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
-import com.cskaoyan.mall.mallStart.bean.DashBoard;
-import com.cskaoyan.mall.mallStart.bean.LoginInfo;
+import com.cskaoyan.mall.mallStart.bean.*;
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminFirstPageMapper;
 import com.cskaoyan.mall.mallStart.service.adminService.AdminFirstPageServiceImpl;
 import com.cskaoyan.mall.mallStart.shiro.CustomToken;
 import org.apache.shiro.SecurityUtils;
@@ -15,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.Date;
 
 @RestController
 public class AdminFirstPageController {
@@ -33,15 +33,27 @@ public class AdminFirstPageController {
 
 
     @RequestMapping("admin/auth/login")
-    public BaseRespVo login(@RequestBody Admin admin) {
+    public BaseRespVo login(@RequestBody Admin admin, HttpServletRequest request) {
         CustomToken token = new CustomToken(admin.getUsername(), admin.getPassword(),"admin");
+        //添加操作日志
+        String host = SecurityUtils.getSubject().getSession().getHost();
+        Date date = new Date();
+        Log log = new Log();
+        log.setAdmin(admin.getUsername());
+        log.setIp(host);
+        log.setUpdateTime(date);
+        log.setAddTime(date);
+        log.setType(1);
+
         Subject subject = SecurityUtils.getSubject();
         try {
             subject.login(token);
         } catch (AuthenticationException e) {
+            firstPageService.addLog(log,null);
             return BaseRespVo.fail("账号或者密码错误");
         }
         Serializable id = subject.getSession().getId();
+        firstPageService.addLog(log,admin);
         return BaseRespVo.ok(id);
     }
 
@@ -59,6 +71,17 @@ public class AdminFirstPageController {
     @RequestMapping("admin/auth/logout")
     public BaseRespVo logout() {
         Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        //
+        String host = SecurityUtils.getSubject().getSession().getHost();
+        Date date = new Date();
+        Log log = new Log();
+        log.setAdmin(username);
+        log.setIp(host);
+        log.setUpdateTime(date);
+        log.setAddTime(date);
+        log.setType(1);
+        firstPageService.addLoginoutLog(log);
         subject.logout();
         return BaseRespVo.ok(null);
     }

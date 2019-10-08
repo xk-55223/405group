@@ -4,7 +4,9 @@ import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxCartMapper;
+import com.cskaoyan.mall.mallStart.tool.CharUtil;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import org.apache.commons.lang.CharUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -83,7 +85,8 @@ public class WxCartServiceImpl implements WxCartService{
         Address address = wxCartMapper.selectAddressById(checkoutInfo.getAddressId());
         cartCheckoutInfo.setAddressId(checkoutInfo.getAddressId());
         cartCheckoutInfo.setCheckedAddress(address);
-        List<Cart> cart = wxCartMapper.selectCartCheckout(userId);
+        Integer cartId = checkoutInfo.getCartId();
+        List<Cart> cart = wxCartMapper.selectCartCheckout(userId,cartId);
         double goodsTotalPrice = 0.0;
         for (Cart cartMessage : cart) {
             goodsTotalPrice += cartMessage.getNumber().intValue() * cartMessage.getPrice().doubleValue();
@@ -145,7 +148,7 @@ public class WxCartServiceImpl implements WxCartService{
         Order order = new Order();
         order.setOrderStatus((short) 101);
         order.setUserId(userId);
-        order.setOrderSn("201910810235321");
+        order.setOrderSn(CharUtil.getRandomNum(10));
         User user = userMapper.selectUserInfoByUserId(userId);
         order.setConsignee(user.getNickname());
         order.setMobile(user.getMobile());
