@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,11 +58,22 @@ public class WxCartController {
 
     @RequestMapping("wx/coupon/selectlist")
     public BaseRespVo couponSelectList(Integer cartId, Integer grouponRulesId) {
-        return BaseRespVo.fail("系统内部错误");
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        List<Coupon> couponList = wxCartService.couponSelectList(userId);
+        return BaseRespVo.ok(couponList);
     }
 
     @RequestMapping("wx/order/submit")
-    public BaseRespVo orderSubmit() {
-        return BaseRespVo.fail("系统内部错误");
+    public BaseRespVo orderSubmit(@RequestBody OrderSubmitInfo submitInfo) {
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        int orderId = wxCartService.orderSubmit(submitInfo,userId);
+        Map<String, Integer> stringIntegerMap = new HashMap<>();
+        stringIntegerMap.put("orderId",orderId);
+        return BaseRespVo.ok(stringIntegerMap);
+    }
+
+    @RequestMapping("wx/order/prepay")
+    public BaseRespVo prepay() {
+        return BaseRespVo.ok("订单不能支付");
     }
 }

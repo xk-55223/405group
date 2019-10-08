@@ -6,27 +6,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class OrderGoods {
-    private Integer id;
-
-    private Integer orderId;
-
-    private Integer goodsId;
-
-    private String goodsName;
-
-    private String goodsSn;
-
-    private Integer productId;
-
-    private Short number;
-
-    private BigDecimal price;
-
-    private String[] specifications;
-
-    private String picUrl;
-
-    private Integer comment;
+    private Integer         id;
+    private Integer         orderId;
+    private Integer         goodsId;
+    private String          goodsName;
+    private String          goodsSn;
+    private Integer         productId;
+    private Short           number;
+    private BigDecimal      price;
+    private String[]        specifications;
+    private String          picUrl;
+    private Integer         comment;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date addTime;
