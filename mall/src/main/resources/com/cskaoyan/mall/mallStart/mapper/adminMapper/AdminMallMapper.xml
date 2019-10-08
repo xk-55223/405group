@@ -217,9 +217,10 @@
     <select id="selectGoodsList" resultType="com.cskaoyan.mall.mallStart.bean.Goods">
         select brief, counter_price as counterPrice, g.id , is_hot as isHot, is_new as isNew
         ,g.name ,g.pic_url as picUrl, retail_price as retailPrice
-        from cskaoyan_mall_category c LEFT JOIN cskaoyan_mall_goods g
+        from cskaoyan_mall_category c RIGHT JOIN cskaoyan_mall_goods g
         on c.id = g.category_id
         where c.pid = #{id}
+        limit 4 offset 0
     </select>
 
     <select id="selectCategoryChildren" resultType="com.cskaoyan.mall.mallStart.bean.Category">

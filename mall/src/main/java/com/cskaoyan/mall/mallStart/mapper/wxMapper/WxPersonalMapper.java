@@ -35,11 +35,11 @@ public interface WxPersonalMapper {
 
     List<Region> selectRegionByPid(@Param("pid") int pid);
 
-    List<OrderByUser> orderByUserList(@Param("showType") int showType);
+    List<OrderByUser> orderByUserList(@Param("showType") int showType,@Param("userId") Integer userId);
 
     List<OrderGoods> selectOrderGoods(@Param("orderId") int id);
 
-    List<OrderByUser> orderByUserListShowType(@Param("showType") int showType);
+    List<OrderByUser> orderByUserListShowType(@Param("showType") int showType,@Param("userId") Integer userId);
 
     int insertFeedback(@Param("feedback") Feedback feedback);
 
