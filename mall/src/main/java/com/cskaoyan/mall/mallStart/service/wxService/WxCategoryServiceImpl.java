@@ -93,6 +93,8 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         detail.setProductList(productList);
         detail.setSpecificationList(specificationList);
         detail.setComment(comment);
+        //此处增加浏览足迹，先删除原足迹再添加足迹
+        userMapper.deleteFootPrint(id,userId);
         userMapper.insertFootprint(id,userId);
         return detail;
 

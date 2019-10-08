@@ -70,4 +70,8 @@ public interface AdminUserMapper {
 
     @Select("select avatar from cskaoyan_mall_user where id = #{userId}")
     String getUserAvatarById(int userId);
+
+    @Delete("delete from cskaoyan_mall_footprint where user_id = #{param2} and goods_id = #{param1}")
+    void deleteFootPrint(int id, int userId);
+
 }

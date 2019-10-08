@@ -3,6 +3,7 @@ package com.cskaoyan.mall.mallStart.service.adminService;
 import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGeneralizeMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
+import com.cskaoyan.mall.mallStart.tool.CharUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,8 @@ public class AdminGeneralizeServiceImpl implements AdminGeneralizeService {
 
     @Override
     public Coupon addCoupon(Coupon coupon) {
+        String randomString = CharUtil.getRandomString(8);
+        coupon.setCode(randomString);
         mapper.addCoupon(coupon);
         Coupon coupon1 = mapper.queryCoupon(coupon);
         return coupon1;
