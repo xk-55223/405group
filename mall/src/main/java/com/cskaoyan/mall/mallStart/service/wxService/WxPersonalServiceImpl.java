@@ -378,14 +378,14 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     }
 
     @Override
-    public OrderByUserBean orderList(int showType, int page, int size) {
+    public OrderByUserBean orderList(int showType, int page, int size, Integer userId) {
         PageHelper.startPage(page, size);
         List<OrderByUser> orderGoods = new ArrayList<>();
         if (showType == 0) {
-            orderGoods = wxPersonalMapper.orderByUserList(showType);
+            orderGoods = wxPersonalMapper.orderByUserList(showType,userId);
         } else {
             int showType1 = showType * 100 + 1;
-            orderGoods = wxPersonalMapper.orderByUserListShowType(showType1);
+            orderGoods = wxPersonalMapper.orderByUserListShowType(showType1,userId);
         }
         PageInfo<OrderByUser> orderByUserPageInfo = new PageInfo<>(orderGoods);
         long total = orderByUserPageInfo.getTotal();
