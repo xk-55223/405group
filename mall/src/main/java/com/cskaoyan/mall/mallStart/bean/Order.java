@@ -14,6 +14,15 @@ public class Order {
     public void setOrderStatusText(String orderStatusText) {
         this.orderStatusText = orderStatusText;
     }
+    private HandleOption handleOption;
+
+    public HandleOption getHandleOption() {
+        return handleOption;
+    }
+
+    public void setHandleOption(HandleOption handleOption) {
+        this.handleOption = handleOption;
+    }
 
     private String orderStatusText;
     private Integer id;
