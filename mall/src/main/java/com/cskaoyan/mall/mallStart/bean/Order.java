@@ -7,6 +7,16 @@ import java.util.Date;
 import java.util.List;
 
 public class Order {
+    private HandleOption handleOption;
+
+    public HandleOption getHandleOption() {
+        return handleOption;
+    }
+
+    public void setHandleOption(HandleOption handleOption) {
+        this.handleOption = handleOption;
+    }
+
     public String getOrderStatusText() {
         return orderStatusText;
     }
@@ -14,6 +24,7 @@ public class Order {
     public void setOrderStatusText(String orderStatusText) {
         this.orderStatusText = orderStatusText;
     }
+
 
     private String orderStatusText;
     private Integer id;

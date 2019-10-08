@@ -47,7 +47,7 @@ public interface WxPersonalService {
 
     List<Region> selectRegionByPid(int pid);
 
-    OrderByUserBean orderList(int showType, int page, int size);
+    OrderByUserBean orderList(int showType, int page, int size, Integer userId);
 
     int feedbackSubmit(Feedback feedback);
 
