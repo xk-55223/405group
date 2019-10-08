@@ -389,7 +389,6 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         }
         PageInfo<OrderByUser> orderByUserPageInfo = new PageInfo<>(orderGoods);
         long total = orderByUserPageInfo.getTotal();
-        String statu = OrderStatus.getString((short) (showType * 100 + 1));
 
         for (OrderByUser orderGood : orderGoods) {
             List<OrderGoods> orderGoodsList = wxPersonalMapper.selectOrderGoods(orderGood.getId());
@@ -404,6 +403,11 @@ public class WxPersonalServiceImpl implements WxPersonalService {
             //delete
             boolean delete = orderGood.getDeleted();
             orderGood.getHandleOption().setDelete(delete);
+            //pay
+            orderGood.getHandleOption().setPay(true);
+            if(orderGood.getPayTime()!=null){
+                orderGood.getHandleOption().setPay(false);
+            }
             //cancel
             orderGood.getHandleOption().setCancel(true);
             if (orderGood.getOrderStatus() == 102 || orderGood.getOrderStatus() == 103) {
@@ -426,12 +430,19 @@ public class WxPersonalServiceImpl implements WxPersonalService {
             }
             //rebuy
             orderGood.getHandleOption().setRebuy(false);
-            orderGood.setOrderStatusText(statu);
+            //statu
+            int status = orderGood.getOrderStatus();
+            String string = OrderStatus.getString((short) status);
+            orderGood.setOrderStatusText(string);
         }
         OrderByUserBean orderByUserBean = new OrderByUserBean();
         orderByUserBean.setData(orderGoods);
         orderByUserBean.setCount(total);
-        orderByUserBean.setTotalPages((int) (total / size));
+        int totalPages = (int) (total/size);
+        if(totalPages==0){
+            totalPages=1;
+        }
+        orderByUserBean.setTotalPages(totalPages);
 
         return orderByUserBean;
     }

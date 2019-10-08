@@ -9,7 +9,7 @@ import java.util.List;
 public class OrderByUser {
     String orderStatusText;
     boolean isGroupin;
-    String OrderSn;
+    String orderSn;
     double actualPrice;
     List<OrderGoods> goodsList;
     int id;
@@ -19,7 +19,9 @@ public class OrderByUser {
     boolean deleted;
     int orderStatus;
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    Date confireTime;
+    Date confirmTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    Date payTime;
 
     public String getOrderStatusText() {
         return orderStatusText;
@@ -38,11 +40,11 @@ public class OrderByUser {
     }
 
     public String getOrderSn() {
-        return OrderSn;
+        return orderSn;
     }
 
     public void setOrderSn(String orderSn) {
-        OrderSn = orderSn;
+        this.orderSn = orderSn;
     }
 
     public double getActualPrice() {
@@ -109,12 +111,19 @@ public class OrderByUser {
         this.orderStatus = orderStatus;
     }
 
-    public Date getConfireTime() {
-        return confireTime;
+    public Date getConfirmTime() {
+        return confirmTime;
     }
 
-    public void setConfire_time(Date confireTime) {
-        this.confireTime = confireTime;
+    public void setConfirmTime(Date confirmTime) {
+        this.confirmTime = confirmTime;
     }
 
+    public Date getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Date payTime) {
+        this.payTime = payTime;
+    }
 }
