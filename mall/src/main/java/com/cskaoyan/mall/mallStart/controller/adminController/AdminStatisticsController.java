@@ -17,8 +17,7 @@ public class AdminStatisticsController {
     @RequiresPermissions("admin:stat:order")
     public BaseRespVo statOrder(){
         StatOrderBean statOrderBean = adminStatisticsSevice.statOrder();
-        BaseRespVo ok = BaseRespVo.ok("成功");
-        ok.setData(statOrderBean);
+        BaseRespVo ok = BaseRespVo.ok(statOrderBean);
         return ok;
     }
 

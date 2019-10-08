@@ -31,12 +31,18 @@ public class AdminStatisticsSeviceImpl implements AdminStatisticsSevice{
         });
 
         List<Order> orders = adminMallMapper.selectOrders(new Order());
-        Date payTime = orders.get(0).getPayTime();
-        ordersSet.add(payTime);
+
+        for (Order order : orders) {
+            Date payTime = order.getPayTime();
+            if(payTime!=null) {
+                ordersSet.add(payTime);
+                break;
+            }
+        }
 
         for (Order order : orders) {
             Date payTime1 = order.getPayTime();
-            if(!ordersSet.contains(payTime1)){
+            if(payTime1 != null && !ordersSet.contains(payTime1) ){
                 ordersSet.add(payTime1);
             }
         }
@@ -101,12 +107,19 @@ public class AdminStatisticsSeviceImpl implements AdminStatisticsSevice{
         });
 
         List<Order> orders = adminMallMapper.selectOrders(new Order());
-        Date payTime = orders.get(0).getPayTime();
-        ordersSet.add(payTime);
+
+
+        for (Order order : orders) {
+            Date payTime = order.getPayTime();
+            if(payTime!=null) {
+                ordersSet.add(payTime);
+                break;
+            }
+        }
 
         for (Order order : orders) {
             Date payTime1 = order.getPayTime();
-            if(!ordersSet.contains(payTime1)){
+            if(payTime1!=null&&!ordersSet.contains(payTime1)){
                 ordersSet.add(payTime1);
             }
         }
