@@ -288,9 +288,16 @@ public class WxPersonalController {
         return BaseRespVo.ok(detail);
     }
     //---------------订单-------------------
-    @RequestMapping("wx/order/concel")
-    public BaseRespVo orderConcel(int orderId){
-        wxPersonalService.deleteOrder(orderId);
+    @RequestMapping("wx/order/cancel")
+    public BaseRespVo orderCancel(int orderId){
+        wxPersonalService.orderCancel(orderId);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
+    }
+
+    @RequestMapping("wx/order/delete")
+    public BaseRespVo orderDelete(int orderId){
+        wxPersonalService.rmOrder(orderId);
         BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
 
