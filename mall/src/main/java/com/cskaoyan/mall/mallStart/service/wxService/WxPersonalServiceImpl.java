@@ -353,8 +353,8 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     }
 
     @Override
-    public void deleteOrder(int id) {
-        mallMapper.deleteOrder(id);
+    public void orderCancel(int id) {
+        mallMapper.orderCancel(id);
     }
 
     public GrouponDetail grouponDetail(int grouponId) {
@@ -406,5 +406,11 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     @Override
     public void resetUser(String mobile, String password) {
         userMapper.updateUserPasswordByMoblie(mobile,password);
+    }
+
+    @Override
+    public void rmOrder(int orderId) {
+        mallMapper.rmOrder(orderId);
+        mallMapper.rmOrderGoods(orderId);
     }
 }

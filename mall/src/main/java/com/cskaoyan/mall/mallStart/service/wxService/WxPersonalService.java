@@ -44,7 +44,7 @@ public interface WxPersonalService {
 
     List<Region> selectRegionByPid(int pid);
 
-    void deleteOrder(int id);
+    void orderCancel(int id);
 
     GrouponDetail grouponDetail(int grouponId);
 
@@ -52,4 +52,5 @@ public interface WxPersonalService {
 
     void resetUser(String mobile, String password);
 
+    void rmOrder(int orderId);
 }
