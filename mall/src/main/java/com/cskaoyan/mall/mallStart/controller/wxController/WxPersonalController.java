@@ -149,7 +149,6 @@ public class WxPersonalController {
 
     @RequestMapping("wx/home/index")
     public BaseRespVo homeIndex() {
-        Subject subject = SecurityUtils.getSubject();
         WxIndexInfo wxIndexInfo = wxPersonalService.homeIndex();
         return BaseRespVo.ok(wxIndexInfo);
     }
@@ -258,7 +257,8 @@ public class WxPersonalController {
     //--------------------订单--------------
     @RequestMapping("wx/order/list")
     public BaseRespVo orderList(short showType, int page, int size) {
-       OrderByUserBean orderByUserBean = wxPersonalService.orderList(showType,page,size);
+        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
+        OrderByUserBean orderByUserBean = wxPersonalService.orderList(showType,page,size,userId);
         BaseRespVo ok = BaseRespVo.ok(orderByUserBean);
         return ok;
     }

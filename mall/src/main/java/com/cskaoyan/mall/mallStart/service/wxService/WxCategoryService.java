@@ -25,4 +25,6 @@ public interface WxCategoryService {
     int addGoodsToCart(Integer goodsId, short number, Integer productId, int userId);
 
     int fastaddToCart(Integer goodsId, short number, Integer productId, int userId);
+
+    int queryNumByGoodsProductId(Integer productId);
 }
