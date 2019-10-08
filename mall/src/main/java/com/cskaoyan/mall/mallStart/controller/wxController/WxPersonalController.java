@@ -300,7 +300,13 @@ public class WxPersonalController {
         wxPersonalService.rmOrder(orderId);
         BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
+    }
 
+    @RequestMapping("wx/order/refund")
+    public BaseRespVo orderRefund(int orderId){
+        wxPersonalService.rmOrder(orderId);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
     }
 }
 
