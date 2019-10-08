@@ -151,7 +151,6 @@ public class WxPersonalController {
 
     @RequestMapping("wx/home/index")
     public BaseRespVo homeIndex() {
-        Subject subject = SecurityUtils.getSubject();
         WxIndexInfo wxIndexInfo = wxPersonalService.homeIndex();
         return BaseRespVo.ok(wxIndexInfo);
     }
