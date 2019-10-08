@@ -19,7 +19,10 @@ public interface WxPersonalService {
 
     Map couponMylist(BrandPageInfo pageInfo, Integer status, Integer userId);
 
+    Map collectList(BrandPageInfo pageInfo, Integer type, Integer userId);
+
     Map personalIndex();
+
     Map selectCreateGroupons(int userId);
 
     Map<String, Object> selectJoinedGroupons(int userId);
@@ -38,17 +41,22 @@ public interface WxPersonalService {
 
     public boolean sendMessage(String mobile, String code);
 
-    void addressSave(AddressRegion addressRegion,Integer userId);
+    void addressSave(AddressRegion addressRegion, Integer userId);
 
     void addressDelete(Integer id);
 
     List<Region> selectRegionByPid(int pid);
 
+    int feedbackSubmit(Feedback feedback);
+
+    void deleteOrder(int id);
 
     GrouponDetail grouponDetail(int grouponId);
+
     boolean register(String mobile, String username, String password);
 
     void resetUser(String mobile, String password);
 
     Map<String, Object> orderDetail(int orderId);
+
 }

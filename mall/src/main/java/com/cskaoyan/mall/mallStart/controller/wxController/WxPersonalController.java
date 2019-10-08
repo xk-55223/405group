@@ -1,10 +1,9 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
-import com.cskaoyan.mall.mallStart.bean.CreateGroupon;
-import com.cskaoyan.mall.mallStart.bean.ListBean;
 import com.cskaoyan.mall.mallStart.bean.BrandPageInfo;
 import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
+import com.cskaoyan.mall.mallStart.service.wxService.WxHomeService;
 import com.cskaoyan.mall.mallStart.service.wxService.WxPersonalService;
 import com.cskaoyan.mall.mallStart.bean.*;
 import org.apache.shiro.SecurityUtils;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,28 +33,16 @@ import java.util.Map;
 public class WxPersonalController {
     @Autowired
     WxPersonalService wxPersonalService;
+    @Autowired
+    WxHomeService wxHomeService;
 
-    /*
-
-     @Autowired
-     WxPersonalService wxPersonalService;
- <<<<<<< HEAD
-     @Autowired
-
- =======
-
+    @RequestMapping("wx/user/index")
+    public BaseRespVo personalIndex() {
+        Map order = wxPersonalService.personalIndex();
+        return BaseRespVo.ok(order);
+    }
 
 
-
- >>>>>>> 0b45afcb2d147b821e2b2ed25f1b38a20da19790
- >>>>>>> d9029b2b8dff4562b03387ff2a483da9e36c26fd
-     @RequestMapping("wx/user/index")
-     public BaseRespVo personalIndex() {
-         Map order = wxPersonalService.personalIndex();
-         return BaseRespVo.ok(order);
-     }
- <<<<<<< HEAD
-     */
     @RequestMapping("wx/groupon/my")
     public BaseRespVo myGroupon(int showType) {
         int userId = 1;
@@ -72,10 +60,58 @@ public class WxPersonalController {
     @RequestMapping("wx/coupon/mylist")
     public BaseRespVo<Map> couponMylist(BrandPageInfo pageInfo, Integer status, HttpServletRequest request) {
         Integer userId = (Integer) request.getSession().getAttribute("userId");
-        System.out.println(userId);
         Map resultMap = wxPersonalService.couponMylist(pageInfo, status, userId);
         return BaseRespVo.ok(resultMap);
     }
+
+    /*ljq*/
+    @RequestMapping("wx/collect/list")
+    public BaseRespVo<Map> collectList(BrandPageInfo pageInfo, Integer type, HttpServletRequest request) {
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
+        Map resultMap = wxPersonalService.collectList(pageInfo, type, userId);
+        return BaseRespVo.ok(resultMap);
+    }
+
+    /*ljq*/
+    @RequestMapping("wx/coupon/exchange")
+    public BaseRespVo couponExchange(@RequestBody Map paramCode) {
+        Integer couponId = wxHomeService.couponExchange((String) paramCode.get("code"));
+        System.out.println(couponId);
+        if (couponId == null) {
+            BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
+            baseRespVo.setErrno(742);
+            baseRespVo.setData(null);
+            baseRespVo.setErrmsg("优惠券不正确");
+            return baseRespVo;
+        } else {
+            Subject subject = SecurityUtils.getSubject();
+            Session session = subject.getSession();
+            Integer userId = (Integer) session.getAttribute("userId");
+            String receiveMessage = wxHomeService.couponReceive(userId, couponId);
+            if (receiveMessage == null) {
+                return BaseRespVo.ok(null);
+            } else {
+                return BaseRespVo.fail(receiveMessage);
+            }
+        }
+    }
+
+    /*ljq*/
+    @RequestMapping("wx/feedback/submit")
+    public BaseRespVo feedbackSubmit(@RequestBody Feedback feedback) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        String username = (String) subject.getPrincipal();
+        Integer userId = (Integer) session.getAttribute("userId");
+        feedback.setUserId(userId);
+        feedback.setUsername(username);
+        feedback.setStatus(0);
+        feedback.setAddTime(new Date());
+        feedback.setUpdateTime(new Date());
+        wxPersonalService.feedbackSubmit(feedback);
+        return BaseRespVo.ok(null);
+    }
+
 
     @RequestMapping("wx/auth/login")
     public BaseRespVo authLogin(@RequestBody User user) {
@@ -173,7 +209,6 @@ public class WxPersonalController {
         return BaseRespVo.fail("验证码错误");
     }
 
-
     //-----------------地址管理------------------------
     @RequestMapping("wx/address/list")
     public BaseRespVo addressList() {
@@ -233,8 +268,16 @@ public class WxPersonalController {
     @RequestMapping("wx/order/detail")
     public BaseRespVo orderDetail(int orderId) {
         Map<String, Object> detail = new HashMap<>();
-         detail = wxPersonalService.orderDetail(orderId);
+        detail = wxPersonalService.orderDetail(orderId);
         return BaseRespVo.ok(detail);
+    }
+    //---------------订单-------------------
+    @RequestMapping("wx/order/concel")
+    public BaseRespVo orderConcel(int orderId){
+        wxPersonalService.deleteOrder(orderId);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
+
     }
 }
 

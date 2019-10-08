@@ -1,8 +1,6 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
-import com.cskaoyan.mall.mallStart.bean.Cart;
-import com.cskaoyan.mall.mallStart.bean.CartCheckedBean;
-import com.cskaoyan.mall.mallStart.bean.CartListBean;
+import com.cskaoyan.mall.mallStart.bean.*;
 
 import java.util.List;
 
@@ -15,4 +13,6 @@ public interface WxCartService {
     CartListBean cartDelete(List<Integer> productIds,Integer userId);
     //勾选商品
     CartListBean cartChecked(CartCheckedBean productIds,Integer userId);
+
+    CartCheckoutInfo cartCheckout(Integer userId, CheckoutInfo checkoutInfo);
 }
