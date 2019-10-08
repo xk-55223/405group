@@ -537,4 +537,9 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         map.put("orderInfo",orderInfo);
         return map;
     }
+
+    @Override
+    public void confirm(int id) {
+        wxPersonalMapper.confirm(id);
+    }
 }

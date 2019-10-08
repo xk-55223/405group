@@ -4,6 +4,7 @@ import com.cskaoyan.mall.mallStart.bean.*;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -152,5 +153,14 @@ public interface AdminGoodsMapper {
 
     @Select("select id from cskaoyan_mall_cart where goods_id = #{param1} and number = #{param2} and user_id = #{param3}")
     int selectCartIdByParam(Integer goodsId, Integer number, int userId);
+
+    @Select("select count(id) from cskaoyan_mall_cart where goods_id = #{param1} and product_id = #{param2} and user_id = #{param3}")
+    int isExistGoodsInCart(Integer goodsId, Integer productId, int userId);
+
+    @Update("update cskaoyan_mall_cart set number = number + #{param1} where goods_id = #{param2} and product_id = #{param3} and user_id = #{param4}")
+    void updateGoodsNumInCart(short number, Integer goodsId, Integer productId, int userId);
+
+    @Select("select number from cskaoyan_mall_goods_product where id = #{productId}")
+    int queryNumByProductId(Integer productId);
 }
 

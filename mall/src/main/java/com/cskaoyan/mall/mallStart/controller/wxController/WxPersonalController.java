@@ -12,9 +12,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -292,18 +290,35 @@ public class WxPersonalController {
     }
     //---------------订单-------------------
     @RequestMapping("wx/order/cancel")
-    public BaseRespVo orderCancel(int orderId){
-        wxPersonalService.orderCancel(orderId);
+    public BaseRespVo orderCancel(@RequestBody Map map){
+        int id =(int) map.get("orderId");
+        wxPersonalService.orderCancel(id);
         BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
     }
 
-    @RequestMapping("wx/order/delete")
-    public BaseRespVo orderDelete(int orderId){
-        wxPersonalService.rmOrder(orderId);
+    @PostMapping("wx/order/delete")
+    public BaseRespVo orderDelete(@RequestBody Map map){
+        int id =(int) map.get("orderId");
+        wxPersonalService.rmOrder(id);
         BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
+    }
 
+    @PostMapping("wx/order/refund")
+    public BaseRespVo orderRefund(@RequestBody Map map){
+        int id =(int) map.get("orderId");
+        wxPersonalService.rmOrder(id);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
+    }
+
+    @RequestMapping("wx/order/confirm")
+    public BaseRespVo confirm(@RequestBody Map map){
+        int id =(int) map.get("orderId");
+        wxPersonalService.confirm(id);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
     }
 }
 
