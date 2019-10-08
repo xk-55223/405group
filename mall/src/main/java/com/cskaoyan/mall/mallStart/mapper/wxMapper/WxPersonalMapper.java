@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.cskaoyan.mall.mallStart.bean.Footprint;
+import org.apache.ibatis.annotations.Update;
 
 public interface WxPersonalMapper {
 
@@ -49,4 +50,7 @@ public interface WxPersonalMapper {
 
     @Select("select count(id) from cskaoyan_mall_footprint where user_id = #{id}")
     int getTotalNumById(@Param("id") Serializable id);
+
+    @Update("update cskaoyan_mall_order set order_status = 401 where id = #{id}")
+    void confirm(int id);
 }

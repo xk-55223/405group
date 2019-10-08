@@ -80,19 +80,28 @@ public class WxCategoryController {
        int i = (Integer) map.get("number");
        short number = (short) i;
        Integer productId = (Integer) map.get("productId");
+       int storeNum = service.queryNumByGoodsProductId(productId);
+       if(storeNum - number < 0){
+           return BaseRespVo.fail("库存不够了，换一个吧");
+       }
        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
        int num = service.addGoodsToCart(goodsId,number,productId,userId);
        return BaseRespVo.ok(num);
    }
+
+
    @RequestMapping("wx/cart/fastadd")
     public BaseRespVo fastaddToCart(@RequestBody Map<String,Object> map ){
        Integer goodsId = (Integer) map.get("goodsId");
        int i = (Integer) map.get("number");
        short number = (short) i;
        Integer productId = (Integer) map.get("productId");
+       int storeNum = service.queryNumByGoodsProductId(productId);
+       if(storeNum - number < 0){
+           return BaseRespVo.fail("库存不够了，换一个吧");
+       }
        Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
        int id = service.fastaddToCart(goodsId,number,productId,userId);
        return BaseRespVo.ok(id);
    }
-
 }

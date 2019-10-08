@@ -127,20 +127,28 @@ public class WxCategoryServiceImpl implements WxCategoryService {
     // 重构
     @Override
     public int addGoodsToCart(Integer goodsId, short number, Integer productId, int userId) {
+
+
         Goods goods = goodsMapper.listGoodsById(goodsId);
         GoodsProduct product = goodsMapper.selectGoodsProductById(productId);
-        Cart cart = new Cart();
-        cart.setUserId(userId);
-        cart.setGoodsId(goods.getId());
-        cart.setGoodsSn(goods.getGoodsSn());
-        cart.setGoodsName(goods.getName());
-        cart.setProductId(productId);
-        cart.setPrice(product.getPrice());
-        cart.setNumber(number);
-        cart.setSpecifications(product.getSpecifications());
-        cart.setPicUrl(goods.getPicUrl());
-        userMapper.insertGoodsToCart(cart);
+        int i  = goodsMapper.isExistGoodsInCart(goodsId,productId,userId);
+        if(i != 0){
+            goodsMapper.updateGoodsNumInCart(number,goodsId,productId,userId);
+        }else {
+            Cart cart = new Cart();
+            cart.setUserId(userId);
+            cart.setGoodsId(goods.getId());
+            cart.setGoodsSn(goods.getGoodsSn());
+            cart.setGoodsName(goods.getName());
+            cart.setProductId(productId);
+            cart.setPrice(product.getPrice());
+            cart.setNumber(number);
+            cart.setSpecifications(product.getSpecifications());
+            cart.setPicUrl(goods.getPicUrl());
+            userMapper.insertGoodsToCart(cart);
+        }
         int count = userMapper.countCartGoodsByUserId(userId);
+
         return count;
     }
 
@@ -161,6 +169,12 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         userMapper.insertGoodsToCart(cart);
         Integer i = cart.getId();
         return i;
+    }
+
+    @Override
+    public int queryNumByGoodsProductId(Integer productId) {
+        int num = goodsMapper.queryNumByProductId(productId);
+        return num;
     }
 
 

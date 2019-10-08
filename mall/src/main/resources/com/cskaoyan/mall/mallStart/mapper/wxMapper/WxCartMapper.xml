@@ -96,7 +96,12 @@
     <select id="selectCartCheckout" resultType="com.cskaoyan.mall.mallStart.bean.Cart">
         select price, number
         from cskaoyan_mall_cart
-        where user_id = #{userId} and checked = 1
+        <where>
+            user_id = #{userId} and checked = 1
+            <if test="cartId != null and cartId != 0">
+                and cart_id = #{cartId}
+            </if>
+        </where>
     </select>
 
     <select id="selectGrouponPrice" resultType="java.math.BigDecimal">

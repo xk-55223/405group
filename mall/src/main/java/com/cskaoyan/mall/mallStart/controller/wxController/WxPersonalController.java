@@ -12,9 +12,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -151,7 +149,6 @@ public class WxPersonalController {
 
     @RequestMapping("wx/home/index")
     public BaseRespVo homeIndex() {
-        Subject subject = SecurityUtils.getSubject();
         WxIndexInfo wxIndexInfo = wxPersonalService.homeIndex();
         return BaseRespVo.ok(wxIndexInfo);
     }
@@ -172,7 +169,8 @@ public class WxPersonalController {
 
     @RequestMapping("wx/auth/register")
     public BaseRespVo register(@RequestBody Map map) {
-        Session session = SecurityUtils.getSubject().getSession();
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
         Serializable token = session.getId();
         String codeFromSession = (String) session.getAttribute("code");
         String code = (String) map.get("code");
@@ -190,6 +188,8 @@ public class WxPersonalController {
             userInfo.setAvatarUrl("");
             userInfo.setNickName(username);
             userLoginInfo.setUserInfo(userInfo);
+            Integer userId = wxPersonalService.selectUserIdByUserName(username);
+            session.setAttribute("userId",userId);
             return BaseRespVo.ok(userLoginInfo);
         }
         return BaseRespVo.fail("该用户名已存在");
@@ -290,18 +290,35 @@ public class WxPersonalController {
     }
     //---------------订单-------------------
     @RequestMapping("wx/order/cancel")
-    public BaseRespVo orderCancel(int orderId){
-        wxPersonalService.orderCancel(orderId);
+    public BaseRespVo orderCancel(@RequestBody Map map){
+        int id =(int) map.get("orderId");
+        wxPersonalService.orderCancel(id);
         BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
     }
 
-    @RequestMapping("wx/order/delete")
-    public BaseRespVo orderDelete(int orderId){
-        wxPersonalService.rmOrder(orderId);
+    @PostMapping("wx/order/delete")
+    public BaseRespVo orderDelete(@RequestBody Map map){
+        int id =(int) map.get("orderId");
+        wxPersonalService.rmOrder(id);
         BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
+    }
 
+    @PostMapping("wx/order/refund")
+    public BaseRespVo orderRefund(@RequestBody Map map){
+        int id =(int) map.get("orderId");
+        wxPersonalService.rmOrder(id);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
+    }
+
+    @RequestMapping("wx/order/confirm")
+    public BaseRespVo confirm(@RequestBody Map map){
+        int id =(int) map.get("orderId");
+        wxPersonalService.confirm(id);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
     }
 }
 

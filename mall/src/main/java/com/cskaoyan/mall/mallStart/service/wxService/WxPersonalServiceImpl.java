@@ -10,25 +10,22 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.cskaoyan.mall.mallStart.bean.BrandPageInfo;
 import com.cskaoyan.mall.mallStart.bean.MyCoupon;
-import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.config.AliyunConfig;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGeneralizeMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminMallMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
+import com.cskaoyan.mall.mallStart.tool.BeansManager;
 import com.cskaoyan.mall.mallStart.tool.OrderStatus;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxBrandMapper;
 import com.cskaoyan.mall.mallStart.bean.Address;
 import com.cskaoyan.mall.mallStart.bean.AddressRegion;
 import com.cskaoyan.mall.mallStart.bean.Region;
-import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxPersonalMapper;
 import com.github.pagehelper.PageHelper;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.dialect.helper.HsqldbDialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonParseException;
 import org.springframework.stereotype.Service;
@@ -42,8 +39,6 @@ import java.util.Date;
 import java.io.Serializable;
 import java.rmi.ServerException;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,13 +81,15 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     @Override
     public WxIndexInfo homeIndex() {
         List<Category> categories = mallMapper.selectCategorys();
+        PageHelper.startPage(0,4);
         List<Brand> brands = mallMapper.selectBrands(null);
+        PageHelper.startPage(0,4);
+        List<Category> floorGoodsList = mallMapper.selectCategorys();
         List<Coupon> allCoupons = generalizeMapper.getAllCoupons(null, null, null);
         List<Ad> allAds = generalizeMapper.getAllAds(null, null);
         List<Goods> hotGoods = goodsMapper.selectHotGoods(true);
         List<Goods> newGoods = goodsMapper.selectNewGoods(true);
         List<GrouponInfo> grouponInfos = generalizeMapper.getGrouponInfo();
-        List<Category> floorGoodsList = mallMapper.selectCategorys();
         List<Topic> allTopic = generalizeMapper.getAllTopic(null, null);
         WxIndexInfo wxIndexInfo = new WxIndexInfo();
         wxIndexInfo.setHotGoods(hotGoods);
@@ -539,5 +536,10 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         map.put("orderGoods",orderGoods);
         map.put("orderInfo",orderInfo);
         return map;
+    }
+
+    @Override
+    public void confirm(int id) {
+        wxPersonalMapper.confirm(id);
     }
 }

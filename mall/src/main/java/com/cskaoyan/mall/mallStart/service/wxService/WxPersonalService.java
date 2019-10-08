@@ -63,4 +63,5 @@ public interface WxPersonalService {
 
     Map<String, Object> orderDetail(int orderId);
 
+    void confirm(int id);
 }
