@@ -1,17 +1,29 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
 import com.cskaoyan.mall.mallStart.bean.*;
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminGoodsMapper;
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminUserMapper;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxCartMapper;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 @Service
 public class WxCartServiceImpl implements WxCartService{
     @Autowired
     WxCartMapper wxCartMapper;
+
+    @Autowired
+    AdminGoodsMapper goodsMapper;
+
+    @Autowired
+    AdminUserMapper userMapper;
 
     @Override
     public CartListBean cartList(Integer id) {
@@ -66,7 +78,82 @@ public class WxCartServiceImpl implements WxCartService{
 
     @Override
     public CartCheckoutInfo cartCheckout(Integer userId, CheckoutInfo checkoutInfo) {
+        CartCheckoutInfo cartCheckoutInfo = new CartCheckoutInfo();
+        Address address = wxCartMapper.selectAddressById(checkoutInfo.getAddressId());
+        cartCheckoutInfo.setAddressId(checkoutInfo.getAddressId());
+        cartCheckoutInfo.setCheckedAddress(address);
+        List<Cart> cart = wxCartMapper.selectCartCheckout(userId);
+        double goodsTotalPrice = 0.0;
+        for (Cart cartMessage : cart) {
+            goodsTotalPrice += cartMessage.getNumber().intValue() * cartMessage.getPrice().doubleValue();
+        }
+        cartCheckoutInfo.setGoodsTotalPrice(BigDecimal.valueOf(goodsTotalPrice));
+        List<CheckGoodsList> checkGoodsLists = wxCartMapper.selectCheckedGoodsLists(userId);
+        cartCheckoutInfo.setCheckedGoodsList(checkGoodsLists);
+        cartCheckoutInfo.setCouponId(checkoutInfo.getCouponId());
+        int count = wxCartMapper.selectAvailableCouponLength(userId,goodsTotalPrice);
+        cartCheckoutInfo.setAvailableCouponLength(count);
+        BigDecimal couponPrice = wxCartMapper.selectCouponPrice(checkoutInfo.getCouponId(),userId);
+        if (couponPrice == null) {
+            couponPrice = BigDecimal.valueOf(0);
+        }
+        cartCheckoutInfo.setCouponPrice(couponPrice);
+        cartCheckoutInfo.setGrouponRulesId(checkoutInfo.getGrouponRulesId());
+        BigDecimal discount = wxCartMapper.selectGrouponPrice(checkoutInfo.getGrouponRulesId());
+        if (discount == null) {
+            discount = BigDecimal.valueOf(0);
+        }
+        cartCheckoutInfo.setGrouponPrice(discount);
+        int freightPrice = 0;
+        cartCheckoutInfo.setFreightPrice(freightPrice);
+        BigDecimal orderTotalPrice = BigDecimal.valueOf(goodsTotalPrice - couponPrice.doubleValue());
+        cartCheckoutInfo.setOrderTotalPrice(orderTotalPrice);
+        cartCheckoutInfo.setActualPrice(orderTotalPrice);
+        return cartCheckoutInfo;
+    }
 
-        return null;
+    public List<Coupon> couponSelectList(Integer userId) {
+        List<Coupon> coupons = wxCartMapper.selectCouponListByUserId(userId);
+        return coupons;
+    }
+
+    public int orderSubmit(OrderSubmitInfo submitInfo, Integer userId) {
+        Address address = wxCartMapper.selectAddressById(submitInfo.getAddressId());
+        Cart cart = wxCartMapper.selectCartInfoByCartId(submitInfo.getCartId());
+        BigDecimal couponPrice = wxCartMapper.selectCouponPrice(submitInfo.getCouponId(),userId);
+        if (couponPrice == null) {
+            couponPrice = BigDecimal.valueOf(0);
+        }
+        BigDecimal discount = wxCartMapper.selectGrouponPrice(submitInfo.getGrouponRulesId());
+        if (discount == null) {
+            discount = BigDecimal.valueOf(0);
+        }
+        // 添加一个订单， 订单状态为未付款
+        Order order = new Order();
+        order.setOrderStatus((short) 101);
+        order.setUserId(userId);
+        order.setOrderSn("201910810235321");
+        User user = userMapper.selectUserInfoByUserId(userId);
+        order.setConsignee(user.getNickname());
+        order.setMobile(user.getMobile());
+        order.setAddress(address.getAddress());
+        order.setMessage(submitInfo.getMessage());
+        BigDecimal goodsPrice = cart.getPrice();
+        order.setGoodsPrice(goodsPrice);
+        order.setFreightPrice(BigDecimal.valueOf(0));
+        order.setCouponPrice(couponPrice);
+        BigDecimal integralPrice = BigDecimal.valueOf(0);
+        order.setIntegralPrice(integralPrice);
+        order.setGrouponPrice(discount);
+        BigDecimal orderTotalPrice = BigDecimal.valueOf(goodsPrice.doubleValue() - couponPrice.doubleValue());
+        order.setOrderPrice(orderTotalPrice);
+        order.setActualPrice(BigDecimal.valueOf(orderTotalPrice.doubleValue() - integralPrice.doubleValue()));
+        order.setPayId("1");
+        order.setPayTime(new Date());
+        order.setShipSn("");
+        wxCartMapper.insertOrder(order);
+        // 添加订单的商品信息
+
+        return order.getId();
     }
 }

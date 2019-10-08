@@ -2,36 +2,23 @@ package com.cskaoyan.mall.mallStart.bean;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Cart {
-    private Integer id;
-
-    private Integer userId;
-
-    private Integer goodsId;
-
-    private String goodsSn;
-
-    private String goodsName;
-
-    private Integer productId;
-
+    private Integer    id;
+    private Integer    userId;
+    private Integer    goodsId;
+    private String     goodsSn;
+    private String     goodsName;
+    private Integer    productId;
     private BigDecimal price;
-
-    private Short number;
-
-    private String specifications;
-
-    private Boolean checked;
-
-    private String picUrl;
-
-    private Date addTime;
-
-    private Date updateTime;
-
-    private Boolean deleted;
-
+    private Short      number;
+    private String[]   specifications;
+    private Boolean    checked;
+    private String     picUrl;
+    private Date       addTime;
+    private Date       updateTime;
+    private Boolean    deleted;
     public Integer getId() {
         return id;
     }
@@ -96,12 +83,12 @@ public class Cart {
         this.number = number;
     }
 
-    public String getSpecifications() {
+    public String[] getSpecifications() {
         return specifications;
     }
 
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications == null ? null : specifications.trim();
+    public void setSpecifications(String[] specifications) {
+        this.specifications = specifications;
     }
 
     public Boolean getChecked() {

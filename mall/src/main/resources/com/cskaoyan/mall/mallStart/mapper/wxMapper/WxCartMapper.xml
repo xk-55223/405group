@@ -34,4 +34,154 @@
     <update id="changeIdchecked">
         update cskaoyan_mall_cart set checked = #{isChecked} where product_id = #{productId}
     </update>
+
+    <select id="selectCheckedGoodsLists" resultType="com.cskaoyan.mall.mallStart.bean.CheckGoodsList">
+        select
+          c.add_time      as addTime
+        , c.checked
+        , g.deleted
+        , c.goods_id      as goodsId
+        , g.`name`        as goodsName
+        , c.goods_sn      as goodsSn
+        , c.id
+        , c.number
+        , c.pic_url       as picUrl
+        , c.price
+        , c.product_id    as productId
+        , c.specifications
+        , c.update_time   as updateTime
+        , c.user_id       as userId
+        from cskaoyan_mall_cart c
+        LEFT JOIN cskaoyan_mall_goods g
+        on c.goods_id = g.id
+        where user_id = #{userId}
+        and checked = 1
+    </select>
+
+    <select id="selectAvailableCouponLength" resultType="int">
+        select count(cu.id)
+        from cskaoyan_mall_coupon_user cu
+        LEFT JOIN cskaoyan_mall_coupon c
+        on cu.coupon_id = c.id
+        where cu.user_id = #{userId}
+        and c.min &lt;= #{totalPrice}
+    </select>
+
+    <select id="selectCouponPrice" resultType="java.math.BigDecimal">
+        select c.discount as price
+        from cskaoyan_mall_coupon_user cu
+        LEFT JOIN cskaoyan_mall_coupon c
+        on cu.coupon_id = c.id
+        where cu.user_id = #{userId}
+        and cu.coupon_id = #{couponId}
+    </select>
+
+    <select id="selectAddressById" resultType="com.cskaoyan.mall.mallStart.bean.Address">
+        select add_time as addTime
+        , address
+        , area_id as areaId
+        , city_id as cityId
+        , deleted
+        , id
+        , is_default
+        , mobile
+        , `name`
+        , province_id as provinceId
+        , update_time as updateTime
+        , user_id as userId
+        from cskaoyan_mall_address
+        where id = #{addressId}
+    </select>
+
+    <select id="selectCartCheckout" resultType="com.cskaoyan.mall.mallStart.bean.Cart">
+        select price, number
+        from cskaoyan_mall_cart
+        where user_id = #{userId} and checked = 1
+    </select>
+
+    <select id="selectGrouponPrice" resultType="java.math.BigDecimal">
+        select discount from cskaoyan_mall_groupon_rules
+        where id = #{grouponId}
+    </select>
+
+    <select id="selectCouponListByUserId" resultType="com.cskaoyan.mall.mallStart.bean.Coupon">
+        select
+        c.`desc`
+        , c.discount
+        , c.end_time
+        , c.id
+        , c.min
+        , c.`name`
+        , c.start_time
+        , c.tag
+        from cskaoyan_mall_coupon_user cu
+        LEFT JOIN cskaoyan_mall_coupon c
+        on cu.coupon_id = c.id
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertOrder">
+        <selectKey resultType="int" order="AFTER" keyProperty="id" keyColumn="id">
+            select last_insert_Id() as id
+        </selectKey>
+        insert into cskaoyan_mall_order
+        (
+        user_id
+        ,order_sn
+        ,order_status
+        ,consignee
+        ,mobile
+        ,address
+        ,message
+        ,goods_price
+        ,freight_price
+        ,coupon_price
+        ,integral_price
+        ,groupon_price
+        ,order_price
+        ,actual_price
+        ,pay_id
+        ,pay_time
+        ,ship_sn
+        )
+        values
+        (   #{order.userId}
+		 ,#{order.orderSn}
+		 ,#{order.orderStatus}
+		 ,#{order.consignee}
+		 ,#{order.mobile}
+		 ,#{order.address}
+		 ,#{order.message}
+		 ,#{order.goodsPrice}
+		 ,#{order.freightPrice}
+		 ,#{order.couponPrice}
+		 ,#{order.integralPrice}
+		 ,#{order.grouponPrice}
+		 ,#{order.orderPrice}
+		 ,#{order.actualPrice}
+		 ,#{order.payId}
+		 ,#{order.payTime}
+		 ,#{order.shipSn}
+        )
+    </insert>
+
+    <select id="selectCartInfoByCartId" resultType="com.cskaoyan.mall.mallStart.bean.Cart">
+        select
+         id
+        ,user_id     as userId
+        ,goods_id    as goodsId
+        ,goods_sn    as goodsSn
+        ,goods_name  as goodsName
+        ,product_id  as productId
+        ,price
+        ,number
+        ,specifications
+        ,checked
+        ,pic_url     as picUrl
+        ,add_time    as addTime
+        ,update_time as updateTime
+        ,deleted
+        from cskaoyan_mall_cart
+        where id = #{cartId}
+    </select>
 </mapper>
