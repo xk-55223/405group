@@ -44,9 +44,11 @@
         id,name,address,mobile,is_default
     </sql>
     <select id="selectAddresses" resultMap="address_list">
+
         select
         <include refid="addressManager"/>
         from cskaoyan_mall_address where user_id = #{userId}
+
     </select>
 
     <resultMap id="addressRegion_list" type="com.cskaoyan.mall.mallStart.bean.AddressRegion">
@@ -124,8 +126,21 @@
         #{address.isDefault},#{address.addTime},#{address.updateTime})
     </insert>
 
+
+    <select id="orderByUserList" resultType="com.cskaoyan.mall.mallStart.bean.OrderByUser">
+        select id,order_sn as orderSn,actual_price as actualPrice,groupon_price as grouponPrice,comments,order_status as orderStatus,deleted,confirm_time as confirmTime from cskaoyan_mall_order
+    </select>
+    <select id="selectOrderGoods" resultType="com.cskaoyan.mall.mallStart.bean.OrderGoods">
+        select id,number,pic_url as picUrl,goods_name as goodsName from cskaoyan_mall_order_goods where goods_id = #{orderId}
+    </select>
+    <select id="orderByUserListShowType" resultType="com.cskaoyan.mall.mallStart.bean.OrderByUser">
+        select id,order_sn as orderSn,actual_price as actualPrice,groupon_price as grouponPrice,comments,order_status as orderStatus,deleted,confirm_time as confirmTime from cskaoyan_mall_order
+        where order_status = #{showType}
+    </select>
+
     <insert id="insertFeedback">
         insert into cskaoyan_mall_feedback (user_id,username,mobile,feed_type,content,status,has_picture,pic_urls,add_time,update_time)
         value (#{feedback.userId},#{feedback.username},#{feedback.mobile},#{feedback.feedType},#{feedback.content},#{feedback.status},#{feedback.hasPicture},#{feedback.picUrls},#{feedback.addTime},#{feedback.updateTime})
     </insert>
+
 </mapper>

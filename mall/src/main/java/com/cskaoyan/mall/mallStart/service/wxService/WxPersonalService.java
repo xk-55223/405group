@@ -47,9 +47,11 @@ public interface WxPersonalService {
 
     List<Region> selectRegionByPid(int pid);
 
-    void orderCancel(int id);
+    OrderByUserBean orderList(int showType, int page, int size);
 
     int feedbackSubmit(Feedback feedback);
+
+    void orderCancel(int id);
 
     GrouponDetail grouponDetail(int grouponId);
 

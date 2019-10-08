@@ -9,7 +9,7 @@ public class HandleOption {
     private boolean rebuy;
     private boolean refund;
 
-    public boolean isCancel() {
+    public boolean getCancel() {
         return cancel;
     }
 
@@ -17,7 +17,7 @@ public class HandleOption {
         this.cancel = cancel;
     }
 
-    public boolean isComment() {
+    public boolean getComment() {
         return comment;
     }
 
@@ -25,7 +25,7 @@ public class HandleOption {
         this.comment = comment;
     }
 
-    public boolean isConfirm() {
+    public boolean getConfirm() {
         return confirm;
     }
 
@@ -33,7 +33,7 @@ public class HandleOption {
         this.confirm = confirm;
     }
 
-    public boolean isDelete() {
+    public boolean getDelete() {
         return delete;
     }
 
@@ -41,7 +41,7 @@ public class HandleOption {
         this.delete = delete;
     }
 
-    public boolean isPay() {
+    public boolean getPay() {
         return pay;
     }
 
@@ -49,7 +49,7 @@ public class HandleOption {
         this.pay = pay;
     }
 
-    public boolean isRebuy() {
+    public boolean getRebuy() {
         return rebuy;
     }
 
@@ -57,11 +57,14 @@ public class HandleOption {
         this.rebuy = rebuy;
     }
 
-    public boolean isRefund() {
+    public boolean getRefund() {
         return refund;
     }
 
     public void setRefund(boolean refund) {
         this.refund = refund;
+    }
+
+    public HandleOption() {
     }
 }
