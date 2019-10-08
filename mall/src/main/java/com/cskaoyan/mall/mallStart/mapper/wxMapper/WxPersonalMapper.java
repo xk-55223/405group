@@ -1,9 +1,6 @@
 package com.cskaoyan.mall.mallStart.mapper.wxMapper;
 
-import com.cskaoyan.mall.mallStart.bean.MyCoupon;
-import com.cskaoyan.mall.mallStart.bean.Address;
-import com.cskaoyan.mall.mallStart.bean.AddressRegion;
-import com.cskaoyan.mall.mallStart.bean.Region;
+import com.cskaoyan.mall.mallStart.bean.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -32,4 +29,10 @@ public interface WxPersonalMapper {
     List<Region> selectRegionByPid(@Param("pid") int pid);
 
     void insertAddress(@Param("address") AddressRegion addressRegion,@Param("userId") Integer userId);
+
+    List<OrderByUser> orderByUserList(@Param("showType") int showType);
+
+    List<OrderGoods> selectOrderGoods(@Param("orderId") int id);
+
+    List<OrderByUser> orderByUserListShowType(@Param("showType") int showType);
 }

@@ -30,9 +30,6 @@
         id,name,address,mobile,is_default
     </sql>
     <select id="selectAddresses" resultMap="address_list">
-        select
-        <include refid="addressManager"/>
-        from cskaoyan_mall_address
         select <include refid="addressManager"/> from cskaoyan_mall_address where user_id = #{userId}
     </select>
 
@@ -96,4 +93,15 @@
         values (#{address.name},#{userId},#{address.provinceId},#{address.cityId},#{address.areaId},#{address.address},#{address.mobile},
         #{address.isDefault},#{address.addTime},#{address.updateTime})
     </insert>
+
+    <select id="orderByUserList" resultType="com.cskaoyan.mall.mallStart.bean.OrderByUser">
+        select id,order_sn as orderSn,actual_price as actualPrice,groupon_price as grouponPrice,comments,order_status as orderStatus,deleted,confirm_time as confirmTime from cskaoyan_mall_order
+    </select>
+    <select id="selectOrderGoods" resultType="com.cskaoyan.mall.mallStart.bean.OrderGoods">
+        select id,number,pic_url as picUrl,goods_name as goodsName from cskaoyan_mall_order_goods where goods_id = #{orderId}
+    </select>
+    <select id="orderByUserListShowType" resultType="com.cskaoyan.mall.mallStart.bean.OrderByUser">
+        select id,order_sn as orderSn,actual_price as actualPrice,groupon_price as grouponPrice,comments,order_status as orderStatus,deleted,confirm_time as confirmTime from cskaoyan_mall_order
+        where order_status = #{showType}
+    </select>
 </mapper>

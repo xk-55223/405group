@@ -67,7 +67,6 @@ public class Order {
 
     private Boolean deleted;
 
-
     public List<Short> getOrderStatusArray() {
         return orderStatusArray;
     }
