@@ -1,8 +1,6 @@
 package com.cskaoyan.mall.mallStart.controller.wxController;
 
 import com.cskaoyan.mall.mallStart.bean.BaseRespVo;
-import com.cskaoyan.mall.mallStart.bean.CreateGroupon;
-import com.cskaoyan.mall.mallStart.bean.ListBean;
 import com.cskaoyan.mall.mallStart.bean.BrandPageInfo;
 import com.cskaoyan.mall.mallStart.bean.WxIndexInfo;
 import com.cskaoyan.mall.mallStart.service.wxService.WxHomeService;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.Date;
@@ -33,17 +32,18 @@ import java.util.Map;
  **/
 @RestController
 public class WxPersonalController {
+
     @Autowired
     WxPersonalService wxPersonalService;
     @Autowired
     WxHomeService wxHomeService;
+
 
     @RequestMapping("wx/user/index")
     public BaseRespVo personalIndex() {
         Map order = wxPersonalService.personalIndex();
         return BaseRespVo.ok(order);
     }
-
 
     @RequestMapping("wx/groupon/my")
     public BaseRespVo myGroupon(int showType) {
@@ -62,9 +62,13 @@ public class WxPersonalController {
     @RequestMapping("wx/coupon/mylist")
     public BaseRespVo<Map> couponMylist(BrandPageInfo pageInfo, Integer status, HttpServletRequest request) {
         Integer userId = (Integer) request.getSession().getAttribute("userId");
+
+        System.out.println(userId);
+
         Map resultMap = wxPersonalService.couponMylist(pageInfo, status, userId);
         return BaseRespVo.ok(resultMap);
     }
+
 
     /*ljq*/
     @RequestMapping("wx/collect/list")
@@ -196,6 +200,7 @@ public class WxPersonalController {
         return BaseRespVo.fail("系统内部错误");
     }
 
+
     @RequestMapping("wx/auth/reset")
     public BaseRespVo authReset(@RequestBody Map map) {
         String code = (String) map.get("code");
@@ -251,6 +256,15 @@ public class WxPersonalController {
         return ok;
     }
 
+
+    //--------------------订单--------------
+    @RequestMapping("wx/order/list")
+    public BaseRespVo orderList(short showType, int page, int size) {
+       OrderByUserBean orderByUserBean = wxPersonalService.orderList(showType,page,size);
+        BaseRespVo ok = BaseRespVo.ok(orderByUserBean);
+        return ok;
+    }
+
     @RequestMapping("wx/groupon/detail")
     public BaseRespVo grouponDetail(int grouponId) {
         GrouponDetail detail = wxPersonalService.grouponDetail(grouponId);
@@ -267,12 +281,26 @@ public class WxPersonalController {
         return ok;
     }
 
+    @RequestMapping("wx/order/detail")
+    public BaseRespVo orderDetail(int orderId) {
+        Map<String, Object> detail = new HashMap<>();
+        detail = wxPersonalService.orderDetail(orderId);
+        return BaseRespVo.ok(detail);
+    }
     //---------------订单-------------------
-    @RequestMapping("wx/order/concel")
-    public BaseRespVo orderConcel(int orderId){
-        wxPersonalService.deleteOrder(orderId);
+    @RequestMapping("wx/order/cancel")
+    public BaseRespVo orderCancel(int orderId){
+        wxPersonalService.orderCancel(orderId);
         BaseRespVo ok = BaseRespVo.ok(null);
         return ok;
+    }
+
+    @RequestMapping("wx/order/delete")
+    public BaseRespVo orderDelete(int orderId){
+        wxPersonalService.rmOrder(orderId);
+        BaseRespVo ok = BaseRespVo.ok(null);
+        return ok;
+
     }
 }
 

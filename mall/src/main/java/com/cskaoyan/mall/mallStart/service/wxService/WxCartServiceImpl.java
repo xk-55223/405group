@@ -1,9 +1,6 @@
 package com.cskaoyan.mall.mallStart.service.wxService;
 
-import com.cskaoyan.mall.mallStart.bean.Cart;
-import com.cskaoyan.mall.mallStart.bean.CartCheckedBean;
-import com.cskaoyan.mall.mallStart.bean.CartListBean;
-import com.cskaoyan.mall.mallStart.bean.CartTotal;
+import com.cskaoyan.mall.mallStart.bean.*;
 import com.cskaoyan.mall.mallStart.mapper.wxMapper.WxCartMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,5 +62,11 @@ public class WxCartServiceImpl implements WxCartService{
         }
 
         return cartList(userId);
+    }
+
+    @Override
+    public CartCheckoutInfo cartCheckout(Integer userId, CheckoutInfo checkoutInfo) {
+
+        return null;
     }
 }

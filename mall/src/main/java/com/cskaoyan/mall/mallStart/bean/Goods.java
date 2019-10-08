@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Goods {
     private Integer id;
@@ -21,33 +22,6 @@ public class Goods {
     private String keywords;
 
     private String brief;
-
-    @Override
-    public String toString() {
-        return "Goods{" +
-                "id=" + id +
-                ", goodsSn='" + goodsSn + '\'' +
-                ", name='" + name + '\'' +
-                ", categoryId=" + categoryId +
-                ", brandId=" + brandId +
-                ", gallery='" + gallery + '\'' +
-                ", keywords='" + keywords + '\'' +
-                ", brief='" + brief + '\'' +
-                ", isOnSale=" + isOnSale +
-                ", sortOrder=" + sortOrder +
-                ", picUrl='" + picUrl + '\'' +
-                ", shareUrl='" + shareUrl + '\'' +
-                ", isNew=" + isNew +
-                ", isHot=" + isHot +
-                ", unit='" + unit + '\'' +
-                ", counterPrice=" + counterPrice +
-                ", retailPrice=" + retailPrice +
-                ", addTime=" + addTime +
-                ", updateTime=" + updateTime +
-                ", deleted=" + deleted +
-                ", detail='" + detail + '\'' +
-                '}';
-    }
 
     private Boolean isOnSale;
 
@@ -75,6 +49,40 @@ public class Goods {
     private Boolean deleted;
 
     private String detail;
+
+    private List<String> specifications;
+
+    public Boolean getOnSale() {
+        return isOnSale;
+    }
+
+    public void setOnSale(Boolean onSale) {
+        isOnSale = onSale;
+    }
+
+    public Boolean getNew() {
+        return isNew;
+    }
+
+    public void setNew(Boolean aNew) {
+        isNew = aNew;
+    }
+
+    public Boolean getHot() {
+        return isHot;
+    }
+
+    public void setHot(Boolean hot) {
+        isHot = hot;
+    }
+
+    public List<String> getSpecifications() {
+        return specifications;
+    }
+
+    public void setSpecifications(List<String> specifications) {
+        this.specifications = specifications;
+    }
 
     public Integer getId() {
         return id;
@@ -244,5 +252,30 @@ public class Goods {
         return picUrl;
     }
 
-
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "id=" + id +
+                ", goodsSn='" + goodsSn + '\'' +
+                ", name='" + name + '\'' +
+                ", categoryId=" + categoryId +
+                ", brandId=" + brandId +
+                ", gallery='" + gallery + '\'' +
+                ", keywords='" + keywords + '\'' +
+                ", brief='" + brief + '\'' +
+                ", isOnSale=" + isOnSale +
+                ", sortOrder=" + sortOrder +
+                ", picUrl='" + picUrl + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", isNew=" + isNew +
+                ", isHot=" + isHot +
+                ", unit='" + unit + '\'' +
+                ", counterPrice=" + counterPrice +
+                ", retailPrice=" + retailPrice +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
+                ", detail='" + detail + '\'' +
+                '}';
+    }
 }

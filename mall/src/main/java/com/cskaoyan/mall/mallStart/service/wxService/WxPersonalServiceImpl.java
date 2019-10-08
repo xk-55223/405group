@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.dialect.helper.HsqldbDialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonParseException;
 import org.springframework.stereotype.Service;
@@ -124,16 +125,16 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         for (int status : statuses) {
             switch (status / 100) {
                 case 1:
-                    unrecvNo++;
-                    break;
+                    unpaidNo++;
+                break;
                 case 2:
-                    uncommentNo++;
+                    unshipNo++;
                     break;
                 case 3:
-                    unpaidNo++;
+                    unrecvNo++;
                     break;
                 case 4:
-                    unshipNo++;
+                    uncommentNo++;
             }
         }
         order.put("unrecv", unrecvNo);
@@ -148,19 +149,19 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     public Map selectCreateGroupons(int userId) {
         Map<Object, Object> map = new HashMap<>();
         int count = generalizeMapper.countGrouponByCreatorId(userId);
-        if(count == 0){
+        if (count == 0) {
             List<Object> data = new ArrayList<>();
             CreateGroupon createGroupon = new CreateGroupon();
             data.add(createGroupon);
-            map.put("count",0);
-            map.put("data",data);
+            map.put("count", 0);
+            map.put("data", data);
             return map;
         }
-        map.put("count",count);
+        map.put("count", count);
         //根据userId查找groupons，遍历数组，逐个封装为CreateGroupon,最后返回List
         List<CreateGroupon> data = new ArrayList<>();
         List<Groupon> groupons = generalizeMapper.queryAllGrouponsByCreator(userId);
-        for(Groupon groupon:groupons){
+        for (Groupon groupon : groupons) {
             CreateGroupon createGroupon = new CreateGroupon();
             String creator = userMapper.getUserNicknameById(userId);
             GrouponRules rules = generalizeMapper.getGrouponRulesById(groupon.getRulesId());
@@ -187,7 +188,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
 
             data.add(createGroupon);
         }
-        map.put("data",data);
+        map.put("data", data);
         return map;
     }
 
@@ -219,6 +220,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
             String orderStatusText = OrderStatus.getString(orderStatus);
             int joinerCount = generalizeMapper.selectUsersByGrouponRulesId(groupon.getRulesId());
             List<OrderGoods> goodsList = mallMapper.selectOrderGoods(order.getId());
+
             createGroupon.setActualPrice(actualPrice);
             createGroupon.setCreator(creator);
             createGroupon.setGoodsList(goodsList);
@@ -237,6 +239,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         map.put("data", data);
         return map;
     }
+
     @Override
     public boolean sendMessage(String mobile, String code) {
         String accessKeyId = aliyunConfig.getAccessKeyId();
@@ -258,7 +261,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         request.putQueryParameter("PhoneNumbers", mobile);
         request.putQueryParameter("SignName", signName);
         request.putQueryParameter("TemplateCode", templateCode);
-        request.putQueryParameter("TemplateParam", "{\"code\":\""+code+"\"}");
+        request.putQueryParameter("TemplateParam", "{\"code\":\"" + code + "\"}");
         try {
             CommonResponse response = client.getCommonResponse(request);
             System.out.println(response.getData());
@@ -291,6 +294,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("data", myCoupons);
         resultMap.put("count", total);
+
         return resultMap;
     }
 
@@ -325,12 +329,15 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     @Override
     public Map footprintList(int page, int size, Serializable id) {
         Map result = new HashMap();
-        Map goodDetail = new HashMap();
         List footprintList = new ArrayList();
         PageHelper.startPage(page, size);
         List<Footprint> footprints = wxPersonalMapper.selectfootprintDetail(id);
+        if(footprints == null){
+            return null;
+        }
         int totalpages = wxPersonalMapper.getTotalNumById(id);
         for (Footprint footprint : footprints) {
+            Map goodDetail = new HashMap();
             goodDetail.put("addTime", footprint.getAddTime());
             goodDetail.put("id", footprint.getId());
             goodDetail.put("goodsId", footprint.getGoodsId());
@@ -347,7 +354,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         result.put("totalPages", totalpages);
         return result;
     }
-
+    @Override
     public void addressSave(AddressRegion addressRegion,Integer userId) {
         Date date = new Date();
         addressRegion.setUpdateTime(date);
@@ -371,30 +378,96 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     }
 
     @Override
+    public OrderByUserBean orderList(int showType, int page, int size) {
+        PageHelper.startPage(page, size);
+        List<OrderByUser> orderGoods = new ArrayList<>();
+        if (showType == 0) {
+            orderGoods = wxPersonalMapper.orderByUserList(showType);
+        } else {
+            int showType1 = showType * 100 + 1;
+            orderGoods = wxPersonalMapper.orderByUserListShowType(showType1);
+        }
+        PageInfo<OrderByUser> orderByUserPageInfo = new PageInfo<>(orderGoods);
+        long total = orderByUserPageInfo.getTotal();
+        String statu = OrderStatus.getString((short) (showType * 100 + 1));
+
+        for (OrderByUser orderGood : orderGoods) {
+            List<OrderGoods> orderGoodsList = wxPersonalMapper.selectOrderGoods(orderGood.getId());
+            orderGood.setGoodsList(orderGoodsList);
+            //isGroupin
+            orderGood.setIsGroupin(false);
+            if (orderGood.getGrouponPrice() != 0) {
+                orderGood.setIsGroupin(true);
+            }
+            HandleOption handleOption = new HandleOption();
+            orderGood.setHandleOption(handleOption);
+            //delete
+            boolean delete = orderGood.getDeleted();
+            orderGood.getHandleOption().setDelete(delete);
+            //cancel
+            orderGood.getHandleOption().setCancel(true);
+            if (orderGood.getOrderStatus() == 102 || orderGood.getOrderStatus() == 103) {
+                orderGood.getHandleOption().setCancel(false);
+            }
+            //comment
+            orderGood.getHandleOption().setComment(true);
+            if (orderGood.getComments() == null) {
+                orderGood.getHandleOption().setComment(false);
+            }
+            //confirm
+            orderGood.getHandleOption().setComment(false);
+            if (orderGood.getOrderStatus() == 401 || orderGood.getOrderStatus() == 402) {
+                orderGood.getHandleOption().setCancel(false);
+            }
+            //refund
+            orderGood.getHandleOption().setRefund(false);
+            if (orderGood.getOrderStatus() == 203) {
+                orderGood.getHandleOption().setRefund(true);
+            }
+            //rebuy
+            orderGood.getHandleOption().setRebuy(false);
+            orderGood.setOrderStatusText(statu);
+        }
+        OrderByUserBean orderByUserBean = new OrderByUserBean();
+        orderByUserBean.setData(orderGoods);
+        orderByUserBean.setCount(total);
+        orderByUserBean.setTotalPages((int) (total / size));
+
+        return orderByUserBean;
+    }
+    @Override
     public int feedbackSubmit(Feedback feedback) {
         return wxPersonalMapper.insertFeedback(feedback);
     }
-    public void deleteOrder(int id) {
-        mallMapper.deleteOrder(id);
+
+    @Override
+    public void orderCancel(int id) {
+        mallMapper.orderCancel(id);
     }
 
+
+    @Override
     public GrouponDetail grouponDetail(int grouponId) {
         GrouponDetail grouponDetail = new GrouponDetail();
         int creatorId = userMapper.getOrderCreatorById(grouponId);
+        String avatar =  userMapper.getUserAvatarById(creatorId);
         String userNicknameById = userMapper.getUserNicknameById(creatorId);
         User creator = new User();
         creator.setNickname(userNicknameById);
+        creator.setAvatar(avatar);
         Groupon groupon = generalizeMapper.getGrouponById(grouponId);
         Integer rulesId = groupon.getRulesId();
         int[] i = generalizeMapper.getUserIdByRulesId(rulesId);
         List<User> joiners = new ArrayList<>();
         for (int id : i) {
             User user1 = new User();
+            String avatar1 =  userMapper.getUserAvatarById(id);
             String userNicknameById1 = userMapper.getUserNicknameById(id);
             user1.setNickname(userNicknameById1);
+            user1.setAvatar(avatar1);
             joiners.add(user1);
         }
-        Order orderInfo = mallMapper.selectOrderById(grouponId);
+        Order orderInfo = mallMapper.selectOrderById(groupon.getOrderId());
         List<OrderGoods> orderGoods = mallMapper.selectOrderGoods(orderInfo.getId());
         GrouponRules rules = generalizeMapper.getGrouponRulesById(groupon.getRulesId());
         grouponDetail.setCreator(creator);
@@ -429,5 +502,22 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     @Override
     public void resetUser(String mobile, String password) {
         userMapper.updateUserPasswordByMoblie(mobile,password);
+    }
+
+    @Override
+    public void rmOrder(int orderId) {
+        mallMapper.rmOrder(orderId);
+        mallMapper.rmOrderGoods(orderId);
+    }
+
+    @Override
+    public Map<String, Object> orderDetail(int orderId) {
+        Order orderInfo = mallMapper.selectOrderById(orderId);
+        orderInfo.setOrderStatusText(OrderStatus.getString(orderInfo.getOrderStatus()));
+        List<OrderGoods> orderGoods = mallMapper.selectOrderGoods(orderInfo.getId());
+        Map<String, Object> map = new HashMap<>();
+        map.put("orderGoods",orderGoods);
+        map.put("orderInfo",orderInfo);
+        return map;
     }
 }
