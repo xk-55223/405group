@@ -64,4 +64,7 @@ public class HandleOption {
     public void setRefund(boolean refund) {
         this.refund = refund;
     }
+
+    public HandleOption() {
+    }
 }
