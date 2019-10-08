@@ -229,6 +229,13 @@ public class WxPersonalController {
         BaseRespVo ok = BaseRespVo.ok(footprintList);
         return ok;
     }
+
+    @RequestMapping("wx/order/detail")
+    public BaseRespVo orderDetail(int orderId) {
+        Map<String, Object> detail = new HashMap<>();
+         detail = wxPersonalService.orderDetail(orderId);
+        return BaseRespVo.ok(detail);
+    }
 }
 
 

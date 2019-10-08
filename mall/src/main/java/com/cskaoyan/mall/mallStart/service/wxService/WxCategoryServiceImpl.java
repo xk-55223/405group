@@ -93,9 +93,8 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         detail.setProductList(productList);
         detail.setSpecificationList(specificationList);
         detail.setComment(comment);
+        userMapper.insertFootprint(id,userId);
         return detail;
-
-
 
     }
 
@@ -123,13 +122,43 @@ public class WxCategoryServiceImpl implements WxCategoryService {
         return "delete";
     }
 
+    // 重构
     @Override
-    public int addGoodsToCart(Integer goodsId, Integer number, Integer productId, int userId) {
+    public int addGoodsToCart(Integer goodsId, short number, Integer productId, int userId) {
         Goods goods = goodsMapper.listGoodsById(goodsId);
         GoodsProduct product = goodsMapper.selectGoodsProductById(productId);
-        userMapper.insertGoodsToCart(goods,product,number,userId);
+        Cart cart = new Cart();
+        cart.setUserId(userId);
+        cart.setGoodsId(goods.getId());
+        cart.setGoodsSn(goods.getGoodsSn());
+        cart.setGoodsName(goods.getName());
+        cart.setProductId(productId);
+        cart.setPrice(product.getPrice());
+        cart.setNumber(number);
+        cart.setSpecifications(product.getSpecifications());
+        cart.setPicUrl(goods.getPicUrl());
+        userMapper.insertGoodsToCart(cart);
         int count = userMapper.countCartGoodsByUserId(userId);
         return count;
+    }
+
+    @Override
+    public int fastaddToCart(Integer goodsId, short number, Integer productId, int userId) {
+        Goods goods = goodsMapper.listGoodsById(goodsId);
+        GoodsProduct product = goodsMapper.selectGoodsProductById(productId);
+        Cart cart = new Cart();
+        cart.setUserId(userId);
+        cart.setGoodsId(goods.getId());
+        cart.setGoodsSn(goods.getGoodsSn());
+        cart.setGoodsName(goods.getName());
+        cart.setProductId(productId);
+        cart.setPrice(product.getPrice());
+        cart.setNumber(number);
+        cart.setSpecifications(product.getSpecifications());
+        cart.setPicUrl(goods.getPicUrl());
+        userMapper.insertGoodsToCart(cart);
+        Integer i = cart.getId();
+        return i;
     }
 
 

@@ -150,5 +150,7 @@ public interface AdminGoodsMapper {
             "deleted from cskaoyan_mall_goods_product where id = #{id}")
     GoodsProduct selectGoodsProductById(Integer productId);
 
+    @Select("select id from cskaoyan_mall_cart where goods_id = #{param1} and number = #{param2} and user_id = #{param3}")
+    int selectCartIdByParam(Integer goodsId, Integer number, int userId);
 }
 

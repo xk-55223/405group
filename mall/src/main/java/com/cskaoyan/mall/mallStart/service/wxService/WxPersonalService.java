@@ -49,4 +49,6 @@ public interface WxPersonalService {
     boolean register(String mobile, String username, String password);
 
     void resetUser(String mobile, String password);
+
+    Map<String, Object> orderDetail(int orderId);
 }
