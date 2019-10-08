@@ -359,5 +359,4 @@ where order_id = #{id}
         select count(id) from cskaoyan_mall_order where order_status = #{status}
         and user_id = #{userId}
     </select>
-
 </mapper>

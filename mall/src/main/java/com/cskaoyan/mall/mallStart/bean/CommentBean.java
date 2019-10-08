@@ -15,6 +15,7 @@ public class CommentBean {
                 '}';
     }
 
+
     private String addTime;
     private String avatar;
     private String content;

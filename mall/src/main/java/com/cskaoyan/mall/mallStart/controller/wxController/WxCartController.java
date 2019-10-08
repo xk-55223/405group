@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +67,9 @@ public class WxCartController {
     public BaseRespVo orderSubmit(@RequestBody OrderSubmitInfo submitInfo) {
         Integer userId = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId");
         int orderId = wxCartService.orderSubmit(submitInfo,userId);
-        return BaseRespVo.ok(orderId);
+        Map<String, Integer> stringIntegerMap = new HashMap<>();
+        stringIntegerMap.put("orderId",orderId);
+        return BaseRespVo.ok(stringIntegerMap);
     }
 
     @RequestMapping("wx/order/prepay")

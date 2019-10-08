@@ -2,7 +2,6 @@ package com.cskaoyan.mall.mallStart.bean;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 public class Cart {
     private Integer    id;
@@ -19,6 +18,7 @@ public class Cart {
     private Date       addTime;
     private Date       updateTime;
     private Boolean    deleted;
+
     public Integer getId() {
         return id;
     }

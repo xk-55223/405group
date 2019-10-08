@@ -4,6 +4,7 @@ import com.cskaoyan.mall.mallStart.bean.*;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -84,6 +85,12 @@ public interface AdminMallMapper {
 
     int selectUserOrderStatusCount(@Param("userId") int userId,@Param("status") int status);
 
-    @Delete("delete from cskaoyan_mall_order where id = #{id}")
-    void deleteOrder(int id);
+    @Update("update cskaoyan_mall_order set order_status = 102 where id = #{id}")
+    void orderCancel(int id);
+
+    @Delete("delete from cskaoyan_mall_order where id = #{orderId}")
+    void rmOrder(int orderId);
+
+    @Delete("delete from cskaoyan_mall_order_goods where id = #{orderId}")
+    void rmOrderGoods(int orderId);
 }

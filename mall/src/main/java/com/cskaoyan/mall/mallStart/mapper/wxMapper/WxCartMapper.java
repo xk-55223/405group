@@ -2,9 +2,11 @@ package com.cskaoyan.mall.mallStart.mapper.wxMapper;
 
 
 import com.cskaoyan.mall.mallStart.bean.*;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public interface WxCartMapper {
@@ -31,7 +33,15 @@ public interface WxCartMapper {
 
     List<Coupon> selectCouponListByUserId(Integer userId);
 
-    void insertOrder(Order order);
+    void insertOrder(@Param("order") Order order);
 
     Cart selectCartInfoByCartId(Integer cartId);
+
+    List<Cart> selectUserCheckedCarts(Integer userId);
+
+    void insertOrderGoods(@Param("cart") Cart cart, @Param("now") Date date
+            ,@Param("orderId")Integer orderId);
+
+    @Delete("delete from cskaoyan_mall_cart where id = #{id}")
+    void deleteCartById(Integer id);
 }

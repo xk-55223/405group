@@ -31,7 +31,7 @@
         delete from cskaoyan_mall_cart where product_id = #{productId}
     </delete>
 
-    <update id="changeIdchecked">
+    <update id="changeIschecked">
         update cskaoyan_mall_cart set checked = #{isChecked} where product_id = #{productId}
     </update>
 
@@ -121,7 +121,7 @@
     </select>
 
     <insert id="insertOrder">
-        <selectKey resultType="int" order="AFTER" keyProperty="id" keyColumn="id">
+        <selectKey resultType="int" order="AFTER" keyProperty="order.id" keyColumn="id">
             select last_insert_Id() as id
         </selectKey>
         insert into cskaoyan_mall_order
@@ -141,8 +141,10 @@
         ,order_price
         ,actual_price
         ,pay_id
-        ,pay_time
         ,ship_sn
+        ,add_time
+        ,confirm_time
+        ,update_time
         )
         values
         (   #{order.userId}
@@ -160,8 +162,10 @@
 		 ,#{order.orderPrice}
 		 ,#{order.actualPrice}
 		 ,#{order.payId}
-		 ,#{order.payTime}
 		 ,#{order.shipSn}
+		 ,#{order.addTime}
+		 ,#{order.confirmTime}
+		 ,#{order.updateTime}
         )
     </insert>
 
@@ -184,4 +188,48 @@
         from cskaoyan_mall_cart
         where id = #{cartId}
     </select>
+
+    <select id="selectUserCheckedCarts" resultType="com.cskaoyan.mall.mallStart.bean.Cart">
+        select
+         id
+        ,user_id     as userId
+        ,goods_id    as goodsId
+        ,goods_sn    as goodsSn
+        ,goods_name  as goodsName
+        ,product_id  as productId
+        ,price
+        ,number
+        ,specifications
+        ,checked
+        ,pic_url     as picUrl
+        ,add_time    as addTime
+        ,update_time as updateTime
+        ,deleted
+        from cskaoyan_mall_cart
+        where user_id = #{userId}
+        and checked = 1;
+    </select>
+
+    <insert id="insertOrderGoods">
+        insert into cskaoyan_mall_order_goods
+        (order_id
+        ,goods_id
+        ,goods_name
+        ,goods_sn
+        ,product_id
+        ,number
+        ,price
+        ,specifications
+        ,pic_url)
+        values
+        (#{orderId}
+        ,#{cart.goodsId}
+        ,#{cart.goodsName}
+        ,#{cart.goodsSn}
+        ,#{cart.productId}
+        ,#{cart.number}
+        ,#{cart.price}
+        ,#{cart.specifications}
+        ,#{cart.picUrl})
+    </insert>
 </mapper>

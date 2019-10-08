@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -119,7 +120,19 @@ public class WxCartServiceImpl implements WxCartService{
 
     public int orderSubmit(OrderSubmitInfo submitInfo, Integer userId) {
         Address address = wxCartMapper.selectAddressById(submitInfo.getAddressId());
-        Cart cart = wxCartMapper.selectCartInfoByCartId(submitInfo.getCartId());
+        BigDecimal goodsPrice = BigDecimal.valueOf(0);
+        List<Cart> carts = null;
+        if (submitInfo.getCartId() == 0) {
+            carts = wxCartMapper.selectUserCheckedCarts(userId);
+            for (Cart cart : carts) {
+                goodsPrice = BigDecimal.valueOf(goodsPrice.doubleValue() +  cart.getPrice().doubleValue());
+            }
+        } else {
+            Cart cart = wxCartMapper.selectCartInfoByCartId(submitInfo.getCartId());
+            carts = new ArrayList();
+            carts.add(cart);
+            goodsPrice = cart.getPrice();
+        }
         BigDecimal couponPrice = wxCartMapper.selectCouponPrice(submitInfo.getCouponId(),userId);
         if (couponPrice == null) {
             couponPrice = BigDecimal.valueOf(0);
@@ -138,7 +151,6 @@ public class WxCartServiceImpl implements WxCartService{
         order.setMobile(user.getMobile());
         order.setAddress(address.getAddress());
         order.setMessage(submitInfo.getMessage());
-        BigDecimal goodsPrice = cart.getPrice();
         order.setGoodsPrice(goodsPrice);
         order.setFreightPrice(BigDecimal.valueOf(0));
         order.setCouponPrice(couponPrice);
@@ -151,8 +163,15 @@ public class WxCartServiceImpl implements WxCartService{
         order.setPayId("1");
         order.setPayTime(new Date());
         order.setShipSn("");
+        Date date = new Date();
+        order.setAddTime(date);
+        order.setConfirmTime(date);
+        order.setUpdateTime(date);
         wxCartMapper.insertOrder(order);
-        // 添加订单的商品信息
+        for (Cart cart : carts) {
+            wxCartMapper.insertOrderGoods(cart,new Date(),order.getId());
+            wxCartMapper.deleteCartById(cart.getId());
+        }
 
         return order.getId();
     }
