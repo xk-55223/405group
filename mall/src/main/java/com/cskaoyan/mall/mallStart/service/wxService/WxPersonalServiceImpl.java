@@ -125,16 +125,16 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         for (int status : statuses) {
             switch (status / 100) {
                 case 1:
-                    unrecvNo++;
-                    break;
+                    unpaidNo++;
+                break;
                 case 2:
-                    uncommentNo++;
+                    unshipNo++;
                     break;
                 case 3:
-                    unpaidNo++;
+                    unrecvNo++;
                     break;
                 case 4:
-                    unshipNo++;
+                    uncommentNo++;
             }
         }
         order.put("unrecv", unrecvNo);
