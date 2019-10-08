@@ -133,9 +133,9 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
-    public Map selectCommentsByValueId(BrandPageInfo pageInfo, int valueId) {
+    public Map selectCommentsByValueId(BrandPageInfo pageInfo, Integer valueId, Integer type, Integer showType) {
         PageHelper.startPage(pageInfo.getPage(), pageInfo.getSize());
-        List<CommentLJQ> comments = wxBrandMapper.selectCommentsByValueId(valueId);
+        List<CommentLJQ> comments = wxBrandMapper.selectCommentsByValueId(valueId, type, showType);
         PageInfo<CommentLJQ> commentsPageInfo = new PageInfo<>(comments);
         long total = commentsPageInfo.getTotal();
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
@@ -146,10 +146,21 @@ public class WxHomeServiceImpl implements WxHomeService {
     }
 
     @Override
+    public Map commentCount(Integer valueId, Integer type) {
+        List<CommentLJQ> commentsAll = wxBrandMapper.selectCommentsByValueId(valueId, type, 0);
+        List<CommentLJQ> commentsHasPic = wxBrandMapper.selectCommentsByValueId(valueId, type, 1);
+        long allCount = new PageInfo<>(commentsAll).getTotal();
+        long hasPicCount = new PageInfo<>(commentsHasPic).getTotal();
+        LinkedHashMap<String, Long> resultMap = new LinkedHashMap<>();
+        resultMap.put("allCount", allCount);
+        resultMap.put("hasPicCount", hasPicCount);
+        return resultMap;
+    }
+
+    @Override
     public Comment commentPost(Comment comment, Integer userId) {
         comment.setAddTime(new Date());
         comment.setUpdateTime(new Date());
-        /*待修改*/
         comment.setUserId(userId);
         wxBrandMapper.insertComment(comment);
         return comment;

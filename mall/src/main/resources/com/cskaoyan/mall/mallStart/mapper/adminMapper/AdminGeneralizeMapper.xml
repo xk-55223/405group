@@ -73,8 +73,8 @@
         <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
             select last_insert_id() as id
         </selectKey>
-        insert into cskaoyan_mall_coupon(name,add_time,days,`desc`,discount,goods_type,goods_value,`limit`,`min`,tag,start_time,end_time,status,time_type,total,update_time)
-        values(#{name},now(),#{days},#{desc},#{discount},#{goodsType},#{goodsValue},#{limit},#{min},#{tag},#{startTime},#{endTime},#{status},#{timeType},#{total},now())
+        insert into cskaoyan_mall_coupon(name,add_time,days,`desc`,discount,goods_type,goods_value,`limit`,`min`,tag,start_time,end_time,status,time_type,total,update_time,code)
+        values(#{name},now(),#{days},#{desc},#{discount},#{goodsType},#{goodsValue},#{limit},#{min},#{tag},#{startTime},#{endTime},#{status},#{timeType},#{total},now(),#{code})
     </insert>
     <select id="queryCoupon" resultMap="CouponMap">
         select id,name,`desc`,tag,total,discount,`min`,`limit`,type,status,goods_type,

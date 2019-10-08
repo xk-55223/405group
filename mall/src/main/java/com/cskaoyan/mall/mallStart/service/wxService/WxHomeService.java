@@ -20,7 +20,9 @@ public interface WxHomeService {
 
     Map selectTopicById(int id);
 
-    Map selectCommentsByValueId(BrandPageInfo pageInfo, int valueId);
+    Map selectCommentsByValueId(BrandPageInfo pageInfo, Integer valueId,Integer type,Integer showType);
+
+    Map commentCount(Integer valueId, Integer type);
 
     Comment commentPost(Comment comment, Integer userId);
 

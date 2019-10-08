@@ -125,16 +125,16 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         for (int status : statuses) {
             switch (status / 100) {
                 case 1:
-                    unrecvNo++;
-                    break;
+                    unpaidNo++;
+                break;
                 case 2:
-                    uncommentNo++;
+                    unshipNo++;
                     break;
                 case 3:
-                    unpaidNo++;
+                    unrecvNo++;
                     break;
                 case 4:
-                    unshipNo++;
+                    uncommentNo++;
             }
         }
         order.put("unrecv", unrecvNo);
@@ -329,7 +329,6 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     @Override
     public Map footprintList(int page, int size, Serializable id) {
         Map result = new HashMap();
-        Map goodDetail = new HashMap();
         List footprintList = new ArrayList();
         PageHelper.startPage(page, size);
         List<Footprint> footprints = wxPersonalMapper.selectfootprintDetail(id);
@@ -338,6 +337,7 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         }
         int totalpages = wxPersonalMapper.getTotalNumById(id);
         for (Footprint footprint : footprints) {
+            Map goodDetail = new HashMap();
             goodDetail.put("addTime", footprint.getAddTime());
             goodDetail.put("id", footprint.getId());
             goodDetail.put("goodsId", footprint.getGoodsId());

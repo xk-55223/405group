@@ -65,6 +65,4 @@ public class HandleOption {
         this.refund = refund;
     }
 
-    public HandleOption() {
-    }
 }

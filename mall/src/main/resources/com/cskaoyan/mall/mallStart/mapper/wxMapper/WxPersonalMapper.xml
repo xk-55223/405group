@@ -93,6 +93,7 @@
         select id ,goods_id,add_time
         from cskaoyan_mall_footprint
         where user_id = #{id}
+        ORDER BY update_time desc
     </select>
 
     <update id="updateAddress">
