@@ -55,7 +55,7 @@ public class WxCartServiceImpl implements WxCartService{
 
     @Override
     public CartListBean cartChecked(CartCheckedBean productIds,Integer userId) {
-        boolean checked = productIds.isChecked();
+        boolean checked = productIds.getIsChecked();
         List<Integer> productIds1 = productIds.getProductIds();
         for (Integer integer : productIds1) {
             wxCartMapper.changeIschecked(checked,integer);
