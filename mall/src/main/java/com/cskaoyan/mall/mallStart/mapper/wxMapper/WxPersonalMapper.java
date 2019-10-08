@@ -12,8 +12,8 @@ import org.apache.ibatis.annotations.Update;
 
 public interface WxPersonalMapper {
 
-    @Select("select order_status from cskaoyan_mall_order ")
-    int[] selectOrderStatusId();
+    @Select("select order_status from cskaoyan_mall_order where user_id = #{id}")
+    int[] selectOrderStatusId(int id);
 
     List<Address> selectAddresses(@Param("userId") Integer userId);
 
