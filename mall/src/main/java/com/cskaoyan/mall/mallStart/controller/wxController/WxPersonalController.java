@@ -39,7 +39,9 @@ public class WxPersonalController {
 
     @RequestMapping("wx/user/index")
     public BaseRespVo personalIndex() {
-        Map order = wxPersonalService.personalIndex();
+        Session session = SecurityUtils.getSubject().getSession();
+        int id = (int) session.getAttribute("userId");
+        Map order = wxPersonalService.personalIndex(id);
         return BaseRespVo.ok(order);
     }
 

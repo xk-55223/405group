@@ -21,7 +21,7 @@ public interface WxPersonalService {
 
     Map collectList(BrandPageInfo pageInfo, Integer type, Integer userId);
 
-    Map personalIndex();
+    Map personalIndex(int id);
 
     Map selectCreateGroupons(int userId);
 
