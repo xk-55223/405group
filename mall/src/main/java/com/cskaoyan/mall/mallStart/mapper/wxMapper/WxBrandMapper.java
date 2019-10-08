@@ -16,7 +16,7 @@ public interface WxBrandMapper {
 
     List<Topic> selectTopicRelated(@Param("id") int id);
 
-    List<CommentLJQ> selectCommentsByValueId(@Param("valueId") Integer valueId);
+    List<CommentLJQ> selectCommentsByValueId(@Param("valueId") Integer valueId,@Param("type") Integer type,@Param("showType") Integer showType);
 
     Integer insertComment(@Param("comment") Comment comment);
 }

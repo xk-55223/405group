@@ -110,8 +110,15 @@ public class WxHomeController {
 
     /*ljq*/
     @RequestMapping("wx/comment/list")
-    public BaseRespVo<Map> commentList(BrandPageInfo pageInfo, int valueId, int type, int showType) {
-        Map resultMap = wxHomeService.selectCommentsByValueId(pageInfo, valueId);
+    public BaseRespVo<Map> commentList(BrandPageInfo pageInfo, Integer valueId, Integer type, Integer showType) {
+        Map resultMap = wxHomeService.selectCommentsByValueId(pageInfo, valueId, type, showType);
+        return BaseRespVo.ok(resultMap);
+    }
+
+    /*ljq*/
+    @RequestMapping("wx/comment/count")
+    public BaseRespVo<Map> commentCount(Integer valueId, Integer type) {
+        Map resultMap = wxHomeService.commentCount(valueId, type);
         return BaseRespVo.ok(resultMap);
     }
 
@@ -124,8 +131,8 @@ public class WxHomeController {
 
     /*ljq*/
     @RequestMapping("wx/comment/post")
-    public BaseRespVo<Comment> commentPost(@RequestBody Comment comment, HttpServletRequest request) {
-        Comment resultComment = wxHomeService.commentPost(comment, (Integer) request.getSession().getAttribute("userId"));
+    public BaseRespVo<Comment> commentPost(@RequestBody Comment comment) {
+        Comment resultComment = wxHomeService.commentPost(comment, (Integer) SecurityUtils.getSubject().getSession().getAttribute("userId"));
         return BaseRespVo.ok(resultComment);
     }
 
