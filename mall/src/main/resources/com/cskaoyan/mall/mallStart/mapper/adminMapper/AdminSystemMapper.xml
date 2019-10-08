@@ -57,7 +57,7 @@
             </if>
         </where>
         order by
-        #{pageInfo.sort} #{pageInfo.order}
+        add_time desc
     </select>
     <!--查询角色管理-->
     <resultMap id="RoleMap" type="com.cskaoyan.mall.mallStart.bean.Role">

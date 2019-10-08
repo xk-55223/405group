@@ -2,6 +2,7 @@ package com.cskaoyan.mall.mallStart.service.adminService;
 
 import com.cskaoyan.mall.mallStart.bean.Admin;
 import com.cskaoyan.mall.mallStart.bean.DashBoard;
+import com.cskaoyan.mall.mallStart.bean.Log;
 import com.cskaoyan.mall.mallStart.bean.LoginInfo;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminFirstPageMapper;
 import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminSystemMapper;
@@ -44,5 +45,24 @@ public class AdminFirstPageServiceImpl implements AdminFirstPageService {
         }
         loginInfo.setPerms(apis);
         return loginInfo;
+    }
+
+    @Override
+    public void addLog(Log log,Admin admin) {
+        Admin admin1 = firstPageMapper.queryAdmin(admin);
+        log.setStatus(true);
+        log.setAction("登陆");
+        if(admin==null){
+            log.setAdmin("匿名用户");
+            log.setStatus(false);
+            log.setAction("用户名或密码错误");
+        }
+        firstPageMapper.addLog(log);
+    }
+
+    @Override
+    public void addLoginoutLog(Log log) {
+        log.setAction("退出");
+        firstPageMapper.addLog(log);
     }
 }

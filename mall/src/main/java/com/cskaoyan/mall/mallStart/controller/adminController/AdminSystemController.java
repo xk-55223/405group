@@ -1,7 +1,9 @@
 package com.cskaoyan.mall.mallStart.controller.adminController;
 
 import com.cskaoyan.mall.mallStart.bean.*;
+import com.cskaoyan.mall.mallStart.mapper.adminMapper.AdminFirstPageMapper;
 import com.cskaoyan.mall.mallStart.service.adminService.AdminSystemService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,8 @@ import java.util.*;
 public class AdminSystemController {
     @Autowired
     AdminSystemService adminSystemService;
+    @Autowired
+    AdminFirstPageMapper adminFirstPageMapper;
 
     /*用户管理*/
     @RequestMapping("admin/admin/list")
@@ -114,6 +118,7 @@ public class AdminSystemController {
     @RequestMapping(value = "admin/admin/update", method = RequestMethod.POST)
     @RequiresPermissions("admin:admin:update")
     public BaseRespVo<Admin> adminUpdate(@RequestBody Admin paramAdmin) {
+        String host = SecurityUtils.getSubject().getSession().getHost();
         Admin admin = adminSystemService.updateAdmin(paramAdmin);
         return BaseRespVo.ok(admin);
     }

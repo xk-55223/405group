@@ -111,14 +111,14 @@ public class WxPersonalServiceImpl implements WxPersonalService {
     }
 
     @Override
-    public Map personalIndex() {
+    public Map personalIndex(int id) {
         Map order = new HashMap();
         Map orderInfo = new HashMap();
         int unrecvNo = 0;
         int uncommentNo = 0;
         int unpaidNo = 0;
         int unshipNo = 0;
-        int[] statuses = wxPersonalMapper.selectOrderStatusId();
+        int[] statuses = wxPersonalMapper.selectOrderStatusId(id);
         for (int status : statuses) {
             switch (status / 100) {
                 case 1:
@@ -536,5 +536,10 @@ public class WxPersonalServiceImpl implements WxPersonalService {
         map.put("orderGoods",orderGoods);
         map.put("orderInfo",orderInfo);
         return map;
+    }
+
+    @Override
+    public void confirm(int id) {
+        wxPersonalMapper.confirm(id);
     }
 }
