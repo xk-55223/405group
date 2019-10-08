@@ -23,33 +23,6 @@ public class Goods {
 
     private String brief;
 
-    @Override
-    public String toString() {
-        return "Goods{" +
-                "id=" + id +
-                ", goodsSn='" + goodsSn + '\'' +
-                ", name='" + name + '\'' +
-                ", categoryId=" + categoryId +
-                ", brandId=" + brandId +
-                ", gallery='" + gallery + '\'' +
-                ", keywords='" + keywords + '\'' +
-                ", brief='" + brief + '\'' +
-                ", isOnSale=" + isOnSale +
-                ", sortOrder=" + sortOrder +
-                ", picUrl='" + picUrl + '\'' +
-                ", shareUrl='" + shareUrl + '\'' +
-                ", isNew=" + isNew +
-                ", isHot=" + isHot +
-                ", unit='" + unit + '\'' +
-                ", counterPrice=" + counterPrice +
-                ", retailPrice=" + retailPrice +
-                ", addTime=" + addTime +
-                ", updateTime=" + updateTime +
-                ", deleted=" + deleted +
-                ", detail='" + detail + '\'' +
-                '}';
-    }
-
     private Boolean isOnSale;
 
     private Short sortOrder;
@@ -279,5 +252,30 @@ public class Goods {
         return picUrl;
     }
 
-
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "id=" + id +
+                ", goodsSn='" + goodsSn + '\'' +
+                ", name='" + name + '\'' +
+                ", categoryId=" + categoryId +
+                ", brandId=" + brandId +
+                ", gallery='" + gallery + '\'' +
+                ", keywords='" + keywords + '\'' +
+                ", brief='" + brief + '\'' +
+                ", isOnSale=" + isOnSale +
+                ", sortOrder=" + sortOrder +
+                ", picUrl='" + picUrl + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
+                ", isNew=" + isNew +
+                ", isHot=" + isHot +
+                ", unit='" + unit + '\'' +
+                ", counterPrice=" + counterPrice +
+                ", retailPrice=" + retailPrice +
+                ", addTime=" + addTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
+                ", detail='" + detail + '\'' +
+                '}';
+    }
 }

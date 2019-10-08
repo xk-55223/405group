@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.mallStart.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Address {
@@ -22,9 +24,9 @@ public class Address {
     private String detailedAddress;
 
     private Boolean isDefault;
-
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date addTime;
-
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private Date updateTime;
 
     private Boolean deleted;

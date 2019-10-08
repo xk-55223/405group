@@ -1,5 +1,7 @@
 package com.cskaoyan.mall.mallStart.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.xml.crypto.Data;
 import java.util.Date;
 
@@ -19,7 +21,9 @@ public class AddressRegion {
     String provinceName;
     String city;
     String area;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     Date addTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     Date updateTime;
 
     public int getId() {
